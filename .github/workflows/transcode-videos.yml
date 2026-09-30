@@ -1,0 +1,92 @@
+name: Transcode videos for mobile compatibility
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/transcode-videos.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  transcode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Transcode MP4 files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p /tmp/mobile-videos
+
+          for file in assets/videos/*.mp4; do
+            [ -e "$file" ] || continue
+
+            name="$(basename "$file")"
+            out="/tmp/mobile-videos/$name"
+
+            echo "Transcoding $name"
+
+            ffmpeg -y \
+              -i "$file" \
+              -map 0:v:0 \
+              -vf "scale=720:1280:force_original_aspect_ratio=decrease:force_divisible_by=2,fps=30,format=yuv420p" \
+              -c:v libx264 \
+              -profile:v baseline \
+              -level:v 3.1 \
+              -preset medium \
+              -crf 23 \
+              -maxrate 3500k \
+              -bufsize 7000k \
+              -movflags +faststart \
+              -an \
+              "$out"
+
+            mv "$out" "$file"
+          done
+
+      - name: Verify codecs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for file in assets/videos/*.mp4; do
+            [ -e "$file" ] || continue
+            echo "=== $file ==="
+            ffprobe -v error \
+              -select_streams v:0 \
+              -show_entries stream=codec_name,profile,pix_fmt,width,height,r_frame_rate,level \
+              -of default=noprint_wrappers=1 \
+              "$file"
+          done
+
+      - name: Commit transcoded videos
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- assets/videos; then
+            echo "No video changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/videos/*.mp4
+          git commit -m "Transcode videos for mobile compatibility"
+          git push
