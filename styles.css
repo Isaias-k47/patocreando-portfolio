@@ -406,6 +406,48 @@ button {
   pointer-events: none;
 }
 
+.portfolio-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  background: #0d1015;
+}
+
+.hero-video {
+  object-position: center center;
+}
+
+.project-video {
+  transition: transform .55s var(--ease), filter .55s var(--ease);
+}
+
+.project-card:hover .project-video {
+  transform: scale(1.025);
+}
+
+.media-index {
+  position: absolute;
+  z-index: 2;
+  top: 22px;
+  left: 22px;
+  color: rgba(255,255,255,.72);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+}
+
+.project-media:has(.portfolio-video)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.04), transparent 48%, rgba(0,0,0,.22));
+}
+
 .visual-placeholder {
   position: absolute;
   inset: 0;
