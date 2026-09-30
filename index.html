@@ -1724,7 +1724,7 @@
 
     .hero-device-stage {
       position: relative;
-      min-height: 610px;
+      min-height: 590px;
       display: grid;
       place-items: center;
       padding: 34px 20px 46px;
@@ -1770,6 +1770,7 @@
       position: relative;
       z-index: 3;
       width: min(100%, 286px);
+      aspect-ratio: 9 / 16;
       padding: 7px;
       border-radius: 38px;
       background:
@@ -1799,8 +1800,8 @@
     }
 
     .hero-phone-screen {
-      position: relative;
-      aspect-ratio: 9 / 16;
+      position: absolute;
+      inset: 7px;
       overflow: hidden;
       border-radius: 31px;
       background: #050609;
@@ -2089,13 +2090,13 @@
       }
 
       .hero-device-stage {
-        min-height: 540px;
-        padding: 30px 12px 42px;
+        min-height: 520px;
+        padding: 26px 12px 38px;
         border-radius: 28px;
       }
 
       .hero-phone-shell {
-        width: min(100%, 246px);
+        width: min(100%, 228px);
         border-radius: 34px;
       }
 
@@ -2136,11 +2137,11 @@
       }
 
       .hero-device-stage {
-        min-height: 515px;
+        min-height: 500px;
       }
 
       .hero-phone-shell {
-        width: min(100%, 230px);
+        width: min(100%, 216px);
       }
 
       .hero-stage-label-b {
@@ -2158,11 +2159,11 @@
       }
 
       .hero-device-stage {
-        min-height: 640px;
+        min-height: 620px;
       }
 
       .hero-phone-shell {
-        width: min(100%, 300px);
+        width: min(100%, 268px);
       }
     }
 
@@ -2185,16 +2186,15 @@
 
     @media (min-width: 1024px) {
       .hero-device-stage {
-        min-height: 650px;
+        min-height: 630px;
       }
 
       .hero-phone-shell {
-        width: min(100%, 306px);
+        width: min(100%, 278px);
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-stage-label-a,
       .hero-stage-label-b {
         animation: none !important;
       }
@@ -2288,11 +2288,6 @@
         <div class="hero-reveal hero-device-wrap">
           <div id="heroDeviceStage" class="hero-device-stage">
             <div class="hero-device-glow" aria-hidden="true"></div>
-
-            <div class="hero-stage-label hero-stage-label-a" aria-hidden="true">
-              <span class="hero-stage-dot"></span>
-              Formato · 9:16
-            </div>
 
             <div class="hero-stage-label hero-stage-label-b" aria-hidden="true">
               IA + dirección
