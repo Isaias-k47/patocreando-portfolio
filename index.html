@@ -1203,6 +1203,194 @@
       }
     }
 
+
+    /* Methodology: process-detail cards */
+    .method-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .method-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .method-side {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.075);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+        rgba(7,8,12,.36);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+    }
+
+    .method-kicker {
+      margin: 0;
+      color: #777E89;
+      font-size: 9px !important;
+      font-weight: 700;
+      line-height: 1.2 !important;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .method-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .method-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.035);
+      color: #C4C8D0;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .method-result {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+
+    .method-result-copy {
+      min-width: 0;
+    }
+
+    .method-result-label {
+      display: block;
+      color: #6F7580;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .method-result-value {
+      display: block;
+      margin-top: 4px;
+      color: #F2F3F5;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+
+    .method-result-icon {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #17140A;
+      background: linear-gradient(180deg, #FFF5C8, #F5E7A3);
+      box-shadow: 0 8px 24px rgba(245,231,163,.08);
+    }
+
+    .method-card {
+      min-height: auto;
+      gap: 28px;
+    }
+
+    .method-card > .method-topline {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (max-width: 639px) {
+      .method-card {
+        padding: 20px;
+        gap: 24px;
+      }
+
+      .method-layout {
+        gap: 22px;
+      }
+
+      .method-card h3 {
+        font-size: clamp(1.65rem, 7.4vw, 2.1rem);
+      }
+
+      .method-card .method-copy > p {
+        margin-top: 12px;
+        font-size: 13.5px;
+      }
+
+      .method-side {
+        padding: 15px;
+        gap: 15px;
+        border-radius: 18px;
+      }
+
+      .method-chip {
+        min-height: 32px;
+        padding-inline: 10px;
+        font-size: 10.5px;
+      }
+
+      .method-result-value {
+        font-size: 13px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .method-card {
+        padding: 28px;
+      }
+
+      .method-layout {
+        grid-template-columns: minmax(0, 1.42fr) minmax(260px, .78fr);
+        gap: 30px;
+      }
+
+      .method-copy {
+        padding: 8px 4px 8px 0;
+      }
+
+      .method-side {
+        padding: 20px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .method-card {
+        min-height: 360px;
+        padding: 32px;
+      }
+
+      .method-layout {
+        grid-template-columns: minmax(0, 1.48fr) minmax(300px, .72fr);
+        gap: 42px;
+      }
+
+      .method-card h3 {
+        max-width: 660px;
+      }
+    }
+
   </style>
 </head>
 
@@ -1729,7 +1917,7 @@
 
               <article class="method-slide" aria-label="1 de 5">
                 <div class="method-card glass">
-                  <div class="flex items-start justify-between gap-5">
+                  <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="radar" class="w-5 h-5"></i>
                       <span class="text-[10px] tracking-[.16em] uppercase">Research & dirección</span>
@@ -1737,20 +1925,44 @@
                     <span class="method-index">01</span>
                   </div>
 
-                  <div class="relative z-10 max-w-3xl">
-                    <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Definir qué tiene que comunicar la pieza.
-                    </h3>
-                    <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Objetivo, audiencia, hook, referencias y tono visual quedan definidos antes de producir, junto con los elementos que no pueden cambiar.
-                    </p>
+                  <div class="method-layout">
+                    <div class="method-copy">
+                      <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
+                        Definir qué tiene que comunicar la pieza.
+                      </h3>
+                      <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
+                        Objetivo, audiencia, hook, referencias y tono visual quedan definidos antes de producir, junto con los elementos que no pueden cambiar.
+                      </p>
+                    </div>
+
+                    <aside class="method-side" aria-label="Detalle de la etapa">
+                      <div>
+                        <p class="method-kicker">Se define</p>
+                        <div class="method-chip-list mt-3">
+                          <span class="method-chip">Objetivo</span>
+                        <span class="method-chip">Hook</span>
+                        <span class="method-chip">Audiencia</span>
+                        <span class="method-chip">Tono visual</span>
+                        </div>
+                      </div>
+
+                      <div class="method-result">
+                        <div class="method-result-copy">
+                          <span class="method-result-label">Resultado</span>
+                          <span class="method-result-value">Brief creativo</span>
+                        </div>
+                        <span class="method-result-icon" aria-hidden="true">
+                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
                 </div>
               </article>
 
               <article class="method-slide" aria-label="2 de 5">
                 <div class="method-card glass">
-                  <div class="flex items-start justify-between gap-5">
+                  <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-blue-300">
                       <i data-lucide="scan-line" class="w-5 h-5"></i>
                       <span class="text-[10px] tracking-[.16em] uppercase">Digitalización</span>
@@ -1758,20 +1970,44 @@
                     <span class="method-index">02</span>
                   </div>
 
-                  <div class="relative z-10 max-w-3xl">
-                    <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Fijar el producto antes de moverlo.
-                    </h3>
-                    <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Forma, etiqueta, proporciones y materiales se convierten en una referencia estable antes de entrar en escena.
-                    </p>
+                  <div class="method-layout">
+                    <div class="method-copy">
+                      <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
+                        Fijar el producto antes de moverlo.
+                      </h3>
+                      <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
+                        Forma, etiqueta, proporciones y materiales se convierten en una referencia estable antes de entrar en escena.
+                      </p>
+                    </div>
+
+                    <aside class="method-side" aria-label="Detalle de la etapa">
+                      <div>
+                        <p class="method-kicker">Se define</p>
+                        <div class="method-chip-list mt-3">
+                          <span class="method-chip">Forma</span>
+                        <span class="method-chip">Etiqueta</span>
+                        <span class="method-chip">Materiales</span>
+                        <span class="method-chip">Proporciones</span>
+                        </div>
+                      </div>
+
+                      <div class="method-result">
+                        <div class="method-result-copy">
+                          <span class="method-result-label">Resultado</span>
+                          <span class="method-result-value">Referencia de producto</span>
+                        </div>
+                        <span class="method-result-icon" aria-hidden="true">
+                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
                 </div>
               </article>
 
               <article class="method-slide" aria-label="3 de 5">
                 <div class="method-card glass">
-                  <div class="flex items-start justify-between gap-5">
+                  <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="pin" class="w-5 h-5"></i>
                       <span class="text-[10px] tracking-[.16em] uppercase">Anclas + guías</span>
@@ -1779,20 +2015,44 @@
                     <span class="method-index">03</span>
                   </div>
 
-                  <div class="relative z-10 max-w-3xl">
-                    <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Mantener identidad entre tomas.
-                    </h3>
-                    <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Uso anclas de personaje, objeto y entorno, junto con reglas de cámara y física, para que la continuidad sobreviva al cambio de plano.
-                    </p>
+                  <div class="method-layout">
+                    <div class="method-copy">
+                      <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
+                        Mantener identidad entre tomas.
+                      </h3>
+                      <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
+                        Uso anclas de personaje, objeto y entorno, junto con reglas de cámara y física, para que la continuidad sobreviva al cambio de plano.
+                      </p>
+                    </div>
+
+                    <aside class="method-side" aria-label="Detalle de la etapa">
+                      <div>
+                        <p class="method-kicker">Se define</p>
+                        <div class="method-chip-list mt-3">
+                          <span class="method-chip">Personaje</span>
+                        <span class="method-chip">Producto</span>
+                        <span class="method-chip">Escena</span>
+                        <span class="method-chip">Cámara</span>
+                        </div>
+                      </div>
+
+                      <div class="method-result">
+                        <div class="method-result-copy">
+                          <span class="method-result-label">Resultado</span>
+                          <span class="method-result-value">Sistema de referencias</span>
+                        </div>
+                        <span class="method-result-icon" aria-hidden="true">
+                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
                 </div>
               </article>
 
               <article class="method-slide" aria-label="4 de 5">
                 <div class="method-card glass">
-                  <div class="flex items-start justify-between gap-5">
+                  <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="sparkles" class="w-5 h-5"></i>
                       <span class="text-[10px] tracking-[.16em] uppercase">Producción</span>
@@ -1800,20 +2060,44 @@
                     <span class="method-index">04</span>
                   </div>
 
-                  <div class="relative z-10 max-w-3xl">
-                    <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Dirigir cada clip con intención.
-                    </h3>
-                    <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Cada toma define cámara, actuación y continuidad. Cuando conviene, el último frame pasa a ser la referencia del siguiente plano.
-                    </p>
+                  <div class="method-layout">
+                    <div class="method-copy">
+                      <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
+                        Dirigir cada clip con intención.
+                      </h3>
+                      <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
+                        Cada toma define cámara, actuación y continuidad. Cuando conviene, el último frame pasa a ser la referencia del siguiente plano.
+                      </p>
+                    </div>
+
+                    <aside class="method-side" aria-label="Detalle de la etapa">
+                      <div>
+                        <p class="method-kicker">Se define</p>
+                        <div class="method-chip-list mt-3">
+                          <span class="method-chip">Cámara</span>
+                        <span class="method-chip">Actuación</span>
+                        <span class="method-chip">Física</span>
+                        <span class="method-chip">Continuidad</span>
+                        </div>
+                      </div>
+
+                      <div class="method-result">
+                        <div class="method-result-copy">
+                          <span class="method-result-label">Resultado</span>
+                          <span class="method-result-value">Clips seleccionados</span>
+                        </div>
+                        <span class="method-result-icon" aria-hidden="true">
+                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
                 </div>
               </article>
 
               <article class="method-slide" aria-label="5 de 5">
                 <div class="method-card glass">
-                  <div class="flex items-start justify-between gap-5">
+                  <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="rocket" class="w-5 h-5"></i>
                       <span class="text-[10px] tracking-[.16em] uppercase">QA + entrega</span>
@@ -1821,13 +2105,37 @@
                     <span class="method-index">05</span>
                   </div>
 
-                  <div class="relative z-10 max-w-3xl">
-                    <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Revisar antes de entregar.
-                    </h3>
-                    <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Compruebo identidad, manos, física, lipsync, ritmo y formato; después cierro edición, audio, export y entrega.
-                    </p>
+                  <div class="method-layout">
+                    <div class="method-copy">
+                      <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
+                        Revisar antes de entregar.
+                      </h3>
+                      <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
+                        Compruebo identidad, manos, física, lipsync, ritmo y formato; después cierro edición, audio, export y entrega.
+                      </p>
+                    </div>
+
+                    <aside class="method-side" aria-label="Detalle de la etapa">
+                      <div>
+                        <p class="method-kicker">Se define</p>
+                        <div class="method-chip-list mt-3">
+                          <span class="method-chip">Identidad</span>
+                        <span class="method-chip">Lipsync</span>
+                        <span class="method-chip">Ritmo</span>
+                        <span class="method-chip">Formato</span>
+                        </div>
+                      </div>
+
+                      <div class="method-result">
+                        <div class="method-result-copy">
+                          <span class="method-result-label">Resultado</span>
+                          <span class="method-result-value">Master final</span>
+                        </div>
+                        <span class="method-result-icon" aria-hidden="true">
+                          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
                 </div>
               </article>
