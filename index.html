@@ -698,6 +698,462 @@
         transition-duration: .01ms !important;
       }
     }
+
+    /* 2026-09 mobile-first coherence pass */
+    :root {
+      --section-pad-mobile: 72px;
+      --section-pad-desktop: 112px;
+    }
+
+    body {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .site-shell {
+      width: min(1180px, calc(100% - 24px));
+    }
+
+    #top,
+    #projects,
+    #method,
+    #contact {
+      scroll-margin-top: 76px;
+    }
+
+    #top {
+      min-height: auto;
+      padding-top: 104px;
+      padding-bottom: 64px;
+    }
+
+    #top > .site-shell {
+      gap: 44px;
+    }
+
+    #top h1 {
+      max-width: 760px;
+      font-size: clamp(2.55rem, 11.5vw, 4rem);
+      line-height: .94;
+      letter-spacing: -.052em;
+      text-wrap: balance;
+    }
+
+    #top h1 span {
+      text-wrap: balance;
+    }
+
+    #top .hero-reveal.text-\[11px\] {
+      letter-spacing: .16em;
+    }
+
+    #top .hero-reveal.mt-8 {
+      margin-top: 24px;
+      font-size: clamp(1rem, 4.25vw, 1.16rem);
+      line-height: 1.7;
+    }
+
+    #top .hero-reveal.mt-9 {
+      margin-top: 28px;
+    }
+
+    #top .hero-reveal.mt-9 > a {
+      min-height: 48px;
+      justify-content: center;
+    }
+
+    #top .hero-reveal.mt-10 {
+      margin-top: 30px;
+      gap: 10px 18px;
+      font-size: 9px;
+      letter-spacing: .12em;
+    }
+
+    #top .hero-reveal.relative {
+      width: 100%;
+      max-width: 500px;
+      margin-inline: auto;
+    }
+
+    #projects,
+    #method,
+    #contact {
+      padding-top: var(--section-pad-mobile);
+      padding-bottom: var(--section-pad-mobile);
+    }
+
+    #projects h2,
+    #method h2,
+    #contact h2 {
+      font-size: clamp(2.35rem, 10.2vw, 4rem);
+      line-height: .98;
+      letter-spacing: -.048em;
+      text-wrap: balance;
+    }
+
+    #projects > .site-shell > .grid {
+      gap: 22px;
+    }
+
+    #projects [role="tablist"] {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-inline: -2px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #projects [role="tablist"]::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding-inline: 15px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    #categoryDescription {
+      margin-top: 16px;
+      min-height: 48px;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    #projectGrid {
+      margin-top: 40px;
+      gap: 34px 18px;
+    }
+
+    .mockup-stage {
+      min-height: 430px;
+      padding: 24px 14px;
+      border-radius: 24px;
+    }
+
+    .phone-shell {
+      width: min(100%, 255px);
+      border-radius: 30px;
+    }
+
+    .phone-screen {
+      border-radius: 24px;
+    }
+
+    .project-info-card {
+      min-height: auto;
+      margin-top: 12px;
+      padding: 18px;
+      border-radius: 20px;
+    }
+
+    .project-info-card h3 {
+      margin-top: 7px;
+      font-size: clamp(1.22rem, 5.2vw, 1.42rem);
+      line-height: 1.14;
+      letter-spacing: -.032em;
+      text-wrap: balance;
+    }
+
+    .project-info-card > div:first-child > div > p:first-child {
+      font-size: 9px;
+      letter-spacing: .13em;
+    }
+
+    .project-note {
+      margin-top: 11px;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #949AA5;
+    }
+
+    .project-info-card .mt-5 {
+      margin-top: 16px;
+    }
+
+    .tool-badge {
+      min-height: 30px;
+      padding: 0 10px;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: .025em;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .desktop-frame {
+      border-radius: 18px;
+    }
+
+    .code-canvas {
+      min-height: 300px;
+      padding: 18px 14px;
+      font-size: 10px;
+      line-height: 1.75;
+      overflow-x: auto;
+    }
+
+    .method-slider {
+      border-radius: 24px;
+    }
+
+    .method-card {
+      min-height: 304px;
+      padding: 22px;
+      gap: 28px;
+      border-radius: 23px;
+    }
+
+    .method-card h3 {
+      max-width: 720px;
+      font-size: clamp(1.72rem, 7vw, 2.4rem);
+      line-height: 1.04;
+      letter-spacing: -.04em;
+      text-wrap: balance;
+    }
+
+    .method-card p {
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .method-index {
+      width: 40px;
+      height: 40px;
+      font-size: 10px;
+    }
+
+    .method-controls {
+      margin-top: 14px;
+    }
+
+    .method-nav {
+      width: 44px;
+      height: 44px;
+    }
+
+    #method .section-reveal.mt-12 {
+      margin-top: 38px;
+    }
+
+    #contact > .site-shell > .glass {
+      padding: 20px;
+      border-radius: 24px;
+    }
+
+    #contact .relative.grid {
+      gap: 34px;
+    }
+
+    #contact h2 {
+      max-width: 640px;
+    }
+
+    #contact .floating-field input,
+    #contact .floating-field textarea {
+      border-radius: 16px;
+      font-size: 16px;
+    }
+
+    #contact .floating-field textarea {
+      min-height: 130px;
+    }
+
+    #contact button[type="submit"] {
+      min-height: 56px;
+      border-radius: 16px;
+    }
+
+    #contact footer {
+      padding-top: 28px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 380px) {
+      #top h1 {
+        font-size: 2.45rem;
+      }
+
+      #projects h2,
+      #method h2,
+      #contact h2 {
+        font-size: 2.25rem;
+      }
+
+      .project-info-card {
+        padding: 16px;
+      }
+
+      .tool-badge {
+        font-size: 9.5px;
+        padding-inline: 9px;
+      }
+
+      .method-card {
+        min-height: 322px;
+        padding: 20px;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .site-shell {
+        width: min(1180px, calc(100% - 40px));
+      }
+
+      #top {
+        padding-top: 116px;
+        padding-bottom: 80px;
+      }
+
+      .mockup-stage {
+        min-height: 500px;
+        padding: 30px 18px;
+      }
+
+      .phone-shell {
+        width: min(100%, 285px);
+      }
+
+      .project-info-card {
+        padding: 20px;
+      }
+
+      #contact > .site-shell > .glass {
+        padding: 30px;
+        border-radius: 28px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .site-shell {
+        width: min(1180px, calc(100% - 48px));
+      }
+
+      #top h1 {
+        font-size: clamp(4.7rem, 8vw, 7.8rem);
+        line-height: .90;
+        letter-spacing: -.065em;
+      }
+
+      #projects,
+      #method,
+      #contact {
+        padding-top: var(--section-pad-desktop);
+        padding-bottom: var(--section-pad-desktop);
+      }
+
+      #projects h2,
+      #method h2,
+      #contact h2 {
+        font-size: clamp(3.2rem, 6vw, 5.6rem);
+      }
+
+      #categoryDescription {
+        min-height: 0;
+        font-size: 14px;
+      }
+
+      #projectGrid {
+        margin-top: 48px;
+      }
+
+      .mockup-stage {
+        min-height: 520px;
+        border-radius: 30px;
+      }
+
+      .phone-shell {
+        width: min(100%, 300px);
+      }
+
+      .project-info-card {
+        min-height: 236px;
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .project-info-card h3 {
+        font-size: 1.45rem;
+      }
+
+      .project-note {
+        font-size: 13.5px;
+      }
+
+      .tool-badge {
+        min-height: 31px;
+        font-size: 10.5px;
+      }
+
+      .method-card {
+        min-height: 322px;
+        padding: 28px;
+        border-radius: 28px;
+      }
+
+      .method-card p {
+        font-size: 15px;
+      }
+
+      #contact > .site-shell > .glass {
+        padding: 40px;
+        border-radius: 32px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #top {
+        min-height: 100vh;
+        padding-top: 128px;
+        padding-bottom: 88px;
+      }
+
+      #top > .site-shell {
+        gap: 64px;
+      }
+
+      #top .hero-reveal.relative {
+        max-width: none;
+      }
+
+      #projectGrid {
+        gap: 46px 20px;
+      }
+
+      .mockup-stage {
+        min-height: 560px;
+      }
+
+      .project-info-card {
+        min-height: 248px;
+      }
+
+      .method-card {
+        min-height: 340px;
+        padding: 32px;
+      }
+
+      #contact > .site-shell > .glass {
+        padding: 48px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .mockup-stage {
+        min-height: 590px;
+      }
+
+      .phone-shell {
+        width: min(100%, 320px);
+      }
+    }
+
   </style>
 </head>
 
@@ -759,8 +1215,8 @@
           </h1>
 
           <p class="hero-reveal mt-8 max-w-[680px] text-[clamp(1.05rem,1.7vw,1.3rem)] leading-8 text-zinc-400">
-            Diseño de <strong class="text-white font-medium">contenido UGC e IA</strong> para marcas que necesitan velocidad,
-            consistencia visual y piezas pensadas para <span class="text-butter">captar atención</span>.
+            Creo <strong class="text-white font-medium">UGC y piezas de producto con IA</strong> para marcas que necesitan velocidad,
+            consistencia visual y dirección creativa orientada a <span class="text-butter">captar atención</span>.
           </p>
 
           <div class="hero-reveal mt-9 flex flex-wrap gap-3">
@@ -829,8 +1285,8 @@
           </div>
 
           <p class="section-reveal text-zinc-400 leading-7 text-[1.02rem]">
-            UGC, producto y sistemas creativos presentados como <strong class="text-white font-medium">casos de estudio</strong>,
-            no como una colección genérica de renders.
+            Tres formas de resolver una pieza: <strong class="text-white font-medium">UGC, producto y sistema de producción</strong>.
+            Cada caso muestra una aplicación concreta, no renders sueltos.
           </p>
         </div>
 
@@ -1084,12 +1540,12 @@
             <div class="project-info-card glass">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Workflow · Documentation</p>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Sistema · Guías</p>
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
-                    Sistemas que reducen el azar creativo.
+                    Guías reutilizables para dirigir cada toma.
                   </h3>
 
-                  <p class="project-note">Documentación en .md para identidad, cámara, animación, continuidad y reglas de producción. Cada guía convierte decisiones creativas en instrucciones reutilizables.</p>
+                  <p class="project-note">Documentación para identidad, cámara, animación y continuidad. Las decisiones clave quedan convertidas en reglas que puedo reutilizar entre escenas.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">07</span>
               </div>
@@ -1171,12 +1627,12 @@
             <div class="project-info-card glass">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Workflow · Pipeline</p>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Sistema · Pipeline</p>
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
-                    Del brief a una pieza lista para publicar.
+                    Producción estructurada de punta a punta.
                   </h3>
 
-                  <p class="project-note">Pipeline con etapas de research, digitalización, anclas, generación, validación de física/continuidad, edición y entrega final.</p>
+                  <p class="project-note">Un flujo único conecta research, anclas, generación, control técnico, edición y entrega para reducir retrabajo entre etapas.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">08</span>
               </div>
@@ -1234,10 +1690,10 @@
 
                   <div class="relative z-10 max-w-3xl">
                     <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Entender la marca antes de generar.
+                      Definir qué tiene que comunicar la pieza.
                     </h3>
                     <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Defino objetivo, audiencia, hook, referencias, tono visual y los elementos que tienen que permanecer invariantes durante toda la pieza.
+                      Objetivo, audiencia, hook, referencias y tono visual quedan definidos antes de producir, junto con los elementos que no pueden cambiar.
                     </p>
                   </div>
                 </div>
@@ -1255,10 +1711,10 @@
 
                   <div class="relative z-10 max-w-3xl">
                     <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Convertir el producto real en una referencia controlable.
+                      Fijar el producto antes de moverlo.
                     </h3>
                     <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Fijo forma, etiqueta, proporciones, materiales y detalles críticos antes de llevar el producto a escenas generativas.
+                      Forma, etiqueta, proporciones y materiales se convierten en una referencia estable antes de entrar en escena.
                     </p>
                   </div>
                 </div>
@@ -1276,10 +1732,10 @@
 
                   <div class="relative z-10 max-w-3xl">
                     <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Bloquear identidad, escena y movimiento.
+                      Mantener identidad entre tomas.
                     </h3>
                     <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Construyo anclas de personaje, producto y entorno, más reglas de cámara, animación y física para sostener coherencia entre clips.
+                      Uso anclas de personaje, objeto y entorno, junto con reglas de cámara y física, para que la continuidad sobreviva al cambio de plano.
                     </p>
                   </div>
                 </div>
@@ -1297,10 +1753,10 @@
 
                   <div class="relative z-10 max-w-3xl">
                     <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Generar por tomas, no por azar.
+                      Dirigir cada clip con intención.
                     </h3>
                     <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Cada clip tiene un objetivo de cámara, actuación y continuidad. Cuando hace falta, el último frame de una toma se convierte en la referencia de la siguiente.
+                      Cada toma define cámara, actuación y continuidad. Cuando conviene, el último frame pasa a ser la referencia del siguiente plano.
                     </p>
                   </div>
                 </div>
@@ -1318,10 +1774,10 @@
 
                   <div class="relative z-10 max-w-3xl">
                     <h3 class="display text-[clamp(1.9rem,3vw,3rem)] leading-[1.02] tracking-[-.045em] font-semibold">
-                      Validar, editar y dejarlo listo para publicar.
+                      Revisar antes de entregar.
                     </h3>
                     <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                      Reviso identidad, producto, manos, física, lipsync, ritmo y formato. Después paso a selección, edición, audio, export y entrega final.
+                      Compruebo identidad, manos, física, lipsync, ritmo y formato; después cierro edición, audio, export y entrega.
                     </p>
                   </div>
                 </div>
@@ -1370,7 +1826,7 @@
               </h2>
 
               <p class="mt-7 max-w-md text-zinc-400 leading-7">
-                Contame qué querés vender, mostrar o testear. Puedo pensar una pieza aplicada directamente a tu producto o marca.
+                Contame qué querés mostrar o vender. Puedo proponerte una pieza aplicada directamente a tu producto o marca.
               </p>
 
               <div class="mt-8 flex flex-col gap-3 text-sm">
@@ -1485,9 +1941,9 @@
       var projectItems = Array.prototype.slice.call(document.querySelectorAll(".project-item"));
       var categoryDescription = document.getElementById("categoryDescription");
       var categoryCopy = {
-        ugc: "UGC vertical con avatares, lifestyle, close-ups hiperrealistas y producto integrado en escena.",
-        product: "Muestras aplicadas a productos reales y de nicho: digitalización, product shots y campañas visuales.",
-        workflow: "El sistema detrás de las piezas: guías .md, anclas, continuidad, validación y despliegue."
+        ugc: "Avatares y producto integrados en piezas verticales con estética UGC.",
+        product: "Producto real llevado a campañas, fashion y muestras comerciales con control visual.",
+        workflow: "Documentación y automatización para producir, revisar y entregar con consistencia."
       };
 
       function showCategory(selected) {
