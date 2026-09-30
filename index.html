@@ -5405,6 +5405,70 @@
       }
     }
 
+
+    /* Mobile video compatibility / low-memory Android */
+    .video-tap-fallback {
+      position: absolute;
+      z-index: 8;
+      left: 50%;
+      top: 50%;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(10,12,14,.76);
+      color: #F3F5F6;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%,-50%) scale(.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .video-tap-fallback.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%,-50%) scale(1);
+    }
+
+    .video-tap-fallback svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .hero-video,
+    .project-video {
+      background: #080A0C;
+    }
+
+    @media (max-width: 767px), (hover: none) and (pointer: coarse) {
+      .hero-phone-shell,
+      .phone-shell {
+        transform-style: flat !important;
+        -webkit-transform-style: flat !important;
+      }
+
+      .hero-video,
+      .project-video {
+        transform: none !important;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+
+      .hero-device-stage:hover .hero-video,
+      .project-item:hover .project-video {
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -5523,7 +5587,7 @@
               </div>
 
               <div class="hero-phone-screen">
-                <video autoplay muted loop playsinline preload="metadata" class="hero-video">
+                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
                   <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
                 </video>
 
@@ -5603,7 +5667,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/ugc-beauty.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -5637,7 +5701,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/ugc-fashion.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -5670,7 +5734,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/hyperreal-portrait.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -5704,7 +5768,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata" aria-label="Avatar mostrando un perfume en una pieza UGC creada con IA">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata" aria-label="Avatar mostrando un perfume en una pieza UGC creada con IA">
                     <source src="./assets/videos/product-perfume-avatar.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -5738,7 +5802,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/product-jewelry-sample.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -5773,7 +5837,7 @@
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/product-perfume-sample.mp4" type="video/mp4" />
                   </video>
                 </div>
@@ -6692,6 +6756,163 @@
       updateMobileSampleCta();
       window.addEventListener("scroll", updateMobileSampleCta, { passive: true });
       window.addEventListener("resize", updateMobileSampleCta, { passive: true });
+
+
+      // Smart video playback: avoid opening every decoder at once on mobile.
+      // This is especially important on older / low-memory Android devices.
+      var smartVideos = Array.prototype.slice.call(
+        document.querySelectorAll(".hero-video, .project-video")
+      );
+
+      function isVideoVisible(video) {
+        if (!video || !video.isConnected) return false;
+        var rect = video.getBoundingClientRect();
+        var style = window.getComputedStyle(video);
+        if (style.display === "none" || style.visibility === "hidden") return false;
+        return rect.bottom > 0 &&
+          rect.top < window.innerHeight &&
+          rect.right > 0 &&
+          rect.left < window.innerWidth;
+      }
+
+      function ensureVideoFallback(video) {
+        var shell = video.closest(".phone-screen, .hero-phone-screen");
+        if (!shell) return null;
+
+        var existing = shell.querySelector(".video-tap-fallback");
+        if (existing) return existing;
+
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "video-tap-fallback";
+        button.setAttribute("aria-label", "Reproducir video");
+        button.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
+          '<path d="M8 5v14l11-7z"></path></svg>' +
+          '<span>Reproducir</span>';
+
+        button.addEventListener("click", function () {
+          video.muted = true;
+          video.setAttribute("muted", "");
+          video.playsInline = true;
+          video.setAttribute("playsinline", "");
+          video.setAttribute("webkit-playsinline", "");
+          video.preload = "auto";
+
+          var promise = video.play();
+          if (promise && typeof promise.then === "function") {
+            promise.then(function () {
+              button.classList.remove("is-visible");
+            }).catch(function () {
+              button.classList.add("is-visible");
+            });
+          }
+        });
+
+        shell.appendChild(button);
+        return button;
+      }
+
+      function playSmartVideo(video) {
+        if (!video || !isVideoVisible(video)) return;
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute("muted", "");
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        video.disablePictureInPicture = true;
+
+        if (video.preload !== "auto") {
+          video.preload = "auto";
+        }
+
+        var fallback = ensureVideoFallback(video);
+        var promise = video.play();
+
+        if (promise && typeof promise.then === "function") {
+          promise.then(function () {
+            if (fallback) fallback.classList.remove("is-visible");
+          }).catch(function () {
+            if (fallback) fallback.classList.add("is-visible");
+          });
+        }
+      }
+
+      function pauseSmartVideo(video) {
+        if (!video) return;
+        if (!video.paused) video.pause();
+      }
+
+      smartVideos.forEach(function (video) {
+        var fallback = ensureVideoFallback(video);
+
+        video.addEventListener("playing", function () {
+          if (fallback) fallback.classList.remove("is-visible");
+        });
+
+        video.addEventListener("canplay", function () {
+          if (isVideoVisible(video) && video.paused) {
+            playSmartVideo(video);
+          }
+        });
+
+        video.addEventListener("error", function () {
+          if (fallback) fallback.classList.add("is-visible");
+        });
+      });
+
+      if ("IntersectionObserver" in window) {
+        var videoObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio >= .16) {
+              playSmartVideo(entry.target);
+            } else {
+              pauseSmartVideo(entry.target);
+            }
+          });
+        }, {
+          threshold: [0, .16, .5]
+        });
+
+        smartVideos.forEach(function (video) {
+          videoObserver.observe(video);
+        });
+      } else {
+        smartVideos.forEach(function (video) {
+          playSmartVideo(video);
+        });
+      }
+
+      function retryVisibleVideos() {
+        smartVideos.forEach(function (video) {
+          if (isVideoVisible(video)) {
+            playSmartVideo(video);
+          } else {
+            pauseSmartVideo(video);
+          }
+        });
+      }
+
+      // Older mobile browsers may only allow playback after the first gesture.
+      ["touchstart", "pointerdown"].forEach(function (eventName) {
+        document.addEventListener(eventName, retryVisibleVideos, {
+          passive: true,
+          once: true
+        });
+      });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          smartVideos.forEach(pauseSmartVideo);
+        } else {
+          retryVisibleVideos();
+        }
+      });
+
+      window.addEventListener("pageshow", retryVisibleVideos);
+      window.setTimeout(retryVisibleVideos, 250);
 
       // Project tabs
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
