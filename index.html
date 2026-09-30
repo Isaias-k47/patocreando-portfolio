@@ -3078,6 +3078,183 @@
       }
     }
 
+
+    /* Projects intro floating card */
+    .project-intro-card {
+      position: relative;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.09);
+      background:
+        radial-gradient(circle at 86% 12%, rgba(124,58,237,.16), transparent 34%),
+        radial-gradient(circle at 10% 90%, rgba(0,71,171,.12), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+        rgba(10,10,14,.72);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 24px 70px rgba(0,0,0,.18);
+      transform-style: preserve-3d;
+      transition:
+        transform .38s var(--ease),
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+      will-change: transform;
+    }
+
+    .project-intro-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.045), transparent 28%, transparent 70%, rgba(245,231,163,.035));
+      opacity: .9;
+    }
+
+    .project-intro-card:hover {
+      transform: translateY(-5px) rotateX(.7deg) rotateY(-.7deg);
+      border-color: rgba(245,231,163,.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 30px 90px rgba(0,0,0,.24),
+        0 0 50px rgba(124,58,237,.06);
+    }
+
+    .project-intro-glow {
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -70px;
+      top: -80px;
+      border-radius: 50%;
+      background: rgba(124,58,237,.18);
+      filter: blur(44px);
+      pointer-events: none;
+      transition: transform .5s var(--ease), opacity .35s ease;
+    }
+
+    .project-intro-card:hover .project-intro-glow {
+      transform: translate(-8px, 10px) scale(1.08);
+      opacity: .95;
+    }
+
+    .project-intro-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .project-intro-kicker {
+      color: #7F8692;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .project-intro-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(245,231,163,.16);
+      background: rgba(245,231,163,.055);
+      color: var(--butter);
+      box-shadow: 0 0 26px rgba(245,231,163,.06);
+      transition: transform .3s var(--ease), background .3s ease;
+    }
+
+    .project-intro-card:hover .project-intro-icon {
+      transform: rotate(8deg) scale(1.05);
+      background: rgba(245,231,163,.09);
+    }
+
+    .project-intro-copy {
+      position: relative;
+      z-index: 1;
+      margin-top: 26px;
+      color: #A4A9B2;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .project-intro-copy strong {
+      color: #F5F6F8;
+      font-weight: 600;
+    }
+
+    .project-intro-line {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 1px;
+      margin-top: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,.055);
+    }
+
+    .project-intro-line::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 34%;
+      background: linear-gradient(90deg, var(--butter), rgba(124,58,237,.65), transparent);
+      transform-origin: left center;
+      transition: width .45s var(--ease);
+    }
+
+    .project-intro-card:hover .project-intro-line::after {
+      width: 72%;
+    }
+
+    @media (max-width: 639px) {
+      .project-intro-card {
+        min-height: 0;
+        padding: 20px 18px;
+        border-radius: 22px;
+        text-align: center;
+      }
+
+      .project-intro-top {
+        justify-content: center;
+      }
+
+      .project-intro-kicker {
+        text-align: center;
+      }
+
+      .project-intro-icon {
+        display: none;
+      }
+
+      .project-intro-copy {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .project-intro-line {
+        width: 72%;
+        margin-inline: auto;
+        margin-top: 18px;
+      }
+
+      .project-intro-line::after {
+        width: 48%;
+      }
+    }
+
   </style>
 </head>
 
@@ -3221,10 +3398,23 @@
             </h2>
           </div>
 
-          <p class="section-reveal text-zinc-400 leading-7 text-[1.02rem]">
-            Tres formas de resolver una pieza: <strong class="text-white font-medium">UGC, producto y sistema de producción</strong>.
-            Cada caso muestra una aplicación concreta, no renders sueltos.
-          </p>
+          <div class="section-reveal project-intro-card" id="projectIntroCard">
+            <span class="project-intro-glow" aria-hidden="true"></span>
+            <div class="project-intro-top">
+              <span class="project-intro-kicker">Enfoque</span>
+              <span class="project-intro-icon" aria-hidden="true">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </span>
+            </div>
+
+            <p class="project-intro-copy">
+              Tres formas de resolver una pieza:
+              <strong>UGC, producto y sistema de producción</strong>.
+              Cada caso muestra una aplicación concreta, no renders sueltos.
+            </p>
+
+            <div class="project-intro-line" aria-hidden="true"></div>
+          </div>
         </div>
 
         <div class="section-reveal mt-10 flex flex-wrap gap-2" role="tablist" aria-label="Filtrar proyectos">
@@ -4356,6 +4546,28 @@
         });
       }
 
+
+
+      // Projects intro card micro-interaction
+      var projectIntroCard = document.getElementById("projectIntroCard");
+
+      if (projectIntroCard && finePointer && !reduceMotion) {
+        projectIntroCard.addEventListener("pointermove", function (event) {
+          var rect = projectIntroCard.getBoundingClientRect();
+          var px = (event.clientX - rect.left) / rect.width;
+          var py = (event.clientY - rect.top) / rect.height;
+          var ry = (px - .5) * 3;
+          var rx = (.5 - py) * 3;
+
+          projectIntroCard.style.transform =
+            "perspective(900px) translateY(-5px) rotateX(" +
+            rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+        });
+
+        projectIntroCard.addEventListener("pointerleave", function () {
+          projectIntroCard.style.transform = "";
+        });
+      }
 
       // Interactive workflow funnel
       var funnelSteps = Array.prototype.slice.call(document.querySelectorAll(".funnel-step"));
