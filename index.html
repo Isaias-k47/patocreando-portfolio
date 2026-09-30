@@ -2825,6 +2825,174 @@
       }
     }
 
+
+    /* Contact mail provider chooser */
+    .mail-provider-picker[hidden] {
+      display: none !important;
+    }
+
+    .mail-provider-picker {
+      display: grid;
+      gap: 16px;
+      margin-top: 2px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 88% 10%, rgba(124,58,237,.10), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+        rgba(9,10,14,.72);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 18px 50px rgba(0,0,0,.18);
+      animation: mailPickerIn .3s var(--ease) both;
+    }
+
+    @keyframes mailPickerIn {
+      from { opacity: 0; transform: translateY(8px) scale(.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .mail-provider-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .mail-provider-kicker {
+      color: #747B88;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .mail-provider-title {
+      margin-top: 5px;
+      color: #F4F5F7;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -.02em;
+    }
+
+    .mail-provider-close {
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.025);
+      color: #AAB0BB;
+      transition: background .25s ease, color .25s ease, border-color .25s ease;
+    }
+
+    .mail-provider-close:hover {
+      color: #fff;
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .mail-provider-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .mail-provider-btn {
+      min-width: 0;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.075);
+      background: rgba(255,255,255,.025);
+      color: #DADDE3;
+      text-align: left;
+      transition:
+        transform .25s var(--ease),
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .mail-provider-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(245,231,163,.22);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+    }
+
+    .mail-provider-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
+      color: var(--butter);
+    }
+
+    .mail-provider-btn strong {
+      display: block;
+      color: #F5F6F8;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .mail-provider-btn small {
+      display: block;
+      margin-top: 2px;
+      color: #747B88;
+      font-size: 9px;
+    }
+
+    .mail-provider-note {
+      color: #656C78;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 639px) {
+      .mail-provider-picker {
+        padding: 15px;
+        border-radius: 18px;
+        text-align: center;
+      }
+
+      .mail-provider-head {
+        align-items: center;
+      }
+
+      .mail-provider-head > div {
+        flex: 1;
+        padding-left: 36px;
+      }
+
+      .mail-provider-title,
+      .mail-provider-kicker,
+      .mail-provider-note {
+        text-align: center !important;
+      }
+
+      .mail-provider-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mail-provider-btn {
+        min-height: 62px;
+        justify-content: flex-start;
+        text-align: left !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -3712,8 +3880,53 @@
                 </span>
               </button>
 
+              <div id="mailProviderPicker" class="mail-provider-picker" hidden aria-label="Elegir proveedor de correo">
+                <div class="mail-provider-head">
+                  <div>
+                    <p class="mail-provider-kicker">Abrir correo</p>
+                    <p class="mail-provider-title">Elegí dónde querés enviar la propuesta</p>
+                  </div>
+                  <button id="mailProviderClose" class="mail-provider-close" type="button" aria-label="Cerrar selector de correo">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                  </button>
+                </div>
+
+                <div class="mail-provider-grid">
+                  <button class="mail-provider-btn" type="button" data-mail-provider="gmail">
+                    <span class="mail-provider-icon"><i data-lucide="mail" class="w-4 h-4"></i></span>
+                    <span>
+                      <strong>Gmail</strong>
+                      <small>Abrir mensaje</small>
+                    </span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 ml-auto"></i>
+                  </button>
+
+                  <button class="mail-provider-btn" type="button" data-mail-provider="outlook">
+                    <span class="mail-provider-icon"><i data-lucide="mail-open" class="w-4 h-4"></i></span>
+                    <span>
+                      <strong>Outlook</strong>
+                      <small>Abrir mensaje</small>
+                    </span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 ml-auto"></i>
+                  </button>
+
+                  <button class="mail-provider-btn" type="button" data-mail-provider="yahoo">
+                    <span class="mail-provider-icon"><i data-lucide="send" class="w-4 h-4"></i></span>
+                    <span>
+                      <strong>Yahoo Mail</strong>
+                      <small>Abrir mensaje</small>
+                    </span>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 ml-auto"></i>
+                  </button>
+                </div>
+
+                <p class="mail-provider-note">
+                  Se abre el proveedor que elijas con destinatario, asunto y mensaje ya completados.
+                </p>
+              </div>
+
               <p class="text-[11px] text-zinc-600">
-                El formulario abre tu cliente de correo con el mensaje ya preparado.
+                Completá el formulario y elegí Gmail, Outlook o Yahoo para abrir el mensaje listo para enviar.
               </p>
             </form>
           </div>
@@ -4079,39 +4292,89 @@
         }
       });
 
-      // Form -> mailto
+      // Contact form -> mail provider chooser
       var contactForm = document.getElementById("contactForm");
       var submitLabel = document.getElementById("submitLabel");
+      var mailProviderPicker = document.getElementById("mailProviderPicker");
+      var mailProviderClose = document.getElementById("mailProviderClose");
+      var mailProviderButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mail-provider]"));
+      var pendingMail = null;
+      var destinationEmail = "ulisesjgonzalez2045@gmail.com";
+
+      function buildMailPayload() {
+        var name = document.getElementById("name").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var projectType = document.getElementById("projectType").value.trim();
+        var message = document.getElementById("message").value.trim();
+
+        var subject = "Consulta portfolio — " + (name || "nuevo proyecto");
+        var body =
+          "Hola Ulises,\n\n" +
+          "Soy " + name + ".\n" +
+          "Mi email: " + email + "\n" +
+          "Proyecto: " + (projectType || "A definir") + "\n\n" +
+          message;
+
+        return {
+          to: destinationEmail,
+          subject: subject,
+          body: body
+        };
+      }
+
+      function openMailProvider(provider, mail) {
+        if (!mail) return;
+
+        var to = encodeURIComponent(mail.to);
+        var subject = encodeURIComponent(mail.subject);
+        var body = encodeURIComponent(mail.body);
+        var url = "";
+
+        if (provider === "gmail") {
+          url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + to + "&su=" + subject + "&body=" + body;
+        } else if (provider === "outlook") {
+          url = "https://outlook.live.com/mail/0/deeplink/compose?to=" + to + "&subject=" + subject + "&body=" + body;
+        } else if (provider === "yahoo") {
+          url = "https://compose.mail.yahoo.com/?to=" + to + "&subject=" + subject + "&body=" + body;
+        }
+
+        if (url) {
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+      }
+
+      function closeMailProviderPicker() {
+        if (mailProviderPicker) mailProviderPicker.hidden = true;
+        if (submitLabel) submitLabel.textContent = "Enviar propuesta";
+      }
 
       if (contactForm) {
         contactForm.addEventListener("submit", function (event) {
           event.preventDefault();
 
-          var name = document.getElementById("name").value.trim();
-          var email = document.getElementById("email").value.trim();
-          var projectType = document.getElementById("projectType").value.trim();
-          var message = document.getElementById("message").value.trim();
+          if (!contactForm.reportValidity()) return;
 
-          var subject = "Consulta portfolio — " + (name || "nuevo proyecto");
-          var body =
-            "Hola Ulises,%0D%0A%0D%0A" +
-            "Soy " + encodeURIComponent(name) + ".%0D%0A" +
-            "Email: " + encodeURIComponent(email) + "%0D%0A" +
-            "Proyecto: " + encodeURIComponent(projectType || "A definir") + "%0D%0A%0D%0A" +
-            encodeURIComponent(message);
+          pendingMail = buildMailPayload();
 
-          if (submitLabel) {
-            submitLabel.textContent = "Abriendo correo…";
-            window.setTimeout(function () {
-              submitLabel.textContent = "Enviar propuesta";
-            }, 1800);
+          if (mailProviderPicker) {
+            mailProviderPicker.hidden = false;
+            mailProviderPicker.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
           }
 
-          window.location.href =
-            "mailto:ulisesjgonzalez2045@gmail.com?subject=" +
-            encodeURIComponent(subject) +
-            "&body=" + body;
+          if (submitLabel) {
+            submitLabel.textContent = "Elegí tu correo";
+          }
         });
+      }
+
+      mailProviderButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          openMailProvider(button.getAttribute("data-mail-provider"), pendingMail || buildMailPayload());
+        });
+      });
+
+      if (mailProviderClose) {
+        mailProviderClose.addEventListener("click", closeMailProviderPicker);
       }
 
       // GSAP motion
