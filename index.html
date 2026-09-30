@@ -1,413 +1,1310 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio de Pato Creando — AI Content Creator especializado en UGC, video e imagen generativa para marcas." />
-  <meta name="theme-color" content="#0b0d10" />
+  <meta name="description" content="Pato Creando — AI Content Creator & UGC Specialist. UGC con IA, product ads, avatares hiperrealistas y workflows creativos para marcas." />
+  <meta name="theme-color" content="#0B0B0F" />
 
-  <meta property="og:title" content="Pato Creando — AI Content Creator" />
-  <meta property="og:description" content="Contenido UGC, video e imagen generativa para marcas." />
+  <meta property="og:title" content="Pato Creando — AI Content Creator & UGC Specialist" />
+  <meta property="og:description" content="UGC con IA, product ads y visuales hiperrealistas para marcas." />
   <meta property="og:type" content="website" />
 
-  <title>Pato Creando — AI Content Creator</title>
+  <title>Pato Creando — AI Content Creator & UGC Specialist</title>
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="./styles.css" />
-  <script src="./script.js" defer></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#0B0B0F",
+            cobalt: "#0047AB",
+            violetx: "#7C3AED",
+            butter: "#F5E7A3"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            display: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Animation -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0B0B0F;
+      --panel: rgba(255,255,255,.052);
+      --panel-strong: rgba(255,255,255,.082);
+      --line: rgba(255,255,255,.10);
+      --line-strong: rgba(255,255,255,.16);
+      --text: #F7F7FA;
+      --muted: #9EA2AD;
+      --cobalt: #0047AB;
+      --violet: #7C3AED;
+      --butter: #F5E7A3;
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--bg); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(0,71,171,.16), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(124,58,237,.11), transparent 26%),
+        linear-gradient(180deg, #0B0B0F 0%, #09090D 46%, #0B0B0F 100%);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background: rgba(245,231,163,.24);
+      color: #fff;
+    }
+
+    a, button, input, textarea { -webkit-tap-highlight-color: transparent; }
+    button, input, textarea { font: inherit; }
+
+    .site-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin-inline: auto;
+    }
+
+    .display { font-family: "Plus Jakarta Sans", sans-serif; }
+
+    .glass {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+        rgba(10,10,14,.52);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(22px) saturate(120%);
+      -webkit-backdrop-filter: blur(22px) saturate(120%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.055),
+        0 26px 80px rgba(0,0,0,.28);
+    }
+
+    .fine-grid {
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, transparent, black 15%, black 82%, transparent);
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      opacity: .024;
+      mix-blend-mode: soft-light;
+      background-image:
+        radial-gradient(circle at 20% 20%, white 0 .6px, transparent .7px),
+        radial-gradient(circle at 75% 35%, white 0 .5px, transparent .6px),
+        radial-gradient(circle at 50% 80%, white 0 .7px, transparent .8px);
+      background-size: 7px 7px, 9px 9px, 11px 11px;
+    }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1100;
+      height: 2px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .progress > span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      transform-origin: left center;
+      background: linear-gradient(90deg, var(--cobalt), #8F68FF, var(--butter));
+      box-shadow: 0 0 20px rgba(124,58,237,.5);
+    }
+
+    .gradient-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(95px);
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .orb-a { width: 420px; height: 420px; background: rgba(0,71,171,.30); }
+    .orb-b { width: 360px; height: 360px; background: rgba(124,58,237,.24); }
+    .orb-c { width: 260px; height: 260px; background: rgba(245,231,163,.10); }
+
+    .nav-blur {
+      background: rgba(11,11,15,.58);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, #fff 6%, #CFD9FF 42%, #A789FF 69%, #F5E7A3 100%);
+      background-size: 220% 220%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradientShift {
+      from { background-position: 0% 50%; }
+      to { background-position: 100% 50%; }
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9DF0B5;
+      box-shadow: 0 0 0 6px rgba(157,240,181,.08), 0 0 24px rgba(157,240,181,.4);
+      animation: pulseDot 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      50% { transform: scale(.72); opacity: .72; }
+    }
+
+    .magnetic {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform .25s var(--ease), border-color .25s ease, background .25s ease;
+    }
+
+    .magnetic::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      left: var(--mx, 50%);
+      top: var(--my, 50%);
+      transform: translate(-50%, -50%) scale(0);
+      background: radial-gradient(circle, rgba(255,255,255,.22), rgba(255,255,255,0) 68%);
+      transition: transform .35s ease;
+      z-index: -1;
+    }
+
+    .magnetic:hover::after { transform: translate(-50%, -50%) scale(1); }
+
+    .phone-shell {
+      position: relative;
+      width: min(100%, 330px);
+      margin-inline: auto;
+      padding: 7px;
+      border-radius: 34px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.015)),
+        #090A0E;
+      border: 1px solid rgba(255,255,255,.11);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.42),
+        0 24px 80px rgba(0,0,0,.46);
+      transform-style: preserve-3d;
+    }
+
+    .phone-shell::before {
+      content: "";
+      position: absolute;
+      z-index: 6;
+      top: 12px;
+      left: 50%;
+      width: 28%;
+      height: 18px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: rgba(0,0,0,.82);
+      border: 1px solid rgba(255,255,255,.035);
+    }
+
+    .phone-screen {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 27px;
+      background: #0B0B0F;
+    }
+
+    .phone-screen video,
+    .phone-screen img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .phone-screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.03), transparent 60%, rgba(0,0,0,.22)),
+        linear-gradient(90deg, rgba(255,255,255,.025), transparent 10%, transparent 90%, rgba(255,255,255,.02));
+    }
+
+    .mockup-stage {
+      position: relative;
+      min-height: 590px;
+      display: grid;
+      place-items: center;
+      padding: 38px 20px;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,.07);
+      background:
+        radial-gradient(circle at 50% 40%, rgba(0,71,171,.14), transparent 34%),
+        radial-gradient(circle at 78% 20%, rgba(124,58,237,.10), transparent 30%),
+        rgba(255,255,255,.014);
+    }
+
+    .mockup-stage::before {
+      content: "";
+      position: absolute;
+      width: 62%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(124,58,237,.14);
+      filter: blur(72px);
+      transform: translate(-22%, 18%);
+      pointer-events: none;
+    }
+
+    .project-item {
+      min-width: 0;
+      transition: opacity .35s ease, transform .35s var(--ease);
+    }
+
+    .project-item.is-hidden {
+      display: none;
+    }
+
+    .project-info-card {
+      margin-top: 16px;
+      padding: 22px;
+      border-radius: 24px;
+      min-height: 188px;
+      transition:
+        border-color .3s ease,
+        transform .3s var(--ease),
+        background .3s ease;
+    }
+
+    .project-item:hover .project-info-card {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.17);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.03)),
+        rgba(10,10,14,.58);
+    }
+
+    .project-item:hover .phone-shell {
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.42),
+        0 32px 100px rgba(0,0,0,.50),
+        0 0 70px rgba(0,71,171,.12);
+    }
+
+    .project-video,
+    .project-image {
+      transition: transform .7s var(--ease), filter .45s ease;
+    }
+
+    .project-item:hover .project-video,
+    .project-item:hover .project-image {
+      transform: scale(1.025);
+    }
+
+    .tool-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.085);
+      background: rgba(255,255,255,.035);
+      color: #AAB0BB;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .tab-btn {
+      position: relative;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: #9EA2AD;
+      border: 1px solid rgba(255,255,255,.075);
+      background: rgba(255,255,255,.025);
+      transition:
+        color .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s var(--ease);
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .tab-btn.is-active {
+      color: #0B0B0F;
+      background: var(--butter);
+      border-color: var(--butter);
+      box-shadow: 0 10px 30px rgba(245,231,163,.10);
+    }
+
+    .desktop-frame {
+      width: min(100%, 520px);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: #0C0D12;
+      box-shadow: 0 26px 80px rgba(0,0,0,.42);
+    }
+
+    .desktop-top {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.025);
+    }
+
+    .desktop-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.16);
+    }
+
+    .code-canvas {
+      min-height: 340px;
+      padding: 26px;
+      background:
+        linear-gradient(180deg, rgba(0,71,171,.06), transparent 34%),
+        #0A0B10;
+      color: #AEB4C0;
+      font: 500 12px/1.85 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .code-line {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 14px;
+    }
+
+    .code-n { color: #424754; text-align: right; }
+    .code-k { color: #A789FF; }
+    .code-s { color: #F5E7A3; }
+    .code-c { color: #667085; }
+    .code-v { color: #8DB7FF; }
+
+    .timeline-line {
+      position: absolute;
+      left: 18px;
+      top: 28px;
+      bottom: 28px;
+      width: 1px;
+      background: linear-gradient(180deg, rgba(0,71,171,.7), rgba(124,58,237,.6), rgba(245,231,163,.55));
+    }
+
+    .timeline-dot {
+      position: relative;
+      z-index: 2;
+      width: 37px;
+      height: 37px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: #0D0E13;
+      box-shadow: 0 0 0 7px rgba(11,11,15,.9);
+    }
+
+    .floating-field {
+      position: relative;
+    }
+
+    .floating-field input,
+    .floating-field textarea {
+      width: 100%;
+      outline: none;
+      color: #fff;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 18px;
+      padding: 22px 16px 12px;
+      transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    .floating-field textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .floating-field label {
+      position: absolute;
+      left: 16px;
+      top: 18px;
+      color: #777E89;
+      pointer-events: none;
+      transition: transform .2s ease, font-size .2s ease, color .2s ease;
+      transform-origin: left top;
+    }
+
+    .floating-field input:focus,
+    .floating-field textarea:focus {
+      border-color: rgba(143,104,255,.42);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.06);
+    }
+
+    .floating-field input:focus + label,
+    .floating-field input:not(:placeholder-shown) + label,
+    .floating-field textarea:focus + label,
+    .floating-field textarea:not(:placeholder-shown) + label {
+      transform: translateY(-10px) scale(.78);
+      color: #B9C0CB;
+    }
+
+    .menu-panel {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .menu-panel.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .filter-transition {
+      animation: filterIn .45s var(--ease) both;
+    }
+
+    @keyframes filterIn {
+      from { opacity: 0; transform: translateY(12px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 1024px) {
+      .mockup-stage { min-height: 520px; }
+    }
+
+    @media (max-width: 768px) {
+      .site-shell { width: min(100% - 24px, 1180px); }
+      .grain { display: none; }
+      .mockup-stage { min-height: 470px; padding: 28px 16px; border-radius: 26px; }
+      .phone-shell { width: min(100%, 290px); }
+      .project-info-card { border-radius: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-  <div class="scroll-progress" aria-hidden="true">
-    <span data-scroll-progress></span>
-  </div>
-  <div class="ambient-grain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+  <div class="grain" aria-hidden="true"></div>
 
-  <header class="site-header" data-header>
-    <div class="container nav-wrap">
-      <a class="brand" href="#top" aria-label="Pato Creando, inicio">
-        <span class="brand-mark" aria-hidden="true"></span>
+  <!-- Navigation -->
+  <header class="fixed inset-x-0 top-0 z-[1000] nav-blur">
+    <div class="site-shell h-[72px] flex items-center justify-between gap-5">
+      <a href="#top" class="inline-flex items-center gap-3 display font-bold tracking-[-0.03em]">
+        <span class="w-2.5 h-2.5 rounded-full bg-butter shadow-[0_0_22px_rgba(245,231,163,.45)]"></span>
         <span>Pato Creando</span>
       </a>
 
-      <button
-        class="nav-toggle"
-        type="button"
-        aria-label="Abrir menú"
-        aria-expanded="false"
-        aria-controls="site-nav"
-        data-nav-toggle
-      >
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav class="site-nav" id="site-nav" data-nav>
-        <a href="#work">Trabajos</a>
-        <a href="#services">Servicios</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#about">Sobre mí</a>
-        <a class="nav-cta" href="#contact">Hablemos</a>
+      <nav class="hidden md:flex items-center gap-1 text-sm text-zinc-400">
+        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#projects">Proyectos</a>
+        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#method">Metodología</a>
+        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#contact">Contacto</a>
+        <a class="ml-2 px-4 py-2 rounded-full bg-white text-black font-semibold hover:bg-butter transition" href="#contact">Hablemos</a>
       </nav>
+
+      <button id="menuToggle" class="md:hidden w-10 h-10 grid place-items-center rounded-full border border-white/10 bg-white/[.03]" aria-label="Abrir menú" aria-expanded="false">
+        <i data-lucide="menu" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <div id="mobileMenu" class="menu-panel md:hidden absolute inset-x-0 top-[72px] nav-blur border-t border-white/5">
+      <div class="site-shell py-4 flex flex-col text-lg">
+        <a class="py-4 border-b border-white/5" href="#projects">Proyectos</a>
+        <a class="py-4 border-b border-white/5" href="#method">Metodología</a>
+        <a class="py-4" href="#contact">Contacto</a>
+      </div>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero section" id="top">
-      <div class="hero-glow hero-glow-a" aria-hidden="true"></div>
-      <div class="hero-glow hero-glow-b" aria-hidden="true"></div>
+  <main>
+    <!-- Hero -->
+    <section id="top" class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20">
+      <div class="absolute inset-0 fine-grid pointer-events-none"></div>
+      <div class="gradient-orb orb-a -left-48 top-32" data-orb></div>
+      <div class="gradient-orb orb-b right-[-150px] top-24" data-orb></div>
+      <div class="gradient-orb orb-c left-[48%] bottom-[-80px]" data-orb></div>
 
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="hero-status reveal">
-            <p class="eyebrow">AI CONTENT CREATOR · UGC · GENERATIVE VIDEO</p>
-            <span class="availability-pill"><i></i> Disponible para proyectos</span>
+      <div class="site-shell relative z-10 grid lg:grid-cols-[1.1fr_.9fr] items-center gap-14 xl:gap-20">
+        <div>
+          <div class="hero-reveal flex flex-wrap items-center gap-3 mb-7">
+            <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 bg-white/[.035] text-[10px] tracking-[.14em] uppercase text-zinc-400">
+              <span class="status-dot"></span>
+              Disponible para proyectos
+            </span>
+            <span class="text-[10px] tracking-[.16em] uppercase text-zinc-600">Mar del Plata · Argentina</span>
           </div>
 
-          <h1 class="hero-title reveal">
-            Contenido con IA que
-            <span class="text-gradient">parece producido de verdad.</span>
-          </h1>
-
-          <p class="hero-lead reveal">
-            Creo piezas visuales para marcas combinando dirección creativa, avatares,
-            producto y video generativo para convertir ideas en contenido listo para publicar.
+          <p class="hero-reveal text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-5">
+            AI Content Creator · UGC Specialist
           </p>
 
-          <div class="hero-actions reveal">
-            <a class="button button-primary" href="#work">Ver proyectos</a>
-            <a class="button button-ghost" href="#contact">Trabajemos juntos</a>
+          <h1 class="hero-reveal display text-[clamp(3.5rem,8vw,7.8rem)] leading-[.90] tracking-[-.065em] font-semibold max-w-[900px]">
+            Contenido que
+            <span class="gradient-text block">parece producido,</span>
+            <span class="block text-white/90">no generado.</span>
+          </h1>
+
+          <p class="hero-reveal mt-8 max-w-[680px] text-[clamp(1.05rem,1.7vw,1.3rem)] leading-8 text-zinc-400">
+            Diseño de <strong class="text-white font-medium">contenido UGC e IA</strong> para marcas que necesitan velocidad,
+            consistencia visual y piezas pensadas para <span class="text-butter">captar atención</span>.
+          </p>
+
+          <div class="hero-reveal mt-9 flex flex-wrap gap-3">
+            <a href="#projects" class="magnetic inline-flex min-h-13 items-center gap-2 px-6 py-3.5 rounded-full bg-white text-black font-semibold">
+              Ver proyectos
+              <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+            </a>
+
+            <a href="#contact" class="magnetic inline-flex min-h-13 items-center gap-2 px-6 py-3.5 rounded-full border border-white/10 bg-white/[.025] text-white font-semibold hover:border-white/20">
+              Trabajemos juntos
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </a>
           </div>
 
-          <div class="hero-meta reveal" aria-label="Especialidades">
+          <div class="hero-reveal mt-10 flex flex-wrap gap-x-7 gap-y-3 text-[10px] tracking-[.14em] uppercase text-zinc-600">
             <span>UGC con IA</span>
             <span>Product Ads</span>
-            <span>AI Video</span>
-            <span>Creative Direction</span>
+            <span>Avatares</span>
+            <span>Creative Workflow</span>
           </div>
         </div>
 
-        <div class="hero-visual reveal" data-tilt>
-          <div class="visual-shell">
-            <div class="visual-topbar">
-              <span>SELECTED FRAME</span>
-              <span>2026</span>
+        <div class="hero-reveal relative">
+          <div class="absolute -inset-10 bg-cobalt/10 blur-[90px] rounded-full pointer-events-none"></div>
+
+          <div class="relative glass rounded-[34px] p-3">
+            <div class="flex justify-between items-center px-3 py-2 text-[9px] tracking-[.15em] text-zinc-500 uppercase">
+              <span>Selected frame</span>
+              <span>AI + Human Direction</span>
             </div>
 
-            <div class="visual-stage">
-              <span class="floating-chip chip-ai">AI DIRECTED</span>
-              <span class="floating-chip chip-format">9:16</span>
-              <video
-                class="portfolio-video hero-video"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-label="Clip UGC outdoor creado con IA"
-              >
+            <div class="relative aspect-[4/5] rounded-[25px] overflow-hidden border border-white/[.07] bg-black">
+              <video autoplay muted loop playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover">
                 <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
-                Tu navegador no puede reproducir este video.
               </video>
-              <span class="visual-index">01</span>
-            </div>
 
-            <div class="visual-footer">
-              <span>AI + HUMAN DIRECTION</span>
-              <span>MAR DEL PLATA · ARG</span>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+
+              <div class="absolute left-4 bottom-4 right-4 flex justify-between items-end">
+                <div class="glass rounded-2xl px-3 py-2">
+                  <p class="text-[9px] tracking-[.12em] uppercase text-zinc-400">Format</p>
+                  <p class="mt-1 text-sm font-medium">UGC · Lifestyle</p>
+                </div>
+
+                <div class="glass rounded-full px-3 py-2 text-[9px] tracking-[.12em] uppercase text-zinc-300">
+                  2026
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="marquee-section" aria-label="Especialidades">
-      <div class="marquee" data-marquee>
-        <div class="marquee-track">
-          <span>UGC AI</span>
-          <span>PRODUCT VIDEO</span>
-          <span>GENERATIVE IMAGE</span>
-          <span>AVATARS</span>
-          <span>CREATIVE DIRECTION</span>
-          <span>SHORT-FORM</span>
-          <span>UGC AI</span>
-          <span>PRODUCT VIDEO</span>
-          <span>GENERATIVE IMAGE</span>
-          <span>AVATARS</span>
-          <span>CREATIVE DIRECTION</span>
-          <span>SHORT-FORM</span>
-        </div>
-      </div>
-    </section>
+    <!-- Core project selector -->
+    <section id="projects" class="relative py-28 md:py-36 overflow-hidden">
+      <div class="gradient-orb orb-b left-[-180px] top-[22%]" data-orb></div>
+      <div class="gradient-orb orb-a right-[-200px] bottom-[10%]" data-orb></div>
 
-    <section class="section work-section showcase-section" id="work">
-      <div class="showcase-orb showcase-orb-a" aria-hidden="true"></div>
-      <div class="showcase-orb showcase-orb-b" aria-hidden="true"></div>
-
-      <div class="container">
-        <div class="section-heading showcase-heading reveal">
-          <div>
-            <p class="eyebrow">SELECTED WORK</p>
-            <h2>
-              Contenido que
-              <span class="accent-copy">se siente real.</span>
+      <div class="site-shell relative z-10">
+        <div class="grid lg:grid-cols-[1fr_.62fr] gap-8 items-end">
+          <div class="section-reveal">
+            <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Selected Work</p>
+            <h2 class="display text-[clamp(2.8rem,6vw,5.6rem)] leading-[.96] tracking-[-.055em] font-semibold">
+              Una dirección.
+              <span class="block text-zinc-500">Tres capacidades.</span>
             </h2>
           </div>
 
-          <p class="section-intro">
-            <strong>UGC, lifestyle y retratos hiperrealistas</strong> pensados para
-            <span class="accent-copy-inline">Reels, ads y short-form</span>.
-            Tres formatos, una misma dirección visual.
+          <p class="section-reveal text-zinc-400 leading-7 text-[1.02rem]">
+            UGC, producto y sistemas creativos presentados como <strong class="text-white font-medium">casos de estudio</strong>,
+            no como una colección genérica de renders.
           </p>
         </div>
 
-        <div class="vertical-showcase">
-          <article class="glass-board showcase-card reveal" data-tilt>
-            <div class="showcase-meta">
-              <span>01</span>
-              <span>UGC · PRODUCT</span>
-            </div>
+        <div class="section-reveal mt-10 flex flex-wrap gap-2" role="tablist" aria-label="Filtrar proyectos">
+          <button class="tab-btn is-active" data-filter="all" role="tab" aria-selected="true">Todos</button>
+          <button class="tab-btn" data-filter="ugc" role="tab" aria-selected="false">UGC con IA</button>
+          <button class="tab-btn" data-filter="product" role="tab" aria-selected="false">Producto IA</button>
+          <button class="tab-btn" data-filter="workflow" role="tab" aria-selected="false">Flujos de trabajo</button>
+        </div>
 
-            <div class="phone-mockup">
-              <div class="phone-frame">
-                <video
-                  class="showcase-video"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  aria-label="UGC vertical de perfume creado con IA"
-                >
-                  <source src="./assets/videos/ugc-beauty.mp4" type="video/mp4" />
-                </video>
-                <span class="mockup-badge">9:16</span>
+        <!-- Project grid: mockups are clean and cards are separate -->
+        <div id="projectGrid" class="mt-14 grid md:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-12">
+
+          <!-- UGC 01 -->
+          <article class="project-item project-reveal" data-category="ugc">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="./assets/videos/ugc-beauty.mp4" type="video/mp4" />
+                  </video>
+                </div>
               </div>
             </div>
 
-            <div class="showcase-copy">
-              <h3>Producto en uso.<br><strong>Sin perder naturalidad.</strong></h3>
-              <p>Demostraciones visuales con avatar, producto y dirección de movimiento.</p>
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">UGC · Product</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Producto en uso, sin perder naturalidad.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">01</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">Omni</span>
+                <span class="tool-badge">Nano Banana</span>
+                <span class="tool-badge">CapCut</span>
+              </div>
             </div>
           </article>
 
-          <article class="glass-board showcase-card showcase-card-featured reveal" data-tilt>
-            <div class="showcase-meta">
-              <span>02</span>
-              <span>AI UGC · LIFESTYLE</span>
-            </div>
-
-            <div class="phone-mockup">
-              <div class="phone-frame">
-                <video
-                  class="showcase-video"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  aria-label="Lifestyle vertical generado con IA"
-                >
-                  <source src="./assets/videos/ugc-fashion.mp4" type="video/mp4" />
-                </video>
-                <span class="mockup-badge">AI VIDEO</span>
+          <!-- UGC 02 -->
+          <article class="project-item project-reveal" data-category="ugc">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="./assets/videos/ugc-fashion.mp4" type="video/mp4" />
+                  </video>
+                </div>
               </div>
             </div>
 
-            <div class="showcase-copy">
-              <h3>Movimiento, styling y luz.<br><strong>Impacto en segundos.</strong></h3>
-              <p>Contenido lifestyle diseñado para detener el scroll sin sentirse artificial.</p>
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">AI UGC · Lifestyle</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Movimiento y styling para detener el scroll.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">02</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">Soul</span>
+                <span class="tool-badge">Omni</span>
+                <span class="tool-badge">AI Video</span>
+              </div>
             </div>
           </article>
 
-          <article class="glass-board showcase-card reveal" data-tilt>
-            <div class="showcase-meta">
-              <span>03</span>
-              <span>AI PORTRAIT · HYPERREAL</span>
-            </div>
-
-            <div class="phone-mockup">
-              <div class="phone-frame">
-                <video
-                  class="showcase-video"
-                  autoplay
-                  muted
-                  loop
-                  playsinline
-                  preload="metadata"
-                  aria-label="Retrato hiperrealista vertical generado con IA"
-                >
-                  <source src="./assets/videos/hyperreal-portrait.mp4" type="video/mp4" />
-                </video>
-                <span class="mockup-badge">DETAIL</span>
+          <!-- Product 01 -->
+          <article class="project-item project-reveal" data-category="product">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="./assets/videos/hyperreal-portrait.mp4" type="video/mp4" />
+                  </video>
+                </div>
               </div>
             </div>
 
-            <div class="showcase-copy">
-              <h3>Detalle que resiste<br><strong>el primer plano.</strong></h3>
-              <p>Rostro, piel, microtextura y movimiento con acabado hiperrealista.</p>
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">AI Portrait · Hyperreal</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Detalle que resiste el primer plano.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">03</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">Soul</span>
+                <span class="tool-badge">Higgsfield</span>
+                <span class="tool-badge">Direction</span>
+              </div>
             </div>
           </article>
+
+          <!-- Product 02 -->
+          <article class="project-item project-reveal" data-category="product">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <img class="project-image" src="./assets/images/perfume-campaign.webp" alt="Visual de campaña de perfume generado con IA" loading="lazy" />
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Product Visual · Campaign</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Producto con lenguaje visual de campaña.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">04</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">Nano Banana</span>
+                <span class="tool-badge">Prompting</span>
+                <span class="tool-badge">Art Direction</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Workflow 01 -->
+          <article class="project-item project-reveal" data-category="workflow">
+            <div class="mockup-stage">
+              <div class="desktop-frame">
+                <div class="desktop-top">
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">workflow.md</span>
+                </div>
+
+                <div class="code-canvas">
+                  <div class="code-line"><span class="code-n">1</span><span><span class="code-k">#</span> Creative Workflow</span></div>
+                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// research → anchors → clips</span></div>
+                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">brand</span>: <span class="code-s">"visual consistency"</span></span></div>
+                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">character</span>: locked</span></div>
+                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">product</span>: reference-safe</span></div>
+                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">format</span>: <span class="code-s">"9:16"</span></span></div>
+                  <div class="code-line"><span class="code-n">7</span><span></span></div>
+                  <div class="code-line"><span class="code-n">8</span><span><span class="code-k">if</span> continuity:</span></div>
+                  <div class="code-line"><span class="code-n">9</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
+                  <div class="code-line"><span class="code-n">10</span><span>&nbsp;&nbsp;lock_identity()</span></div>
+                  <div class="code-line"><span class="code-n">11</span><span>&nbsp;&nbsp;validate_motion()</span></div>
+                  <div class="code-line"><span class="code-n">12</span><span></span></div>
+                  <div class="code-line"><span class="code-n">13</span><span class="code-c">// final: edit → QA → deploy</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Workflow · Documentation</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Sistemas que reducen el azar creativo.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">05</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">ChatGPT</span>
+                <span class="tool-badge">Markdown</span>
+                <span class="tool-badge">Git</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Workflow 02 -->
+          <article class="project-item project-reveal" data-category="workflow">
+            <div class="mockup-stage">
+              <div class="desktop-frame">
+                <div class="desktop-top">
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">deploy.pipeline</span>
+                </div>
+
+                <div class="p-6 min-h-[340px] bg-[#0A0B10]">
+                  <div class="grid gap-3">
+                    <div class="glass rounded-2xl p-4">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">01 · Input</span>
+                        <i data-lucide="check" class="w-4 h-4 text-butter"></i>
+                      </div>
+                      <p class="mt-2 text-sm">Brief + referencias + objetivo</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-4 ml-5">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">02 · Build</span>
+                        <i data-lucide="workflow" class="w-4 h-4 text-violet-300"></i>
+                      </div>
+                      <p class="mt-2 text-sm">Anclas + prompting + generación</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-4 ml-10">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">03 · QA</span>
+                        <i data-lucide="scan-search" class="w-4 h-4 text-blue-300"></i>
+                      </div>
+                      <p class="mt-2 text-sm">Continuidad + física + producto</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-4 ml-14 border-butter/20">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">04 · Ship</span>
+                        <i data-lucide="rocket" class="w-4 h-4 text-butter"></i>
+                      </div>
+                      <p class="mt-2 text-sm">Edición + export + publicación</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Workflow · Pipeline</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Del brief a una pieza lista para publicar.
+                  </h3>
+                </div>
+                <span class="text-zinc-600 text-sm">06</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge">GitHub</span>
+                <span class="tool-badge">AI Stack</span>
+                <span class="tool-badge">QA</span>
+              </div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
 
-    <section class="section services-section" id="services">
-      <div class="container">
-        <div class="section-heading reveal">
-          <div>
-            <p class="eyebrow">SERVICIOS</p>
-            <h2>Producción visual pensada para marcas digitales.</h2>
-          </div>
-        </div>
+    <!-- Methodology -->
+    <section id="method" class="relative py-28 md:py-36 border-y border-white/[.06]">
+      <div class="site-shell grid lg:grid-cols-[.78fr_1.22fr] gap-14 lg:gap-20">
+        <div class="section-reveal lg:sticky lg:top-28 lg:self-start">
+          <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Metodología</p>
+          <h2 class="display text-[clamp(2.8rem,5vw,4.9rem)] leading-[.98] tracking-[-.05em] font-semibold">
+            Menos prueba y error.
+            <span class="block text-zinc-500">Más dirección.</span>
+          </h2>
 
-        <div class="service-list">
-          <article class="service-row reveal">
-            <span class="service-number">01</span>
-            <div>
-              <h3>UGC con IA</h3>
-              <p>Avatares, talking-head, demos y situaciones de uso con dirección visual consistente.</p>
-            </div>
-            <span class="service-tag">SHORT FORM</span>
-          </article>
-
-          <article class="service-row reveal">
-            <span class="service-number">02</span>
-            <div>
-              <h3>Product Ads</h3>
-              <p>Clips de producto con cámara, iluminación y movimientos diseñados para detener el scroll.</p>
-            </div>
-            <span class="service-tag">PERFORMANCE</span>
-          </article>
-
-          <article class="service-row reveal">
-            <span class="service-number">03</span>
-            <div>
-              <h3>Imagen generativa</h3>
-              <p>Key visuals, escenas de campaña, mockups y contenido adaptable a distintos formatos.</p>
-            </div>
-            <span class="service-tag">VISUAL SYSTEM</span>
-          </article>
-
-          <article class="service-row reveal">
-            <span class="service-number">04</span>
-            <div>
-              <h3>Creative Workflow</h3>
-              <p>Del concepto y las referencias a las anclas, clips y ensamblado final de cada pieza.</p>
-            </div>
-            <span class="service-tag">END TO END</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section workflow-section" id="workflow">
-      <div class="container workflow-grid">
-        <div class="workflow-copy reveal">
-          <p class="eyebrow">WORKFLOW</p>
-          <h2>Más control. Menos azar.</h2>
-          <p>
-            Cada pieza se construye con un sistema de referencias, identidad visual y continuidad.
-            La IA es la herramienta; la dirección sigue siendo humana.
+          <p class="mt-6 max-w-lg text-zinc-400 leading-7">
+            La IA acelera producción. El valor está en <strong class="text-white font-medium">saber qué construir,
+            cómo mantener continuidad y cuándo una pieza está lista</strong>.
           </p>
         </div>
 
-        <ol class="workflow-list">
-          <li class="reveal">
-            <span>01</span>
-            <div>
-              <h3>Concepto</h3>
-              <p>Objetivo, audiencia, hook y lenguaje visual.</p>
-            </div>
-          </li>
-          <li class="reveal">
-            <span>02</span>
-            <div>
-              <h3>Anclas</h3>
-              <p>Personaje, producto, escena y referencias consistentes.</p>
-            </div>
-          </li>
-          <li class="reveal">
-            <span>03</span>
-            <div>
-              <h3>Generación</h3>
-              <p>Clips e imágenes con cámara, actuación y física dirigidas.</p>
-            </div>
-          </li>
-          <li class="reveal">
-            <span>04</span>
-            <div>
-              <h3>Edición</h3>
-              <p>Selección, ritmo, continuidad, audio y entrega final.</p>
-            </div>
-          </li>
-        </ol>
+        <div class="relative section-reveal">
+          <div class="timeline-line" aria-hidden="true"></div>
+
+          <div class="space-y-6">
+            <article class="grid grid-cols-[38px_1fr] gap-5">
+              <div class="timeline-dot text-[11px] text-zinc-400">01</div>
+              <div class="glass rounded-[26px] p-6 md:p-8">
+                <div class="flex items-center gap-3 text-butter">
+                  <i data-lucide="radar" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Entender la marca</span>
+                </div>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
+                  Objetivo, audiencia, hook y lenguaje visual.
+                </h3>
+                <p class="mt-3 text-zinc-400 leading-7">
+                  Antes de generar, se define qué debe comunicar la pieza y qué elementos no pueden perderse.
+                </p>
+              </div>
+            </article>
+
+            <article class="grid grid-cols-[38px_1fr] gap-5">
+              <div class="timeline-dot text-[11px] text-zinc-400">02</div>
+              <div class="glass rounded-[26px] p-6 md:p-8">
+                <div class="flex items-center gap-3 text-violet-300">
+                  <i data-lucide="braces" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Bajar la idea a sistema</span>
+                </div>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
+                  Referencias, anclas, prompting y lógica.
+                </h3>
+                <p class="mt-3 text-zinc-400 leading-7">
+                  Personaje, producto, escena, cámara y continuidad se estructuran antes de producir clips.
+                </p>
+              </div>
+            </article>
+
+            <article class="grid grid-cols-[38px_1fr] gap-5">
+              <div class="timeline-dot text-[11px] text-zinc-400">03</div>
+              <div class="glass rounded-[26px] p-6 md:p-8">
+                <div class="flex items-center gap-3 text-blue-300">
+                  <i data-lucide="rocket" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Producción y despliegue</span>
+                </div>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
+                  Generar, validar, editar y publicar.
+                </h3>
+                <p class="mt-3 text-zinc-400 leading-7">
+                  Se revisa realismo, coherencia, ritmo y formato hasta convertir la generación en una pieza utilizable.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="section about-section" id="about">
-      <div class="container about-grid">
-        <div class="about-label reveal">
-          <p class="eyebrow">SOBRE MÍ</p>
-        </div>
+    <!-- Contact -->
+    <section id="contact" class="relative py-28 md:py-36 overflow-hidden">
+      <div class="gradient-orb orb-a left-[-190px] bottom-[-70px]" data-orb></div>
+      <div class="gradient-orb orb-c right-[6%] top-[12%]" data-orb></div>
 
-        <div class="about-copy reveal">
-          <p class="about-large">
-            Soy creador de contenido con IA enfocado en producir piezas que se sientan
-            <strong>visuales, creíbles y utilizables por marcas reales.</strong>
-          </p>
-          <p>
-            Trabajo combinando dirección creativa, prompting, generación de imagen y video,
-            continuidad de personajes y edición para construir contenido corto con una estética cuidada.
-          </p>
-        </div>
-      </div>
-    </section>
+      <div class="site-shell relative z-10">
+        <div class="glass rounded-[34px] p-6 md:p-10 lg:p-14 overflow-hidden relative">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(124,58,237,.13),transparent_30%),radial-gradient(circle_at_10%_90%,rgba(0,71,171,.14),transparent_28%)] pointer-events-none"></div>
 
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="contact-card reveal">
-          <p class="eyebrow">¿TENÉS UNA IDEA?</p>
-          <h2>Hagamos algo que valga la pena mirar.</h2>
+          <div class="relative grid lg:grid-cols-[.88fr_1.12fr] gap-12 lg:gap-16">
+            <div class="section-reveal">
+              <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Contacto directo</p>
+              <h2 class="display text-[clamp(3rem,6vw,5.8rem)] leading-[.92] tracking-[-.06em] font-semibold">
+                ¿Tenés una
+                <span class="gradient-text block">idea para probar?</span>
+              </h2>
 
-          <div class="contact-actions">
-            <a class="button button-light" href="mailto:ulisesjgonzalez2045@gmail.com">
-              Escribime
-            </a>
-            <a
-              class="button button-ghost-light"
-              href="https://www.instagram.com/patocreando/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram ↗
-            </a>
+              <p class="mt-7 max-w-md text-zinc-400 leading-7">
+                Contame qué querés vender, mostrar o testear. Puedo pensar una pieza aplicada directamente a tu producto o marca.
+              </p>
+
+              <div class="mt-8 flex flex-col gap-3 text-sm">
+                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="mailto:ulisesjgonzalez2045@gmail.com">
+                  <i data-lucide="mail" class="w-4 h-4 text-butter"></i>
+                  ulisesjgonzalez2045@gmail.com
+                </a>
+                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="https://www.instagram.com/patocreando/" target="_blank" rel="noopener noreferrer">
+                  <i data-lucide="instagram" class="w-4 h-4 text-violet-300"></i>
+                  @patocreando
+                </a>
+                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="https://www.linkedin.com/in/ulisesgonzalezjur/" target="_blank" rel="noopener noreferrer">
+                  <i data-lucide="linkedin" class="w-4 h-4 text-blue-300"></i>
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+
+            <form id="contactForm" class="section-reveal grid gap-4" autocomplete="on">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div class="floating-field">
+                  <input id="name" name="name" type="text" placeholder=" " required />
+                  <label for="name">Nombre / Marca</label>
+                </div>
+
+                <div class="floating-field">
+                  <input id="email" name="email" type="email" placeholder=" " required />
+                  <label for="email">Email</label>
+                </div>
+              </div>
+
+              <div class="floating-field">
+                <input id="projectType" name="projectType" type="text" placeholder=" " />
+                <label for="projectType">¿Qué necesitás?</label>
+              </div>
+
+              <div class="floating-field">
+                <textarea id="message" name="message" placeholder=" " required></textarea>
+                <label for="message">Contame brevemente la idea</label>
+              </div>
+
+              <button type="submit" class="magnetic group min-h-[62px] rounded-[18px] bg-white text-black px-6 flex items-center justify-between font-semibold hover:bg-butter transition">
+                <span id="submitLabel">Enviar propuesta</span>
+                <span class="w-9 h-9 rounded-full bg-black text-white grid place-items-center group-hover:rotate-[-8deg] transition-transform">
+                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </span>
+              </button>
+
+              <p class="text-[11px] text-zinc-600">
+                El formulario abre tu cliente de correo con el mensaje ya preparado.
+              </p>
+            </form>
           </div>
-
-          <div class="contact-bottom">
-            <span>PATO CREANDO © 2026</span>
-            <a
-              href="https://www.linkedin.com/in/ulisesgonzalezjur/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn ↗
-            </a>
-          </div>
         </div>
+
+        <footer class="pt-10 flex flex-col sm:flex-row justify-between gap-4 text-[10px] tracking-[.14em] uppercase text-zinc-600">
+          <span>Pato Creando © 2026</span>
+          <span>AI Content Creator · UGC Specialist</span>
+        </footer>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <span>AI CONTENT CREATOR</span>
-      <a href="#top">Volver arriba ↑</a>
-    </div>
-  </footer>
+  <script>
+    (function () {
+      "use strict";
+
+      lucide.createIcons();
+
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+      // Mobile menu
+      var menuToggle = document.getElementById("menuToggle");
+      var mobileMenu = document.getElementById("mobileMenu");
+
+      function closeMenu() {
+        if (!menuToggle || !mobileMenu) return;
+        mobileMenu.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Abrir menú");
+      }
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", function () {
+          var nextOpen = !mobileMenu.classList.contains("is-open");
+          mobileMenu.classList.toggle("is-open", nextOpen);
+          menuToggle.setAttribute("aria-expanded", String(nextOpen));
+          menuToggle.setAttribute("aria-label", nextOpen ? "Cerrar menú" : "Abrir menú");
+        });
+
+        mobileMenu.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+      }
+
+      // Scroll progress
+      var scrollProgress = document.getElementById("scrollProgress");
+
+      function updateScrollProgress() {
+        if (!scrollProgress) return;
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+        scrollProgress.style.transform = "scaleX(" + ratio + ")";
+      }
+
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+
+      // Project tabs
+      var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
+      var projectItems = Array.prototype.slice.call(document.querySelectorAll(".project-item"));
+
+      tabButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var selected = button.getAttribute("data-filter");
+
+          tabButtons.forEach(function (item) {
+            var active = item === button;
+            item.classList.toggle("is-active", active);
+            item.setAttribute("aria-selected", String(active));
+          });
+
+          projectItems.forEach(function (item) {
+            var show = selected === "all" || item.getAttribute("data-category") === selected;
+
+            if (show) {
+              item.classList.remove("is-hidden");
+              item.classList.remove("filter-transition");
+              void item.offsetWidth;
+              item.classList.add("filter-transition");
+            } else {
+              item.classList.add("is-hidden");
+            }
+          });
+
+          if (window.ScrollTrigger) {
+            ScrollTrigger.refresh();
+          }
+        });
+      });
+
+      // Magnetic pointer effect
+      if (finePointer && !reduceMotion) {
+        document.querySelectorAll(".magnetic").forEach(function (element) {
+          element.addEventListener("pointermove", function (event) {
+            var rect = element.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+            var y = event.clientY - rect.top;
+            element.style.setProperty("--mx", x + "px");
+            element.style.setProperty("--my", y + "px");
+
+            var dx = (x / rect.width - .5) * 7;
+            var dy = (y / rect.height - .5) * 5;
+            element.style.transform = "translate(" + dx + "px," + dy + "px)";
+          });
+
+          element.addEventListener("pointerleave", function () {
+            element.style.transform = "";
+          });
+        });
+
+        document.querySelectorAll(".phone-shell").forEach(function (phone) {
+          var stage = phone.closest(".mockup-stage");
+          if (!stage) return;
+
+          stage.addEventListener("pointermove", function (event) {
+            var rect = stage.getBoundingClientRect();
+            var px = (event.clientX - rect.left) / rect.width;
+            var py = (event.clientY - rect.top) / rect.height;
+            var ry = (px - .5) * 5;
+            var rx = (.5 - py) * 5;
+            phone.style.transform = "perspective(1000px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+          });
+
+          stage.addEventListener("pointerleave", function () {
+            phone.style.transform = "";
+          });
+        });
+      }
+
+      // Form -> mailto
+      var contactForm = document.getElementById("contactForm");
+      var submitLabel = document.getElementById("submitLabel");
+
+      if (contactForm) {
+        contactForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          var name = document.getElementById("name").value.trim();
+          var email = document.getElementById("email").value.trim();
+          var projectType = document.getElementById("projectType").value.trim();
+          var message = document.getElementById("message").value.trim();
+
+          var subject = "Consulta portfolio — " + (name || "nuevo proyecto");
+          var body =
+            "Hola Ulises,%0D%0A%0D%0A" +
+            "Soy " + encodeURIComponent(name) + ".%0D%0A" +
+            "Email: " + encodeURIComponent(email) + "%0D%0A" +
+            "Proyecto: " + encodeURIComponent(projectType || "A definir") + "%0D%0A%0D%0A" +
+            encodeURIComponent(message);
+
+          if (submitLabel) {
+            submitLabel.textContent = "Abriendo correo…";
+            window.setTimeout(function () {
+              submitLabel.textContent = "Enviar propuesta";
+            }, 1800);
+          }
+
+          window.location.href =
+            "mailto:ulisesjgonzalez2045@gmail.com?subject=" +
+            encodeURIComponent(subject) +
+            "&body=" + body;
+        });
+      }
+
+      // GSAP motion
+      if (!reduceMotion && window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".hero-reveal", {
+          opacity: 0,
+          y: 24,
+          duration: .9,
+          stagger: .08,
+          ease: "power3.out"
+        });
+
+        gsap.utils.toArray(".section-reveal").forEach(function (element) {
+          gsap.from(element, {
+            scrollTrigger: {
+              trigger: element,
+              start: "top 86%",
+              once: true
+            },
+            opacity: 0,
+            y: 28,
+            duration: .8,
+            ease: "power3.out"
+          });
+        });
+
+        gsap.utils.toArray(".project-reveal").forEach(function (element, index) {
+          gsap.from(element, {
+            scrollTrigger: {
+              trigger: element,
+              start: "top 88%",
+              once: true
+            },
+            opacity: 0,
+            y: 30,
+            scale: .985,
+            duration: .75,
+            delay: (index % 3) * .06,
+            ease: "power3.out"
+          });
+        });
+
+        gsap.utils.toArray("[data-orb]").forEach(function (orb, index) {
+          gsap.to(orb, {
+            x: index % 2 === 0 ? 55 : -45,
+            y: index % 2 === 0 ? 35 : -30,
+            duration: 9 + index,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        });
+
+        gsap.to(".gradient-text", {
+          backgroundPosition: "100% 50%",
+          duration: 7,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
