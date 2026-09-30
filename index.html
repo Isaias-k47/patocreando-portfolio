@@ -807,7 +807,7 @@
           </article>
 
           <!-- Product 01 -->
-          <article class="project-item project-reveal is-hidden" data-category="product">
+          <article class="project-item project-reveal" data-category="ugc">
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
@@ -821,12 +821,12 @@
             <div class="project-info-card glass">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">AI Portrait · Hyperreal</p>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">UGC IA · Hyperreal Avatar</p>
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Detalle que resiste el primer plano.
                   </h3>
 
-                  <p class="project-note">Trabajo de piel, microtextura, iluminación y movimiento facial para que el avatar conserve realismo incluso en close-up.</p>
+                  <p class="project-note">Trabajo de piel, microtextura, iluminación y movimiento facial para construir un avatar UGC que conserve realismo incluso en close-up.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">03</span>
               </div>
@@ -841,11 +841,13 @@
           </article>
 
           <!-- Product 02 -->
-          <article class="project-item project-reveal is-hidden" data-category="product">
+          <article class="project-item project-reveal" data-category="ugc">
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
-                  <img class="project-image" src="./assets/images/perfume-campaign.webp" alt="Visual de campaña de perfume generado con IA" loading="lazy" />
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata" aria-label="Avatar mostrando un perfume en una pieza UGC creada con IA">
+                    <source src="./assets/videos/product-perfume-avatar.mp4" type="video/mp4" />
+                  </video>
                 </div>
               </div>
             </div>
@@ -853,12 +855,12 @@
             <div class="project-info-card glass">
               <div class="flex items-start justify-between gap-4">
                 <div>
-                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Product Visual · Campaign</p>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">UGC IA · Product Campaign</p>
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Producto con lenguaje visual de campaña.
                   </h3>
 
-                  <p class="project-note">Digitalización del producto real, control de etiqueta, forma y proporciones antes de llevarlo a escenas publicitarias generativas.</p>
+                  <p class="project-note">Avatar + producto real digitalizado, con control de etiqueta, forma y proporciones para convertir una escena UGC en una pieza publicitaria.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">04</span>
               </div>
@@ -1307,8 +1309,8 @@
       var projectItems = Array.prototype.slice.call(document.querySelectorAll(".project-item"));
       var categoryDescription = document.getElementById("categoryDescription");
       var categoryCopy = {
-        ugc: "UGC vertical con avatares, lifestyle y producto en uso.",
-        product: "Muestras aplicadas a productos reales y de nicho: digitalización, product shots y piezas publicitarias.",
+        ugc: "UGC vertical con avatares, lifestyle, close-ups hiperrealistas y producto integrado en escena.",
+        product: "Muestras aplicadas a productos reales y de nicho: digitalización, product shots y campañas visuales.",
         workflow: "El sistema detrás de las piezas: guías .md, anclas, continuidad, validación y despliegue."
       };
 
