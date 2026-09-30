@@ -1,4 +1,5 @@
 name: Fast mobile video transcode
+# Triggered after workflow registration
 
 on:
   push:
