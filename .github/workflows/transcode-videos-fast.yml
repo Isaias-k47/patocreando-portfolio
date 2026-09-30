@@ -1,0 +1,96 @@
+name: Fast mobile video transcode
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/transcode-videos-fast.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  transcode:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check FFmpeg
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -version
+          ffprobe -version
+
+      - name: Transcode videos for older Android
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p /tmp/mobile-videos
+
+          for file in assets/videos/*.mp4; do
+            [ -e "$file" ] || continue
+
+            name="$(basename "$file")"
+            out="/tmp/mobile-videos/$name"
+
+            echo "=== Transcoding $name ==="
+
+            ffmpeg -y \
+              -i "$file" \
+              -map 0:v:0 \
+              -vf "scale='min(720,iw)':-2:force_original_aspect_ratio=decrease,fps=30,format=yuv420p" \
+              -c:v libx264 \
+              -profile:v baseline \
+              -level:v 3.0 \
+              -preset medium \
+              -crf 24 \
+              -maxrate 2500k \
+              -bufsize 5000k \
+              -g 60 \
+              -keyint_min 30 \
+              -sc_threshold 0 \
+              -movflags +faststart \
+              -an \
+              "$out"
+
+            mv "$out" "$file"
+          done
+
+      - name: Verify output
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in assets/videos/*.mp4; do
+            [ -e "$file" ] || continue
+            echo "=== $file ==="
+            ffprobe -v error \
+              -select_streams v:0 \
+              -show_entries stream=codec_name,profile,pix_fmt,width,height,level,r_frame_rate \
+              -of default=noprint_wrappers=1 \
+              "$file"
+          done
+
+      - name: Commit compatible videos
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- assets/videos; then
+            echo "No changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/videos/*.mp4
+          git commit -m "Encode videos for older Android devices"
+          git push
