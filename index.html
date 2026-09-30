@@ -3933,6 +3933,101 @@
       color: #0F1215;
     }
 
+
+    /* Interactive floating hero title */
+    .hero-title-slide {
+      position: relative;
+      isolation: isolate;
+      perspective: 900px;
+    }
+
+    .hero-title-slide::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 52%;
+      aspect-ratio: 1.35;
+      left: 18%;
+      top: 22%;
+      border-radius: 50%;
+      background: rgba(207,230,90,.075);
+      filter: blur(58px);
+      opacity: .55;
+      pointer-events: none;
+      transform: translate3d(
+        var(--title-glow-x, 0px),
+        var(--title-glow-y, 0px),
+        0
+      );
+      transition: transform .35s var(--ease), opacity .35s ease;
+    }
+
+    .hero-title-slide:hover::before {
+      opacity: .82;
+    }
+
+    .hero-line {
+      --hero-drift-x: 0px;
+      --hero-drift-y: 0px;
+      --hero-float-y: -6px;
+      position: relative;
+      will-change: transform;
+      transform-origin: center center;
+      animation: heroLineFloat 5.6s ease-in-out infinite;
+    }
+
+    .hero-line:nth-child(2) {
+      animation-duration: 6.4s;
+      animation-delay: -.9s;
+    }
+
+    .hero-line:nth-child(3) {
+      animation-duration: 5.9s;
+      animation-delay: -1.8s;
+    }
+
+    @keyframes heroLineFloat {
+      0%, 100% {
+        transform: translate3d(
+          var(--hero-drift-x),
+          var(--hero-drift-y),
+          0
+        );
+      }
+
+      50% {
+        transform: translate3d(
+          var(--hero-drift-x),
+          calc(var(--hero-drift-y) + var(--hero-float-y)),
+          0
+        );
+      }
+    }
+
+    @media (max-width: 639px) {
+      .hero-line {
+        --hero-float-y: -3px;
+      }
+
+      .hero-title-slide::before {
+        width: 62%;
+        left: 19%;
+        top: 28%;
+        opacity: .38;
+        filter: blur(44px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-line {
+        animation: none !important;
+      }
+
+      .hero-title-slide::before {
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -4043,13 +4138,6 @@
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
-                <div class="hero-phone-meta">
-                  <div class="hero-phone-meta-copy">
-                    <span>Pieza vertical</span>
-                    <strong>UGC · Producto</strong>
-                  </div>
-                  <span class="hero-phone-year">2026</span>
-                </div>
               </div>
             </div>
 
@@ -5222,6 +5310,40 @@
         });
       }
 
+
+
+      // Hero title floating parallax
+      var heroTitle = document.querySelector(".hero-title-slide");
+      var heroTitleLines = heroTitle
+        ? Array.prototype.slice.call(heroTitle.querySelectorAll(".hero-line"))
+        : [];
+
+      if (heroTitle && heroTitleLines.length && finePointer && !reduceMotion) {
+        heroTitle.addEventListener("pointermove", function (event) {
+          var rect = heroTitle.getBoundingClientRect();
+          var nx = ((event.clientX - rect.left) / rect.width) - .5;
+          var ny = ((event.clientY - rect.top) / rect.height) - .5;
+
+          heroTitle.style.setProperty("--title-glow-x", (nx * 18).toFixed(2) + "px");
+          heroTitle.style.setProperty("--title-glow-y", (ny * 14).toFixed(2) + "px");
+
+          heroTitleLines.forEach(function (line, index) {
+            var depth = (index + 1) * 1.4;
+            line.style.setProperty("--hero-drift-x", (nx * depth * 2.2).toFixed(2) + "px");
+            line.style.setProperty("--hero-drift-y", (ny * depth * 1.5).toFixed(2) + "px");
+          });
+        });
+
+        heroTitle.addEventListener("pointerleave", function () {
+          heroTitle.style.setProperty("--title-glow-x", "0px");
+          heroTitle.style.setProperty("--title-glow-y", "0px");
+
+          heroTitleLines.forEach(function (line) {
+            line.style.setProperty("--hero-drift-x", "0px");
+            line.style.setProperty("--hero-drift-y", "0px");
+          });
+        });
+      }
 
       // Hero device micro-interaction
       var heroDeviceStage = document.getElementById("heroDeviceStage");
