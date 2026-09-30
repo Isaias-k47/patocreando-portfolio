@@ -3321,6 +3321,227 @@
       }
     }
 
+
+    /* Interactive social contact links */
+    .contact-socials {
+      display: grid;
+      gap: 10px;
+      max-width: 430px;
+    }
+
+    .contact-social-link {
+      --social-x: 50%;
+      --social-y: 50%;
+      position: relative;
+      min-height: 72px;
+      display: grid;
+      grid-template-columns: 40px minmax(0,1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+        rgba(255,255,255,.018);
+      color: #D9DCE2;
+      isolation: isolate;
+      transition:
+        transform .3s var(--ease),
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+    }
+
+    .contact-social-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      opacity: 0;
+      background:
+        radial-gradient(
+          150px circle at var(--social-x) var(--social-y),
+          rgba(255,255,255,.12),
+          transparent 58%
+        );
+      transition: opacity .25s ease;
+      pointer-events: none;
+    }
+
+    .contact-social-link::after {
+      content: "";
+      position: absolute;
+      inset: auto 12% -70% 12%;
+      height: 80%;
+      z-index: -3;
+      border-radius: 50%;
+      filter: blur(34px);
+      opacity: .16;
+      transition: opacity .3s ease, transform .35s var(--ease);
+      pointer-events: none;
+    }
+
+    .contact-social-instagram::after {
+      background: rgba(168,85,247,.55);
+    }
+
+    .contact-social-linkedin::after {
+      background: rgba(59,130,246,.55);
+    }
+
+    .contact-social-link:hover,
+    .contact-social-link:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+        rgba(255,255,255,.022);
+      outline: none;
+    }
+
+    .contact-social-instagram:hover,
+    .contact-social-instagram:focus-visible {
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.18),
+        0 0 36px rgba(168,85,247,.08);
+    }
+
+    .contact-social-linkedin:hover,
+    .contact-social-linkedin:focus-visible {
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.18),
+        0 0 36px rgba(59,130,246,.09);
+    }
+
+    .contact-social-link:hover::before,
+    .contact-social-link:focus-visible::before,
+    .contact-social-link:hover::after,
+    .contact-social-link:focus-visible::after {
+      opacity: 1;
+    }
+
+    .contact-social-link:hover::after,
+    .contact-social-link:focus-visible::after {
+      transform: translateY(-8px) scale(1.04);
+    }
+
+    .contact-social-light {
+      position: absolute;
+      top: 0;
+      left: 14%;
+      width: 72%;
+      height: 1px;
+      opacity: .65;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      transition: opacity .3s ease, transform .4s var(--ease);
+    }
+
+    .contact-social-link:hover .contact-social-light {
+      opacity: 1;
+      transform: scaleX(1.15);
+    }
+
+    .contact-social-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.04);
+      transition:
+        transform .3s var(--ease),
+        background .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .contact-social-instagram .contact-social-icon {
+      color: #C4A3FF;
+    }
+
+    .contact-social-linkedin .contact-social-icon {
+      color: #93C5FD;
+    }
+
+    .contact-social-instagram:hover .contact-social-icon {
+      transform: rotate(-5deg) scale(1.06);
+      background: rgba(168,85,247,.08);
+      box-shadow: 0 0 24px rgba(168,85,247,.12);
+    }
+
+    .contact-social-linkedin:hover .contact-social-icon {
+      transform: rotate(5deg) scale(1.06);
+      background: rgba(59,130,246,.08);
+      box-shadow: 0 0 24px rgba(59,130,246,.13);
+    }
+
+    .contact-social-copy {
+      min-width: 0;
+    }
+
+    .contact-social-copy small {
+      display: block;
+      color: #747B87;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .contact-social-copy strong {
+      display: block;
+      margin-top: 3px;
+      color: #F0F1F4;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: -.01em;
+    }
+
+    .contact-social-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #858C97;
+      font-size: 9px;
+      font-weight: 650;
+      letter-spacing: .03em;
+      white-space: nowrap;
+      transition: color .25s ease, transform .25s var(--ease);
+    }
+
+    .contact-social-link:hover .contact-social-cta,
+    .contact-social-link:focus-visible .contact-social-cta {
+      color: var(--butter);
+      transform: translateX(2px);
+    }
+
+    @media (max-width: 639px) {
+      .contact-socials {
+        width: 100%;
+        max-width: 390px;
+        margin-inline: auto;
+      }
+
+      .contact-social-link {
+        grid-template-columns: 40px minmax(0,1fr);
+        text-align: left;
+      }
+
+      .contact-social-cta {
+        grid-column: 1 / -1;
+        justify-self: center;
+        margin-top: -2px;
+      }
+
+      .contact-social-copy,
+      .contact-social-copy small,
+      .contact-social-copy strong {
+        text-align: left !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -4174,18 +4395,35 @@
                 Contame qué querés mostrar o vender. Puedo proponerte una pieza aplicada directamente a tu producto o marca.
               </p>
 
-              <div class="mt-8 flex flex-col gap-3 text-sm">
-                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="mailto:ulisesjgonzalez2045@gmail.com">
-                  <i data-lucide="mail" class="w-4 h-4 text-butter"></i>
-                  ulisesjgonzalez2045@gmail.com
+              <div class="contact-socials mt-8" aria-label="Redes profesionales">
+                <a class="contact-social-link contact-social-instagram" href="https://www.instagram.com/patocreando/" target="_blank" rel="noopener noreferrer">
+                  <span class="contact-social-light" aria-hidden="true"></span>
+                  <span class="contact-social-icon">
+                    <i data-lucide="instagram" class="w-4 h-4"></i>
+                  </span>
+                  <span class="contact-social-copy">
+                    <small>Instagram</small>
+                    <strong>@patocreando</strong>
+                  </span>
+                  <span class="contact-social-cta">
+                    Ver perfil
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                  </span>
                 </a>
-                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="https://www.instagram.com/patocreando/" target="_blank" rel="noopener noreferrer">
-                  <i data-lucide="instagram" class="w-4 h-4 text-violet-300"></i>
-                  @patocreando
-                </a>
-                <a class="inline-flex items-center gap-3 text-zinc-300 hover:text-white transition" href="https://www.linkedin.com/in/ulisesgonzalezjur/" target="_blank" rel="noopener noreferrer">
-                  <i data-lucide="linkedin" class="w-4 h-4 text-blue-300"></i>
-                  LinkedIn
+
+                <a class="contact-social-link contact-social-linkedin" href="https://www.linkedin.com/in/ulisesgonzalezjur/" target="_blank" rel="noopener noreferrer">
+                  <span class="contact-social-light" aria-hidden="true"></span>
+                  <span class="contact-social-icon">
+                    <i data-lucide="linkedin" class="w-4 h-4"></i>
+                  </span>
+                  <span class="contact-social-copy">
+                    <small>LinkedIn</small>
+                    <strong>Perfil profesional</strong>
+                  </span>
+                  <span class="contact-social-cta">
+                    Conectar
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                  </span>
                 </a>
               </div>
             </div>
@@ -4612,6 +4850,25 @@
       }
 
 
+
+
+      // Contact social spotlight
+      Array.prototype.slice.call(document.querySelectorAll(".contact-social-link")).forEach(function (link) {
+        if (!finePointer || reduceMotion) return;
+
+        link.addEventListener("pointermove", function (event) {
+          var rect = link.getBoundingClientRect();
+          var x = ((event.clientX - rect.left) / rect.width) * 100;
+          var y = ((event.clientY - rect.top) / rect.height) * 100;
+          link.style.setProperty("--social-x", x.toFixed(1) + "%");
+          link.style.setProperty("--social-y", y.toFixed(1) + "%");
+        });
+
+        link.addEventListener("pointerleave", function () {
+          link.style.setProperty("--social-x", "50%");
+          link.style.setProperty("--social-y", "50%");
+        });
+      });
 
       // Projects intro card micro-interaction
       var projectIntroCard = document.getElementById("projectIntroCard");
