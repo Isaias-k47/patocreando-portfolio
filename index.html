@@ -1599,6 +1599,606 @@
       }
     }
 
+
+    /* Hero refinement: mobile-safe title + 9:16 device */
+    #top {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-copy,
+    .hero-device-wrap {
+      min-width: 0;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 18px;
+      color: #777E89;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .hero-title-slide {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(2.65rem, 11.4vw, 4rem);
+      line-height: .93;
+      letter-spacing: -.055em;
+      clip-path: none !important;
+      overflow: visible;
+      text-wrap: balance;
+    }
+
+    .hero-line {
+      display: block;
+      padding-bottom: .06em;
+    }
+
+    .hero-summary {
+      max-width: 650px;
+      margin-top: 24px;
+      color: #A1A6B0;
+      font-size: clamp(1rem, 4.25vw, 1.14rem);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 28px;
+      max-width: 520px;
+    }
+
+    .hero-cta {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 650;
+      transition:
+        border-color .28s ease,
+        background .28s ease,
+        color .28s ease,
+        box-shadow .28s ease,
+        transform .28s var(--ease);
+    }
+
+    .hero-cta-primary {
+      color: #0B0B0F;
+      background: #F7F7FA;
+      box-shadow: 0 14px 36px rgba(255,255,255,.06);
+    }
+
+    .hero-cta-primary:hover {
+      background: var(--butter);
+      box-shadow: 0 16px 42px rgba(245,231,163,.10);
+    }
+
+    .hero-cta-secondary {
+      color: #F7F7FA;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.025);
+    }
+
+    .hero-cta-secondary:hover {
+      border-color: rgba(255,255,255,.19);
+      background: rgba(255,255,255,.05);
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 16px;
+      margin-top: 26px;
+      color: #6F7580;
+      font-size: 9px;
+      font-weight: 650;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero-proof > span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .hero-proof svg {
+      color: #939AA6;
+    }
+
+    .hero-device-wrap {
+      width: 100%;
+      max-width: 540px;
+      margin-inline: auto;
+    }
+
+    .hero-device-stage {
+      position: relative;
+      min-height: 610px;
+      display: grid;
+      place-items: center;
+      padding: 34px 20px 46px;
+      overflow: hidden;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,.07);
+      background:
+        radial-gradient(circle at 50% 36%, rgba(0,71,171,.16), transparent 34%),
+        radial-gradient(circle at 78% 18%, rgba(124,58,237,.11), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.008));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 30px 90px rgba(0,0,0,.25);
+      perspective: 1200px;
+    }
+
+    .hero-device-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: radial-gradient(circle at 50% 44%, black, transparent 72%);
+    }
+
+    .hero-device-glow {
+      position: absolute;
+      width: 58%;
+      aspect-ratio: 1;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(124,58,237,.15);
+      filter: blur(76px);
+      pointer-events: none;
+    }
+
+    .hero-phone-shell {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 286px);
+      padding: 7px;
+      border-radius: 38px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.025) 28%, rgba(255,255,255,.07) 72%, rgba(255,255,255,.012)),
+        #08090D;
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,0,0,.74),
+        inset 0 1px 0 rgba(255,255,255,.075),
+        0 34px 90px rgba(0,0,0,.50),
+        0 0 72px rgba(0,71,171,.11);
+      transform-style: preserve-3d;
+      transition:
+        transform .45s var(--ease),
+        box-shadow .45s ease;
+      will-change: transform;
+    }
+
+    .hero-phone-shell::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      pointer-events: none;
+      border-radius: 32px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.035);
+      z-index: 8;
+    }
+
+    .hero-phone-screen {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 31px;
+      background: #050609;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.01);
+      transition: transform .8s var(--ease), filter .5s ease;
+    }
+
+    .hero-device-stage:hover .hero-video {
+      transform: scale(1.025);
+    }
+
+    .hero-phone-island {
+      position: absolute;
+      z-index: 10;
+      top: 14px;
+      left: 50%;
+      width: 30%;
+      height: 22px;
+      transform: translateX(-50%);
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(0,0,0,.93);
+      border: 1px solid rgba(255,255,255,.035);
+      box-shadow: 0 3px 12px rgba(0,0,0,.35);
+    }
+
+    .hero-phone-island > span {
+      width: 4px;
+      height: 4px;
+      margin-left: 52%;
+      border-radius: 50%;
+      background: rgba(71,85,105,.68);
+      box-shadow: 0 0 5px rgba(89,122,170,.35);
+    }
+
+    .hero-phone-buttons {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-phone-button {
+      position: absolute;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+      background: linear-gradient(180deg, #343740, #111217);
+      box-shadow: inset 1px 0 0 rgba(255,255,255,.08);
+    }
+
+    .hero-phone-button-a {
+      left: -3px;
+      top: 92px;
+      height: 30px;
+    }
+
+    .hero-phone-button-b {
+      left: -3px;
+      top: 136px;
+      height: 54px;
+    }
+
+    .hero-phone-button-c {
+      right: -3px;
+      top: 128px;
+      height: 78px;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .hero-phone-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.08), transparent 26%, transparent 68%, rgba(0,0,0,.42)),
+        linear-gradient(90deg, rgba(255,255,255,.025), transparent 12%, transparent 88%, rgba(255,255,255,.02));
+    }
+
+    .hero-phone-meta {
+      position: absolute;
+      z-index: 5;
+      inset: auto 13px 13px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hero-phone-meta-copy {
+      min-width: 0;
+      padding: 9px 11px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,14,.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .hero-phone-meta-copy span,
+    .hero-phone-year {
+      color: #A5ABB6;
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .hero-phone-meta-copy strong {
+      display: block;
+      margin-top: 2px;
+      color: #F7F7FA;
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: -.01em;
+    }
+
+    .hero-phone-year {
+      padding: 8px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,14,.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .hero-stage-label {
+      position: absolute;
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(10,10,14,.52);
+      color: #9EA4AE;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 34px rgba(0,0,0,.18);
+    }
+
+    .hero-stage-label-a {
+      top: 17%;
+      left: 6%;
+      animation: heroFloatA 5.2s ease-in-out infinite;
+    }
+
+    .hero-stage-label-b {
+      right: 5%;
+      bottom: 23%;
+      animation: heroFloatB 6.1s ease-in-out infinite;
+    }
+
+    .hero-stage-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #9DF0B5;
+      box-shadow: 0 0 14px rgba(157,240,181,.42);
+    }
+
+    .hero-stage-caption {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #626975;
+      font-size: 8px;
+      font-weight: 650;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .hero-stage-caption-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.10));
+    }
+
+    .hero-orb {
+      position: absolute;
+      z-index: 0;
+      border-radius: 50%;
+      filter: blur(110px);
+      pointer-events: none;
+    }
+
+    .hero-orb-a {
+      width: 420px;
+      height: 420px;
+      left: -180px;
+      top: 15%;
+      background: rgba(0,71,171,.13);
+    }
+
+    .hero-orb-b {
+      width: 360px;
+      height: 360px;
+      right: -120px;
+      bottom: 8%;
+      background: rgba(124,58,237,.10);
+    }
+
+    @keyframes heroFloatA {
+      50% { transform: translate3d(0,-5px,0); }
+    }
+
+    @keyframes heroFloatB {
+      50% { transform: translate3d(0,5px,0); }
+    }
+
+    @media (max-width: 639px) {
+      #top {
+        padding-top: 90px;
+        padding-bottom: 66px;
+        overflow: hidden;
+      }
+
+      #top > .site-shell {
+        gap: 38px;
+      }
+
+      .hero-status {
+        max-width: 100%;
+      }
+
+      .hero-location {
+        width: 100%;
+        padding-left: 2px;
+      }
+
+      .hero-title-slide {
+        width: 100%;
+        max-width: none;
+        font-size: clamp(2.42rem, 11vw, 3.05rem);
+        line-height: .96;
+        letter-spacing: -.046em;
+      }
+
+      .hero-line {
+        padding-right: .04em;
+      }
+
+      .hero-summary {
+        margin-top: 20px;
+        max-width: none;
+        font-size: 15.5px;
+        line-height: 1.68;
+      }
+
+      .hero-actions {
+        max-width: none;
+        margin-top: 24px;
+      }
+
+      .hero-proof {
+        margin-top: 22px;
+        gap: 9px 13px;
+        font-size: 8.5px;
+      }
+
+      .hero-device-wrap {
+        max-width: 360px;
+      }
+
+      .hero-device-stage {
+        min-height: 540px;
+        padding: 30px 12px 42px;
+        border-radius: 28px;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 246px);
+        border-radius: 34px;
+      }
+
+      .hero-phone-screen {
+        border-radius: 27px;
+      }
+
+      .hero-phone-shell::after {
+        border-radius: 28px;
+      }
+
+      .hero-phone-island {
+        top: 13px;
+        height: 20px;
+      }
+
+      .hero-stage-label-a {
+        top: 13%;
+        left: 3%;
+      }
+
+      .hero-stage-label-b {
+        right: 3%;
+        bottom: 20%;
+      }
+
+      .hero-stage-caption {
+        bottom: 14px;
+        width: calc(100% - 26px);
+        font-size: 7px;
+        letter-spacing: .09em;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .hero-title-slide {
+        font-size: 2.32rem;
+      }
+
+      .hero-device-stage {
+        min-height: 515px;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 230px);
+      }
+
+      .hero-stage-label-b {
+        display: none;
+      }
+
+      .hero-stage-caption {
+        font-size: 6.5px;
+      }
+    }
+
+    @media (min-width: 640px) {
+      .hero-actions {
+        grid-template-columns: max-content max-content;
+      }
+
+      .hero-device-stage {
+        min-height: 640px;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 300px);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .hero-title-slide {
+        font-size: clamp(4.5rem, 8vw, 7.25rem);
+        line-height: .91;
+        letter-spacing: -.064em;
+      }
+
+      .hero-summary {
+        margin-top: 28px;
+        font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+      }
+
+      .hero-proof {
+        margin-top: 30px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-device-stage {
+        min-height: 650px;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 306px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-stage-label-a,
+      .hero-stage-label-b {
+        animation: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -1637,79 +2237,97 @@
 
   <main>
     <!-- Hero -->
-    <section id="top" class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20">
+    <section id="top" class="relative min-h-screen flex items-center overflow-hidden">
+      <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
 
-      <div class="site-shell relative z-10 grid lg:grid-cols-[1.1fr_.9fr] items-center gap-14 xl:gap-20">
-        <div>
-          <div class="hero-reveal flex flex-wrap items-center gap-3 mb-7">
-            <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 bg-white/[.035] text-[10px] tracking-[.14em] uppercase text-zinc-400">
+      <div class="site-shell relative z-10 grid lg:grid-cols-[1.05fr_.95fr] items-center gap-12 xl:gap-20">
+        <div class="hero-copy">
+          <div class="hero-reveal flex flex-wrap items-center gap-3 mb-6">
+            <span class="hero-status inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 bg-white/[.035] text-[10px] tracking-[.12em] uppercase text-zinc-400">
               <span class="status-dot"></span>
               Disponible para proyectos
             </span>
-            <span class="text-[10px] tracking-[.16em] uppercase text-zinc-600">Mar del Plata · Argentina</span>
+            <span class="hero-location text-[10px] tracking-[.14em] uppercase text-zinc-600">Mar del Plata · Argentina</span>
           </div>
 
-          <p class="hero-reveal text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-5">
-            AI Content Creator · UGC Specialist
+          <p class="hero-reveal hero-eyebrow">
+            AI Content Creator · UGC + Producto
           </p>
 
-          <h1 class="hero-title-slide display text-[clamp(3.5rem,8vw,7.8rem)] leading-[.90] tracking-[-.065em] font-semibold max-w-[900px]">
-            Contenido que
-            <span class="gradient-text block">parece producido,</span>
-            <span class="block text-white/90">no generado.</span>
+          <h1 class="hero-title-slide display font-semibold">
+            <span class="hero-line">Contenido con IA,</span>
+            <span class="hero-line gradient-text">dirigido para</span>
+            <span class="hero-line text-white/90">verse de marca.</span>
           </h1>
 
-          <p class="hero-reveal mt-8 max-w-[680px] text-[clamp(1.05rem,1.7vw,1.3rem)] leading-8 text-zinc-400">
-            Creo <strong class="text-white font-medium">UGC y piezas de producto con IA</strong> para marcas que necesitan velocidad,
-            consistencia visual y dirección creativa orientada a <span class="text-butter">captar atención</span>.
+          <p class="hero-reveal hero-summary">
+            Creo <strong class="text-white font-medium">UGC, campañas de producto y avatares</strong> con un workflow que prioriza identidad, continuidad y velocidad de producción.
           </p>
 
-          <div class="hero-reveal mt-9 flex flex-wrap gap-3">
-            <a href="#projects" class="magnetic inline-flex min-h-13 items-center gap-2 px-6 py-3.5 rounded-full bg-white text-black font-semibold">
-              Ver proyectos
-              <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+          <div class="hero-reveal hero-actions">
+            <a href="#projects" class="magnetic hero-cta hero-cta-primary group">
+              <span>Ver trabajos</span>
+              <i data-lucide="arrow-down-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5"></i>
             </a>
 
-            <a href="#contact" class="magnetic inline-flex min-h-13 items-center gap-2 px-6 py-3.5 rounded-full border border-white/10 bg-white/[.025] text-white font-semibold hover:border-white/20">
-              Trabajemos juntos
-              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <a href="#contact" class="magnetic hero-cta hero-cta-secondary group">
+              <span>Contame tu idea</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
             </a>
           </div>
 
-          <div class="hero-reveal mt-10 flex flex-wrap gap-x-7 gap-y-3 text-[10px] tracking-[.14em] uppercase text-zinc-600">
-            <span>UGC con IA</span>
-            <span>Producto IA</span>
-            <span>Avatares</span>
-            <span>Workflow</span>
+          <div class="hero-reveal hero-proof" aria-label="Capacidades principales">
+            <span><i data-lucide="smartphone" class="w-3.5 h-3.5"></i>9:16 first</span>
+            <span><i data-lucide="scan-face" class="w-3.5 h-3.5"></i>Identidad consistente</span>
+            <span><i data-lucide="package-check" class="w-3.5 h-3.5"></i>Producto controlado</span>
           </div>
         </div>
 
-        <div class="hero-reveal relative">
-          <div class="absolute -inset-10 bg-cobalt/10 blur-[90px] rounded-full pointer-events-none"></div>
+        <div class="hero-reveal hero-device-wrap">
+          <div id="heroDeviceStage" class="hero-device-stage">
+            <div class="hero-device-glow" aria-hidden="true"></div>
 
-          <div class="relative glass rounded-[34px] p-3">
-            <div class="flex justify-between items-center px-3 py-2 text-[9px] tracking-[.15em] text-zinc-500 uppercase">
-              <span>Frame seleccionado</span>
-              <span>IA + Dirección humana</span>
+            <div class="hero-stage-label hero-stage-label-a" aria-hidden="true">
+              <span class="hero-stage-dot"></span>
+              Showreel · 9:16
             </div>
 
-            <div class="relative aspect-[4/5] rounded-[25px] overflow-hidden border border-white/[.07] bg-black">
-              <video autoplay muted loop playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover">
-                <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
-              </video>
+            <div class="hero-stage-label hero-stage-label-b" aria-hidden="true">
+              IA + dirección
+            </div>
 
-              <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+            <div id="heroPhone" class="hero-phone-shell" aria-label="Showreel vertical en mockup de smartphone">
+              <div class="hero-phone-buttons" aria-hidden="true">
+                <span class="hero-phone-button hero-phone-button-a"></span>
+                <span class="hero-phone-button hero-phone-button-b"></span>
+                <span class="hero-phone-button hero-phone-button-c"></span>
+              </div>
 
-              <div class="absolute left-4 bottom-4 right-4 flex justify-between items-end">
-                <div class="glass rounded-2xl px-3 py-2">
-                  <p class="text-[9px] tracking-[.12em] uppercase text-zinc-400">Formato</p>
-                  <p class="mt-1 text-sm font-medium">UGC · Lifestyle</p>
-                </div>
+              <div class="hero-phone-island" aria-hidden="true">
+                <span></span>
+              </div>
 
-                <div class="glass rounded-full px-3 py-2 text-[9px] tracking-[.12em] uppercase text-zinc-300">
-                  2026
+              <div class="hero-phone-screen">
+                <video autoplay muted loop playsinline preload="metadata" class="hero-video">
+                  <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
+                </video>
+
+                <div class="hero-phone-vignette" aria-hidden="true"></div>
+
+                <div class="hero-phone-meta">
+                  <div class="hero-phone-meta-copy">
+                    <span>Showreel</span>
+                    <strong>UGC · Product</strong>
+                  </div>
+                  <span class="hero-phone-year">2026</span>
                 </div>
               </div>
+            </div>
+
+            <div class="hero-stage-caption">
+              <span class="hero-stage-caption-line"></span>
+              <span>Dirección · continuidad · producto</span>
             </div>
           </div>
         </div>
@@ -2673,6 +3291,30 @@
         });
       }
 
+
+      // Hero device micro-interaction
+      var heroDeviceStage = document.getElementById("heroDeviceStage");
+      var heroPhone = document.getElementById("heroPhone");
+
+      if (heroDeviceStage && heroPhone && finePointer && !reduceMotion) {
+        heroDeviceStage.addEventListener("pointermove", function (event) {
+          var rect = heroDeviceStage.getBoundingClientRect();
+          var px = (event.clientX - rect.left) / rect.width;
+          var py = (event.clientY - rect.top) / rect.height;
+          var ry = (px - .5) * 5.5;
+          var rx = (.5 - py) * 4.5;
+          heroPhone.style.transform =
+            "perspective(1100px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) translateY(-3px)";
+          heroPhone.style.boxShadow =
+            "inset 0 0 0 1px rgba(0,0,0,.74), inset 0 1px 0 rgba(255,255,255,.075), 0 38px 100px rgba(0,0,0,.52), 0 0 82px rgba(0,71,171,.14)";
+        });
+
+        heroDeviceStage.addEventListener("pointerleave", function () {
+          heroPhone.style.transform = "";
+          heroPhone.style.boxShadow = "";
+        });
+      }
+
       // Form -> mailto
       var contactForm = document.getElementById("contactForm");
       var submitLabel = document.getElementById("submitLabel");
@@ -2721,8 +3363,8 @@
         });
 
         gsap.fromTo(".hero-title-slide",
-          { opacity: 0, x: -54, clipPath: "inset(0 100% 0 0)" },
-          { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 1.15, delay: .12, ease: "power4.out" }
+          { opacity: 0, x: -36 },
+          { opacity: 1, x: 0, duration: 1.05, delay: .10, ease: "power4.out", clearProps: "transform" }
         );
 
         gsap.utils.toArray(".title-slide").forEach(function (title) {
