@@ -3665,6 +3665,56 @@
       }
     }
 
+
+    /* Compact social cards side-by-side on mobile */
+    @media (max-width: 639px) {
+      .contact-socials {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        max-width: 100%;
+      }
+
+      .contact-social-link {
+        min-height: 138px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        justify-items: center;
+        align-content: center;
+        gap: 9px;
+        padding: 14px 10px;
+        border-radius: 16px;
+        text-align: center !important;
+      }
+
+      .contact-social-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+      }
+
+      .contact-social-copy {
+        display: grid;
+        gap: 2px;
+      }
+
+      .contact-social-copy small {
+        font-size: 7.5px;
+      }
+
+      .contact-social-copy strong {
+        margin-top: 0;
+        font-size: 12px;
+        line-height: 1.2;
+      }
+
+      .contact-social-cta {
+        grid-column: auto;
+        justify-self: center;
+        margin-top: 0;
+        font-size: 8.5px;
+      }
+    }
+
   </style>
 </head>
 
