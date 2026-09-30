@@ -727,13 +727,15 @@
         </div>
 
         <div class="section-reveal mt-10 flex flex-wrap gap-2" role="tablist" aria-label="Filtrar proyectos">
-          <button class="tab-btn is-active" data-filter="all" role="tab" aria-selected="true">Todos</button>
-          <button class="tab-btn" data-filter="ugc" role="tab" aria-selected="false">UGC con IA</button>
+          <button class="tab-btn is-active" data-filter="ugc" role="tab" aria-selected="true">UGC con IA</button>
           <button class="tab-btn" data-filter="product" role="tab" aria-selected="false">Producto IA</button>
           <button class="tab-btn" data-filter="workflow" role="tab" aria-selected="false">Flujos de trabajo</button>
         </div>
+        <p id="categoryDescription" class="section-reveal mt-5 max-w-2xl text-sm leading-6 text-zinc-500">
+          UGC vertical con avatares, lifestyle y producto en uso.
+        </p>
 
-        <!-- Project grid: mockups are clean and cards are separate -->
+        <!-- Project grid: only the selected category is shown -->
         <div id="projectGrid" class="mt-14 grid md:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-12">
 
           <!-- UGC 01 -->
@@ -805,7 +807,7 @@
           </article>
 
           <!-- Product 01 -->
-          <article class="project-item project-reveal" data-category="product">
+          <article class="project-item project-reveal is-hidden" data-category="product">
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
@@ -839,7 +841,7 @@
           </article>
 
           <!-- Product 02 -->
-          <article class="project-item project-reveal" data-category="product">
+          <article class="project-item project-reveal is-hidden" data-category="product">
             <div class="mockup-stage">
               <div class="phone-shell">
                 <div class="phone-screen">
@@ -870,8 +872,78 @@
             </div>
           </article>
 
+          <!-- Product 03: niche jewelry sample -->
+          <article class="project-item project-reveal is-hidden" data-category="product">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="./assets/videos/product-jewelry-sample.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Niche Product · Applied Sample</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Muestra aplicada a una pieza real de joyería.
+                  </h3>
+                  <p class="project-note">
+                    Ejercicio comercial construido sobre un producto real de nicho: digitalización visual, lectura de materiales, escala y una puesta publicitaria pensada para Reels.
+                  </p>
+                </div>
+                <span class="text-zinc-600 text-sm">05</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Nano Banana Pro</span>
+                <span class="tool-badge">Omni 1.1</span>
+                <span class="tool-badge">Product Direction</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Product 04: niche perfume sample -->
+          <article class="project-item project-reveal is-hidden" data-category="product">
+            <div class="mockup-stage">
+              <div class="phone-shell">
+                <div class="phone-screen">
+                  <video class="project-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="./assets/videos/product-perfume-sample.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Niche Fragrance · Applied Sample</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Muestra publicitaria aplicada a un perfume real.
+                  </h3>
+                  <p class="project-note">
+                    Concepto desarrollado a partir de un producto real de perfumería de nicho, respetando identidad, proporciones y presencia del packaging para llevarlo a una pieza cinematográfica.
+                  </p>
+                </div>
+                <span class="text-zinc-600 text-sm">06</span>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Nano Banana Pro</span>
+                <span class="tool-badge">Omni 1.1</span>
+                <span class="tool-badge">Cinematic Ad</span>
+              </div>
+            </div>
+          </article>
+
           <!-- Workflow 01 -->
-          <article class="project-item project-reveal" data-category="workflow">
+          <article class="project-item project-reveal is-hidden" data-category="workflow">
             <div class="mockup-stage">
               <div class="desktop-frame">
                 <div class="desktop-top">
@@ -923,7 +995,7 @@
           </article>
 
           <!-- Workflow 02 -->
-          <article class="project-item project-reveal" data-category="workflow">
+          <article class="project-item project-reveal is-hidden" data-category="workflow">
             <div class="mockup-stage">
               <div class="desktop-frame">
                 <div class="desktop-top">
@@ -1233,6 +1305,35 @@
       // Project tabs
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
       var projectItems = Array.prototype.slice.call(document.querySelectorAll(".project-item"));
+      var categoryDescription = document.getElementById("categoryDescription");
+      var categoryCopy = {
+        ugc: "UGC vertical con avatares, lifestyle y producto en uso.",
+        product: "Muestras aplicadas a productos reales y de nicho: digitalización, product shots y piezas publicitarias.",
+        workflow: "El sistema detrás de las piezas: guías .md, anclas, continuidad, validación y despliegue."
+      };
+
+      function showCategory(selected) {
+        projectItems.forEach(function (item) {
+          var show = item.getAttribute("data-category") === selected;
+
+          if (show) {
+            item.classList.remove("is-hidden");
+            item.classList.remove("filter-transition");
+            void item.offsetWidth;
+            item.classList.add("filter-transition");
+          } else {
+            item.classList.add("is-hidden");
+          }
+        });
+
+        if (categoryDescription) {
+          categoryDescription.textContent = categoryCopy[selected] || "";
+        }
+
+        if (window.ScrollTrigger) {
+          ScrollTrigger.refresh();
+        }
+      }
 
       tabButtons.forEach(function (button) {
         button.addEventListener("click", function () {
@@ -1244,24 +1345,11 @@
             item.setAttribute("aria-selected", String(active));
           });
 
-          projectItems.forEach(function (item) {
-            var show = selected === "all" || item.getAttribute("data-category") === selected;
-
-            if (show) {
-              item.classList.remove("is-hidden");
-              item.classList.remove("filter-transition");
-              void item.offsetWidth;
-              item.classList.add("filter-transition");
-            } else {
-              item.classList.add("is-hidden");
-            }
-          });
-
-          if (window.ScrollTrigger) {
-            ScrollTrigger.refresh();
-          }
+          showCategory(selected);
         });
       });
+
+      showCategory("ugc");
 
       // Magnetic pointer effect
       if (finePointer && !reduceMotion) {
