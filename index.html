@@ -5171,6 +5171,240 @@
       }
     }
 
+
+    /* Launch offer */
+    .launch-offer {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) auto;
+      gap: 28px;
+      align-items: center;
+      margin-top: 18px;
+      padding: 24px 25px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(207,230,90,.24);
+      background:
+        radial-gradient(circle at 88% 12%, rgba(207,230,90,.15), transparent 30%),
+        linear-gradient(135deg, rgba(207,230,90,.065), rgba(255,255,255,.018) 46%),
+        rgba(18,21,24,.84);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 22px 64px rgba(0,0,0,.20);
+      isolation: isolate;
+      transition:
+        transform .35s var(--ease),
+        border-color .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .launch-offer:hover {
+      transform: translateY(-4px);
+      border-color: rgba(207,230,90,.38);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.045),
+        0 30px 80px rgba(0,0,0,.24),
+        0 0 38px rgba(207,230,90,.07);
+    }
+
+    .launch-offer-glow {
+      position: absolute;
+      z-index: -1;
+      width: 240px;
+      height: 240px;
+      right: -90px;
+      top: -120px;
+      border-radius: 50%;
+      background: rgba(207,230,90,.15);
+      filter: blur(52px);
+      pointer-events: none;
+      transition: transform .45s var(--ease);
+    }
+
+    .launch-offer:hover .launch-offer-glow {
+      transform: translate(-12px, 12px) scale(1.08);
+    }
+
+    .launch-offer-main {
+      min-width: 0;
+    }
+
+    .launch-offer-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .launch-offer-label,
+    .launch-offer-slots {
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .launch-offer-label {
+      color: #10140A;
+      background: var(--brand-lime);
+    }
+
+    .launch-offer-slots {
+      color: #C5CD9C;
+      border: 1px solid rgba(207,230,90,.14);
+      background: rgba(207,230,90,.045);
+    }
+
+    .launch-offer-heading h3 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px 18px;
+      margin-top: 14px;
+      letter-spacing: -.045em;
+    }
+
+    .launch-offer-heading h3 > span {
+      color: #F3F5F6;
+      font-size: clamp(1.7rem, 3vw, 2.45rem);
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .launch-offer-heading h3 > strong {
+      color: var(--brand-lime);
+      font-size: clamp(2rem, 4vw, 3.15rem);
+      line-height: .95;
+      font-weight: 700;
+    }
+
+    .launch-offer-heading > p {
+      max-width: 690px;
+      margin-top: 12px;
+      color: #949AA3;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .launch-offer-includes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 16px;
+      margin-top: 17px;
+    }
+
+    .launch-offer-includes span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #AEB4BC;
+      font-size: 10px;
+    }
+
+    .launch-offer-includes svg {
+      color: var(--brand-lime);
+    }
+
+    .launch-offer-action {
+      min-width: 176px;
+      display: grid;
+      gap: 8px;
+      justify-items: stretch;
+    }
+
+    .launch-offer-cta {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding-inline: 18px;
+      border-radius: 15px;
+      background: var(--brand-lime);
+      color: #10140A;
+      font-size: 11px;
+      font-weight: 750;
+      box-shadow: 0 14px 34px rgba(207,230,90,.10);
+      transition:
+        transform .3s var(--ease),
+        background .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .launch-offer-cta:hover,
+    .launch-offer-cta:focus-visible {
+      transform: translateY(-2px);
+      background: var(--brand-lime-soft);
+      box-shadow: 0 18px 42px rgba(207,230,90,.16);
+      outline: none;
+    }
+
+    .launch-offer-cta svg {
+      transition: transform .3s var(--ease);
+    }
+
+    .launch-offer-cta:hover svg,
+    .launch-offer-cta:focus-visible svg {
+      transform: translate(2px,-2px);
+    }
+
+    .launch-offer-action > p {
+      color: #626870;
+      font-size: 8px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    @media (max-width: 767px) {
+      .launch-offer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 17px;
+        text-align: center;
+      }
+
+      .launch-offer-badges,
+      .launch-offer-heading h3,
+      .launch-offer-includes {
+        justify-content: center;
+      }
+
+      .launch-offer-heading h3 {
+        display: grid;
+        gap: 8px;
+      }
+
+      .launch-offer-heading h3 > span,
+      .launch-offer-heading h3 > strong {
+        display: block;
+      }
+
+      .launch-offer-heading > p {
+        max-width: 420px;
+        margin-inline: auto;
+      }
+
+      .launch-offer-includes {
+        max-width: 360px;
+        margin-inline: auto;
+        margin-top: 16px;
+      }
+
+      .launch-offer-action {
+        min-width: 0;
+      }
+
+      .launch-offer-cta {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -5829,6 +6063,51 @@
 
           </article>
         </div>
+
+        <article class="section-reveal launch-offer" id="launchOffer">
+          <span class="launch-offer-glow" aria-hidden="true"></span>
+
+          <div class="launch-offer-main">
+            <div class="launch-offer-heading">
+              <div class="launch-offer-badges">
+                <span class="launch-offer-label">Oferta lanzamiento</span>
+                <span class="launch-offer-slots">
+                  <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                  5 cupos
+                </span>
+              </div>
+
+              <h3 class="display">
+                <span>4 UGC con IA</span>
+                <strong>ARS 100.000</strong>
+              </h3>
+
+              <p>
+                Un paquete inicial para marcas que quieren probar contenido vertical con una propuesta clara y lista para publicar.
+              </p>
+            </div>
+
+            <div class="launch-offer-includes" aria-label="Incluye">
+              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>4 videos 9:16</span>
+              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>Concepto visual</span>
+              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>Edición final</span>
+              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>1 ronda de ajustes</span>
+            </div>
+          </div>
+
+          <div class="launch-offer-action">
+            <a href="https://ig.me/m/patocreando?ref=w60834601"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="launch-offer-cta"
+               aria-label="Reclamar cupo de lanzamiento por Instagram">
+              <span>Reclamar cupo</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+
+            <p>Alcance sujeto a brief y complejidad.</p>
+          </div>
+        </article>
 
         <div class="section-reveal deliverables-card">
           <div class="deliverables-head">
