@@ -22,6 +22,10 @@
 
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
+  <div class="scroll-progress" aria-hidden="true">
+    <span data-scroll-progress></span>
+  </div>
+  <div class="ambient-grain" aria-hidden="true"></div>
 
   <header class="site-header" data-header>
     <div class="container nav-wrap">
@@ -59,7 +63,10 @@
 
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow reveal">AI CONTENT CREATOR · UGC · GENERATIVE VIDEO</p>
+          <div class="hero-status reveal">
+            <p class="eyebrow">AI CONTENT CREATOR · UGC · GENERATIVE VIDEO</p>
+            <span class="availability-pill"><i></i> Disponible para proyectos</span>
+          </div>
 
           <h1 class="hero-title reveal">
             Contenido con IA que
@@ -84,7 +91,7 @@
           </div>
         </div>
 
-        <div class="hero-visual reveal">
+        <div class="hero-visual reveal" data-tilt>
           <div class="visual-shell">
             <div class="visual-topbar">
               <span>SELECTED FRAME</span>
@@ -92,6 +99,8 @@
             </div>
 
             <div class="visual-stage">
+              <span class="floating-chip chip-ai">AI DIRECTED</span>
+              <span class="floating-chip chip-format">9:16</span>
               <video
                 class="portfolio-video hero-video"
                 autoplay
@@ -148,7 +157,7 @@
         </div>
 
         <div class="project-grid">
-          <article class="project-card project-card-large reveal">
+          <article data-tilt class="project-card project-card-large reveal">
             <div class="project-media">
               <video
                 class="portfolio-video project-video"
@@ -173,7 +182,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article data-tilt class="project-card reveal">
             <div class="project-media">
               <img
                 class="portfolio-image"
@@ -192,7 +201,7 @@
             </div>
           </article>
 
-          <article class="project-card reveal">
+          <article data-tilt class="project-card reveal">
             <div class="project-media">
               <img
                 class="portfolio-image"
