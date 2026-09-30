@@ -4431,8 +4431,15 @@
         };
       }
 
+      var formStatusTimer = null;
+
       function showFormStatus(type, title, copy) {
         if (!formStatus) return;
+
+        if (formStatusTimer) {
+          window.clearTimeout(formStatusTimer);
+          formStatusTimer = null;
+        }
 
         formStatus.hidden = false;
         formStatus.classList.toggle("is-error", type === "error");
@@ -4444,6 +4451,13 @@
         if (icon) {
           icon.setAttribute("data-lucide", type === "error" ? "triangle-alert" : "check");
           if (window.lucide) lucide.createIcons();
+        }
+
+        if (type === "error") {
+          formStatusTimer = window.setTimeout(function () {
+            formStatus.hidden = true;
+            formStatusTimer = null;
+          }, 4200);
         }
       }
 
