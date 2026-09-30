@@ -2993,6 +2993,91 @@
       }
     }
 
+
+    /* Direct form submission */
+    .form-status[hidden] {
+      display: none !important;
+    }
+
+    .form-status {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px 16px;
+      border-radius: 17px;
+      border: 1px solid rgba(157,240,181,.14);
+      background:
+        linear-gradient(180deg, rgba(157,240,181,.055), rgba(255,255,255,.018)),
+        rgba(255,255,255,.018);
+      text-align: left;
+    }
+
+    .form-status.is-error {
+      border-color: rgba(248,113,113,.16);
+      background:
+        linear-gradient(180deg, rgba(248,113,113,.05), rgba(255,255,255,.018)),
+        rgba(255,255,255,.018);
+    }
+
+    .form-status-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(157,240,181,.08);
+      color: #9DF0B5;
+    }
+
+    .form-status.is-error .form-status-icon {
+      background: rgba(248,113,113,.08);
+      color: #FCA5A5;
+    }
+
+    .form-status strong {
+      display: block;
+      color: #F7F7FA;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .form-status p {
+      margin-top: 3px;
+      color: #858C97;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .mail-fallback-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: max-content;
+      margin-inline: auto;
+      color: #777E89;
+      font-size: 10px;
+      font-weight: 650;
+      letter-spacing: .02em;
+      transition: color .25s ease;
+    }
+
+    .mail-fallback-link:hover {
+      color: #D7DAE0;
+    }
+
+    @media (max-width: 639px) {
+      .form-status {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .form-status > div {
+        text-align: center;
+      }
+    }
+
   </style>
 </head>
 
@@ -3880,11 +3965,26 @@
                 </span>
               </button>
 
+              <div id="formStatus" class="form-status" hidden aria-live="polite">
+                <span class="form-status-icon">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                </span>
+                <div>
+                  <strong id="formStatusTitle">Propuesta enviada</strong>
+                  <p id="formStatusCopy">Recibí tu mensaje. Te respondo al correo que dejaste.</p>
+                </div>
+              </div>
+
+              <button id="openMailFallback" class="mail-fallback-link" type="button">
+                <span>¿Preferís usar tu correo?</span>
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+              </button>
+
               <div id="mailProviderPicker" class="mail-provider-picker" hidden aria-label="Elegir proveedor de correo">
                 <div class="mail-provider-head">
                   <div>
-                    <p class="mail-provider-kicker">Abrir correo</p>
-                    <p class="mail-provider-title">Elegí dónde querés enviar la propuesta</p>
+                    <p class="mail-provider-kicker">Alternativa</p>
+                    <p class="mail-provider-title">Abrir la propuesta en tu correo</p>
                   </div>
                   <button id="mailProviderClose" class="mail-provider-close" type="button" aria-label="Cerrar selector de correo">
                     <i data-lucide="x" class="w-4 h-4"></i>
@@ -3921,12 +4021,12 @@
                 </div>
 
                 <p class="mail-provider-note">
-                  Se abre el proveedor que elijas con destinatario, asunto y mensaje ya completados.
+                  Usá esta opción si preferís enviar el mensaje desde tu propia cuenta de correo.
                 </p>
               </div>
 
               <p class="text-[11px] text-zinc-600">
-                Completá el formulario y elegí Gmail, Outlook o Yahoo para abrir el mensaje listo para enviar.
+                Enviá la consulta directamente desde la web. Si preferís, también podés abrirla en tu correo.
               </p>
             </form>
           </div>
@@ -4292,14 +4392,19 @@
         }
       });
 
-      // Contact form -> mail provider chooser
+      // Contact form -> direct send + mail provider fallback
       var contactForm = document.getElementById("contactForm");
       var submitLabel = document.getElementById("submitLabel");
       var mailProviderPicker = document.getElementById("mailProviderPicker");
       var mailProviderClose = document.getElementById("mailProviderClose");
+      var openMailFallback = document.getElementById("openMailFallback");
       var mailProviderButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mail-provider]"));
+      var formStatus = document.getElementById("formStatus");
+      var formStatusTitle = document.getElementById("formStatusTitle");
+      var formStatusCopy = document.getElementById("formStatusCopy");
       var pendingMail = null;
       var destinationEmail = "ulisesjgonzalez2045@gmail.com";
+      var formSubmitEndpoint = "https://formsubmit.co/ajax/" + destinationEmail;
 
       function buildMailPayload() {
         var name = document.getElementById("name").value.trim();
@@ -4318,8 +4423,28 @@
         return {
           to: destinationEmail,
           subject: subject,
-          body: body
+          body: body,
+          name: name,
+          email: email,
+          projectType: projectType || "A definir",
+          message: message
         };
+      }
+
+      function showFormStatus(type, title, copy) {
+        if (!formStatus) return;
+
+        formStatus.hidden = false;
+        formStatus.classList.toggle("is-error", type === "error");
+
+        if (formStatusTitle) formStatusTitle.textContent = title;
+        if (formStatusCopy) formStatusCopy.textContent = copy;
+
+        var icon = formStatus.querySelector("i");
+        if (icon) {
+          icon.setAttribute("data-lucide", type === "error" ? "triangle-alert" : "check");
+          if (window.lucide) lucide.createIcons();
+        }
       }
 
       function openMailProvider(provider, mail) {
@@ -4343,9 +4468,11 @@
         }
       }
 
-      function closeMailProviderPicker() {
-        if (mailProviderPicker) mailProviderPicker.hidden = true;
-        if (submitLabel) submitLabel.textContent = "Enviar propuesta";
+      function toggleMailProviderPicker(forceOpen) {
+        if (!mailProviderPicker) return;
+
+        var nextOpen = typeof forceOpen === "boolean" ? forceOpen : mailProviderPicker.hidden;
+        mailProviderPicker.hidden = !nextOpen;
       }
 
       if (contactForm) {
@@ -4356,14 +4483,60 @@
 
           pendingMail = buildMailPayload();
 
-          if (mailProviderPicker) {
-            mailProviderPicker.hidden = false;
-            mailProviderPicker.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
-          }
+          if (submitLabel) submitLabel.textContent = "Enviando…";
+          if (formStatus) formStatus.hidden = true;
 
-          if (submitLabel) {
-            submitLabel.textContent = "Elegí tu correo";
-          }
+          fetch(formSubmitEndpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({
+              name: pendingMail.name,
+              email: pendingMail.email,
+              project: pendingMail.projectType,
+              message: pendingMail.message,
+              _subject: pendingMail.subject,
+              _template: "table"
+            })
+          })
+          .then(function (response) {
+            if (!response.ok) throw new Error("submit_failed");
+            return response.json();
+          })
+          .then(function () {
+            showFormStatus(
+              "success",
+              "Propuesta enviada",
+              "Recibí tu mensaje. Te respondo al correo que dejaste."
+            );
+
+            if (submitLabel) submitLabel.textContent = "Propuesta enviada";
+            contactForm.reset();
+            toggleMailProviderPicker(false);
+
+            window.setTimeout(function () {
+              if (submitLabel) submitLabel.textContent = "Enviar propuesta";
+            }, 2800);
+          })
+          .catch(function () {
+            showFormStatus(
+              "error",
+              "No pude enviarla directamente",
+              "Podés abrir la propuesta en Gmail, Outlook o Yahoo y enviarla desde tu cuenta."
+            );
+
+            if (submitLabel) submitLabel.textContent = "Enviar propuesta";
+            toggleMailProviderPicker(true);
+          });
+        });
+      }
+
+      if (openMailFallback) {
+        openMailFallback.addEventListener("click", function () {
+          pendingMail = buildMailPayload();
+          toggleMailProviderPicker();
         });
       }
 
@@ -4374,7 +4547,9 @@
       });
 
       if (mailProviderClose) {
-        mailProviderClose.addEventListener("click", closeMailProviderPicker);
+        mailProviderClose.addEventListener("click", function () {
+          toggleMailProviderPicker(false);
+        });
       }
 
       // GSAP motion
