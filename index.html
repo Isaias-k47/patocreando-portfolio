@@ -3255,6 +3255,72 @@
       }
     }
 
+
+    /* Desktop methodology density fix */
+    @media (min-width: 1024px) {
+      .method-card {
+        min-height: 0 !important;
+        justify-content: flex-start;
+        gap: 24px;
+        padding: 28px 30px;
+      }
+
+      .method-card > .method-topline {
+        min-height: 44px;
+        align-items: center;
+      }
+
+      .method-layout {
+        grid-template-columns: minmax(0, 1.34fr) minmax(290px, .66fr);
+        gap: 30px;
+        align-items: center;
+      }
+
+      .method-copy {
+        justify-content: center;
+        padding: 2px 18px 2px 2px;
+      }
+
+      .method-card h3 {
+        max-width: 620px;
+        font-size: clamp(2rem, 2.75vw, 2.85rem);
+      }
+
+      .method-card .method-copy > p {
+        max-width: 650px;
+        margin-top: 14px;
+      }
+
+      .method-side {
+        min-height: 190px;
+        justify-content: space-between;
+        padding: 18px;
+      }
+
+      .method-chip-list {
+        gap: 7px;
+      }
+
+      .method-chip {
+        min-height: 32px;
+      }
+
+      .method-result {
+        padding-top: 14px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .method-card {
+        padding: 30px 34px;
+      }
+
+      .method-layout {
+        grid-template-columns: minmax(0, 1.4fr) minmax(300px, .6fr);
+        gap: 36px;
+      }
+    }
+
   </style>
 </head>
 
