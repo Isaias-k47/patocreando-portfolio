@@ -3637,6 +3637,34 @@
       }
     }
 
+
+    /* Center social contact cards on mobile */
+    @media (max-width: 639px) {
+      .contact-social-link {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center !important;
+      }
+
+      .contact-social-icon {
+        margin-inline: auto;
+      }
+
+      .contact-social-copy,
+      .contact-social-copy small,
+      .contact-social-copy strong {
+        width: 100%;
+        text-align: center !important;
+      }
+
+      .contact-social-cta {
+        grid-column: auto;
+        justify-self: center;
+        margin-top: 2px;
+        text-align: center;
+      }
+    }
+
   </style>
 </head>
 
