@@ -121,11 +121,15 @@
 
         surface.style.setProperty("--tilt-x", `${rotateX.toFixed(2)}deg`);
         surface.style.setProperty("--tilt-y", `${rotateY.toFixed(2)}deg`);
+        surface.style.setProperty("--glow-x", `${(px * 100).toFixed(1)}%`);
+        surface.style.setProperty("--glow-y", `${(py * 100).toFixed(1)}%`);
       });
 
       target.addEventListener("pointerleave", () => {
         surface.style.setProperty("--tilt-x", "0deg");
         surface.style.setProperty("--tilt-y", "0deg");
+        surface.style.setProperty("--glow-x", "50%");
+        surface.style.setProperty("--glow-y", "20%");
       });
     });
 
