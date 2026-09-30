@@ -2577,6 +2577,254 @@
       }
     }
 
+
+    /* Interactive workflow funnel */
+    .funnel-shell {
+      min-height: 420px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(190px, .82fr);
+      gap: 22px;
+      align-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 32% 42%, rgba(124,58,237,.09), transparent 36%),
+        radial-gradient(circle at 82% 72%, rgba(0,71,171,.08), transparent 32%),
+        #0A0B10;
+    }
+
+    .funnel-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .funnel-step {
+      position: relative;
+      min-height: 46px;
+      display: grid;
+      grid-template-columns: 34px minmax(0,1fr);
+      align-items: center;
+      gap: 10px;
+      padding: 0 15px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 14px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
+        rgba(255,255,255,.018);
+      color: #D7DAE0;
+      text-align: left;
+      transition:
+        width .35s var(--ease),
+        transform .28s var(--ease),
+        border-color .28s ease,
+        background .28s ease,
+        box-shadow .28s ease;
+    }
+
+    .funnel-step::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(90deg, rgba(245,231,163,.10), rgba(124,58,237,.07), transparent);
+      transition: opacity .28s ease;
+      pointer-events: none;
+    }
+
+    .funnel-step:nth-child(1) { width: 100%; }
+    .funnel-step:nth-child(2) { width: 90%; }
+    .funnel-step:nth-child(3) { width: 80%; }
+    .funnel-step:nth-child(4) { width: 70%; }
+    .funnel-step:nth-child(5) { width: 60%; }
+    .funnel-step:nth-child(6) { width: 50%; }
+
+    .funnel-step:hover,
+    .funnel-step:focus-visible,
+    .funnel-step.is-active {
+      transform: translateY(-1px) scale(1.012);
+      border-color: rgba(245,231,163,.26);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.025)),
+        rgba(255,255,255,.025);
+      box-shadow:
+        0 10px 26px rgba(0,0,0,.18),
+        0 0 26px rgba(124,58,237,.05);
+      outline: none;
+    }
+
+    .funnel-step:hover::before,
+    .funnel-step:focus-visible::before,
+    .funnel-step.is-active::before {
+      opacity: 1;
+    }
+
+    .funnel-step-number {
+      position: relative;
+      z-index: 1;
+      color: #747B88;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .funnel-step-title {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+      color: #E8EAF0;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: -.01em;
+    }
+
+    .funnel-step.is-active .funnel-step-number {
+      color: var(--butter);
+    }
+
+    .funnel-step.is-active .funnel-step-title {
+      color: #fff;
+    }
+
+    .funnel-detail {
+      position: relative;
+      min-height: 248px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(124,58,237,.12), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.048), rgba(255,255,255,.018));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 18px 50px rgba(0,0,0,.16);
+    }
+
+    .funnel-detail::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      right: -80px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: rgba(0,71,171,.11);
+      filter: blur(34px);
+      pointer-events: none;
+    }
+
+    .funnel-detail-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .funnel-detail-kicker,
+    .funnel-detail-index,
+    .funnel-detail-output span {
+      color: #747B88;
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .funnel-detail-index {
+      color: var(--butter);
+    }
+
+    .funnel-detail-title {
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+      color: #F7F7FA;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.35rem, 2vw, 1.7rem);
+      font-weight: 650;
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+
+    .funnel-detail-copy {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      color: #9CA2AD;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .funnel-detail-output {
+      position: relative;
+      z-index: 1;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+
+    .funnel-detail-output strong {
+      display: block;
+      margin-top: 5px;
+      color: #F5E7A3;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: -.015em;
+    }
+
+    @media (max-width: 639px) {
+      .funnel-shell {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 18px 14px;
+      }
+
+      .funnel-step {
+        min-height: 44px;
+        grid-template-columns: 30px minmax(0,1fr);
+        padding-inline: 13px;
+        text-align: center;
+      }
+
+      .funnel-step:nth-child(1) { width: 100%; }
+      .funnel-step:nth-child(2) { width: 92%; }
+      .funnel-step:nth-child(3) { width: 84%; }
+      .funnel-step:nth-child(4) { width: 76%; }
+      .funnel-step:nth-child(5) { width: 68%; }
+      .funnel-step:nth-child(6) { width: 60%; }
+
+      .funnel-detail {
+        min-height: 210px;
+        padding: 17px;
+        text-align: center;
+      }
+
+      .funnel-detail-top {
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .funnel-detail-title,
+      .funnel-detail-copy,
+      .funnel-detail-output,
+      .funnel-detail-output strong,
+      .funnel-detail-output span {
+        text-align: center !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -3018,54 +3266,73 @@
                   <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">deploy.pipeline</span>
                 </div>
 
-                <div class="p-6 min-h-[340px] bg-[#0A0B10]">
-                  <div class="grid gap-3">
-                    <div class="glass rounded-2xl p-3.5">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">01 · Research</span>
-                        <i data-lucide="radar" class="w-4 h-4 text-butter"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Marca + referencias + objetivo</p>
-                    </div>
+                <div class="funnel-shell">
+                  <div class="funnel-stack" role="tablist" aria-label="Etapas del pipeline">
+                    <button class="funnel-step is-active" type="button" role="tab" aria-selected="true"
+                      data-funnel-step="research"
+                      data-title="Research"
+                      data-copy="Marca + referencias + objetivo"
+                      data-output="Brief creativo">
+                      <span class="funnel-step-number">01</span>
+                      <span class="funnel-step-title">Research</span>
+                    </button>
 
-                    <div class="glass rounded-2xl p-3.5 ml-3">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">02 · Digitize</span>
-                        <i data-lucide="scan-line" class="w-4 h-4 text-blue-300"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Producto real → referencia usable</p>
-                    </div>
+                    <button class="funnel-step" type="button" role="tab" aria-selected="false"
+                      data-funnel-step="digitize"
+                      data-title="Digitize"
+                      data-copy="Producto real → referencia controlable"
+                      data-output="Referencia de producto">
+                      <span class="funnel-step-number">02</span>
+                      <span class="funnel-step-title">Digitize</span>
+                    </button>
 
-                    <div class="glass rounded-2xl p-3.5 ml-6">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">03 · Anchor</span>
-                        <i data-lucide="pin" class="w-4 h-4 text-violet-300"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Personaje + escena + producto</p>
-                    </div>
+                    <button class="funnel-step" type="button" role="tab" aria-selected="false"
+                      data-funnel-step="anchor"
+                      data-title="Anchor"
+                      data-copy="Personaje + escena + producto"
+                      data-output="Sistema de referencias">
+                      <span class="funnel-step-number">03</span>
+                      <span class="funnel-step-title">Anchor</span>
+                    </button>
 
-                    <div class="glass rounded-2xl p-3.5 ml-9">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">04 · Generate</span>
-                        <i data-lucide="sparkles" class="w-4 h-4 text-violet-300"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Clips dirigidos + guías .md</p>
-                    </div>
+                    <button class="funnel-step" type="button" role="tab" aria-selected="false"
+                      data-funnel-step="generate"
+                      data-title="Generate"
+                      data-copy="Tomas dirigidas + guías"
+                      data-output="Clips base">
+                      <span class="funnel-step-number">04</span>
+                      <span class="funnel-step-title">Generate</span>
+                    </button>
 
-                    <div class="glass rounded-2xl p-3.5 ml-12">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">05 · Validate</span>
-                        <i data-lucide="scan-search" class="w-4 h-4 text-blue-300"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Identidad + física + continuidad</p>
-                    </div>
+                    <button class="funnel-step" type="button" role="tab" aria-selected="false"
+                      data-funnel-step="validate"
+                      data-title="Validate"
+                      data-copy="Identidad + física + continuidad"
+                      data-output="Revisión aprobada">
+                      <span class="funnel-step-number">05</span>
+                      <span class="funnel-step-title">Validate</span>
+                    </button>
 
-                    <div class="glass rounded-2xl p-3.5 ml-14 border-butter/20">
-                      <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">06 · Ship</span>
-                        <i data-lucide="rocket" class="w-4 h-4 text-butter"></i>
-                      </div>
-                      <p class="mt-1.5 text-sm">Edición + export + deploy</p>
+                    <button class="funnel-step" type="button" role="tab" aria-selected="false"
+                      data-funnel-step="ship"
+                      data-title="Ship"
+                      data-copy="Edición + export + entrega"
+                      data-output="Pieza final">
+                      <span class="funnel-step-number">06</span>
+                      <span class="funnel-step-title">Ship</span>
+                    </button>
+                  </div>
+
+                  <div class="funnel-detail" id="funnelDetail" aria-live="polite">
+                    <div class="funnel-detail-top">
+                      <span class="funnel-detail-kicker">Etapa activa</span>
+                      <span class="funnel-detail-index" id="funnelDetailIndex">01</span>
+                    </div>
+                    <h4 class="funnel-detail-title" id="funnelDetailTitle">Research</h4>
+                    <p class="funnel-detail-copy" id="funnelDetailCopy">Marca + referencias + objetivo</p>
+                    <div class="funnel-detail-output">
+                      <span>Resultado</span>
+                      <strong id="funnelDetailOutput">Brief creativo</strong>
                     </div>
                   </div>
                 </div>
@@ -3775,6 +4042,42 @@
           heroPhone.style.boxShadow = "";
         });
       }
+
+
+      // Interactive workflow funnel
+      var funnelSteps = Array.prototype.slice.call(document.querySelectorAll(".funnel-step"));
+      var funnelDetailIndex = document.getElementById("funnelDetailIndex");
+      var funnelDetailTitle = document.getElementById("funnelDetailTitle");
+      var funnelDetailCopy = document.getElementById("funnelDetailCopy");
+      var funnelDetailOutput = document.getElementById("funnelDetailOutput");
+
+      function activateFunnelStep(step) {
+        if (!step) return;
+
+        funnelSteps.forEach(function (item) {
+          var active = item === step;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
+
+        var number = step.querySelector(".funnel-step-number");
+        if (funnelDetailIndex && number) funnelDetailIndex.textContent = number.textContent;
+        if (funnelDetailTitle) funnelDetailTitle.textContent = step.getAttribute("data-title") || "";
+        if (funnelDetailCopy) funnelDetailCopy.textContent = step.getAttribute("data-copy") || "";
+        if (funnelDetailOutput) funnelDetailOutput.textContent = step.getAttribute("data-output") || "";
+      }
+
+      funnelSteps.forEach(function (step) {
+        step.addEventListener("click", function () {
+          activateFunnelStep(step);
+        });
+
+        if (finePointer) {
+          step.addEventListener("mouseenter", function () {
+            activateFunnelStep(step);
+          });
+        }
+      });
 
       // Form -> mailto
       var contactForm = document.getElementById("contactForm");
