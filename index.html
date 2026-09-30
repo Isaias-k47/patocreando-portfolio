@@ -3715,6 +3715,63 @@
       }
     }
 
+
+    /* Equal methodology card heights on mobile */
+    @media (max-width: 639px) {
+      #method .method-track {
+        align-items: stretch;
+      }
+
+      #method .method-slide {
+        display: flex;
+        align-items: stretch;
+        height: auto;
+      }
+
+      #method .method-card {
+        width: 100%;
+        min-height: 590px;
+        align-self: stretch;
+        justify-content: flex-start;
+      }
+
+      #method .method-layout {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #method .method-copy {
+        min-height: 178px;
+        justify-content: flex-start;
+      }
+
+      #method .method-side {
+        margin-top: auto;
+        min-height: 250px;
+        justify-content: space-between;
+      }
+
+      #method .method-chip-list {
+        min-height: 72px;
+        align-content: flex-start;
+      }
+
+      #method .method-result {
+        margin-top: auto;
+      }
+    }
+
+    @media (max-width: 380px) {
+      #method .method-card {
+        min-height: 610px;
+      }
+
+      #method .method-copy {
+        min-height: 190px;
+      }
+    }
+
   </style>
 </head>
 
