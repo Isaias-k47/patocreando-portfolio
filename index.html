@@ -66,14 +66,42 @@
       margin: 0;
       min-width: 320px;
       overflow-x: hidden;
-      background:
-        radial-gradient(circle at 18% 12%, rgba(0,71,171,.16), transparent 28%),
-        radial-gradient(circle at 82% 18%, rgba(124,58,237,.11), transparent 26%),
-        linear-gradient(180deg, #0B0B0F 0%, #09090D 46%, #0B0B0F 100%);
+      background: #0B0B0F;
       color: var(--text);
       font-family: Inter, sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 14% 18%, rgba(0,71,171,.15), transparent 30%),
+        radial-gradient(circle at 86% 24%, rgba(124,58,237,.11), transparent 28%),
+        radial-gradient(circle at 55% 82%, rgba(245,231,163,.045), transparent 24%),
+        linear-gradient(180deg, #0B0B0F 0%, #0B0B0F 100%);
+    }
+
+    body::after {
+      z-index: -1;
+      opacity: .45;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    }
+
+    main > section {
+      background: transparent !important;
     }
 
     ::selection {
@@ -310,7 +338,7 @@
       margin-top: 16px;
       padding: 22px;
       border-radius: 24px;
-      min-height: 188px;
+      min-height: 252px;
       transition:
         border-color .3s ease,
         transform .3s var(--ease),
@@ -342,6 +370,13 @@
       transform: scale(1.025);
     }
 
+    .project-note {
+      margin-top: 13px;
+      color: #8F95A0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
     .tool-badge {
       display: inline-flex;
       align-items: center;
@@ -355,6 +390,23 @@
       font-weight: 600;
       letter-spacing: .08em;
       text-transform: uppercase;
+    }
+
+    .tool-badge-primary {
+      color: #17140A;
+      border-color: rgba(245,231,163,.75);
+      background: linear-gradient(180deg, #FFF5C8, #F5E7A3);
+      box-shadow: 0 8px 24px rgba(245,231,163,.10);
+    }
+
+    .title-slide {
+      clip-path: inset(0 100% 0 0);
+      will-change: transform, opacity, clip-path;
+    }
+
+    .hero-title-slide {
+      clip-path: inset(0 100% 0 0);
+      will-change: transform, opacity, clip-path;
     }
 
     .tab-btn {
@@ -581,10 +633,6 @@
   <main>
     <!-- Hero -->
     <section id="top" class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20">
-      <div class="absolute inset-0 fine-grid pointer-events-none"></div>
-      <div class="gradient-orb orb-a -left-48 top-32" data-orb></div>
-      <div class="gradient-orb orb-b right-[-150px] top-24" data-orb></div>
-      <div class="gradient-orb orb-c left-[48%] bottom-[-80px]" data-orb></div>
 
       <div class="site-shell relative z-10 grid lg:grid-cols-[1.1fr_.9fr] items-center gap-14 xl:gap-20">
         <div>
@@ -600,7 +648,7 @@
             AI Content Creator · UGC Specialist
           </p>
 
-          <h1 class="hero-reveal display text-[clamp(3.5rem,8vw,7.8rem)] leading-[.90] tracking-[-.065em] font-semibold max-w-[900px]">
+          <h1 class="hero-title-slide display text-[clamp(3.5rem,8vw,7.8rem)] leading-[.90] tracking-[-.065em] font-semibold max-w-[900px]">
             Contenido que
             <span class="gradient-text block">parece producido,</span>
             <span class="block text-white/90">no generado.</span>
@@ -665,14 +713,12 @@
 
     <!-- Core project selector -->
     <section id="projects" class="relative py-28 md:py-36 overflow-hidden">
-      <div class="gradient-orb orb-b left-[-180px] top-[22%]" data-orb></div>
-      <div class="gradient-orb orb-a right-[-200px] bottom-[10%]" data-orb></div>
 
       <div class="site-shell relative z-10">
         <div class="grid lg:grid-cols-[1fr_.62fr] gap-8 items-end">
           <div class="section-reveal">
             <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Selected Work</p>
-            <h2 class="display text-[clamp(2.8rem,6vw,5.6rem)] leading-[.96] tracking-[-.055em] font-semibold">
+            <h2 class="title-slide display text-[clamp(2.8rem,6vw,5.6rem)] leading-[.96] tracking-[-.055em] font-semibold">
               Una dirección.
               <span class="block text-zinc-500">Tres capacidades.</span>
             </h2>
@@ -713,13 +759,16 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Producto en uso, sin perder naturalidad.
                   </h3>
+
+                  <p class="project-note">Avatar consistente, producto visible y movimientos controlados para sostener una sensación UGC creíble de principio a fin.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">01</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
-                <span class="tool-badge">Omni</span>
-                <span class="tool-badge">Nano Banana</span>
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Omni 1.1</span>
+                <span class="tool-badge">Nano Banana Pro</span>
                 <span class="tool-badge">CapCut</span>
               </div>
             </div>
@@ -744,13 +793,16 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Movimiento y styling para detener el scroll.
                   </h3>
+
+                  <p class="project-note">Identidad bloqueada, dirección de cámara y continuidad visual para convertir una referencia en una pieza lifestyle vertical.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">02</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
-                <span class="tool-badge">Soul</span>
-                <span class="tool-badge">Omni</span>
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Soul 2.0</span>
+                <span class="tool-badge">Omni 1.1</span>
                 <span class="tool-badge">AI Video</span>
               </div>
             </div>
@@ -775,13 +827,16 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Detalle que resiste el primer plano.
                   </h3>
+
+                  <p class="project-note">Trabajo de piel, microtextura, iluminación y movimiento facial para que el avatar conserve realismo incluso en close-up.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">03</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
-                <span class="tool-badge">Soul</span>
-                <span class="tool-badge">Higgsfield</span>
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Higgsfield Soul 2.0</span>
+                <span class="tool-badge">Omni 1.1</span>
                 <span class="tool-badge">Direction</span>
               </div>
             </div>
@@ -804,12 +859,15 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Producto con lenguaje visual de campaña.
                   </h3>
+
+                  <p class="project-note">Digitalización del producto real, control de etiqueta, forma y proporciones antes de llevarlo a escenas publicitarias generativas.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">04</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
-                <span class="tool-badge">Nano Banana</span>
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Nano Banana Pro</span>
                 <span class="tool-badge">Prompting</span>
                 <span class="tool-badge">Art Direction</span>
               </div>
@@ -828,19 +886,20 @@
                 </div>
 
                 <div class="code-canvas">
-                  <div class="code-line"><span class="code-n">1</span><span><span class="code-k">#</span> Creative Workflow</span></div>
-                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// research → anchors → clips</span></div>
-                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">brand</span>: <span class="code-s">"visual consistency"</span></span></div>
-                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">character</span>: locked</span></div>
-                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">product</span>: reference-safe</span></div>
-                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">format</span>: <span class="code-s">"9:16"</span></span></div>
-                  <div class="code-line"><span class="code-n">7</span><span></span></div>
-                  <div class="code-line"><span class="code-n">8</span><span><span class="code-k">if</span> continuity:</span></div>
-                  <div class="code-line"><span class="code-n">9</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
-                  <div class="code-line"><span class="code-n">10</span><span>&nbsp;&nbsp;lock_identity()</span></div>
-                  <div class="code-line"><span class="code-n">11</span><span>&nbsp;&nbsp;validate_motion()</span></div>
-                  <div class="code-line"><span class="code-n">12</span><span></span></div>
-                  <div class="code-line"><span class="code-n">13</span><span class="code-c">// final: edit → QA → deploy</span></div>
+                  <div class="code-line"><span class="code-n">1</span><span><span class="code-k">#</span> Production_System.md</span></div>
+                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// brief → product → anchors → motion</span></div>
+                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">product</span>: digitize(real_reference)</span></div>
+                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">character</span>: identity_lock()</span></div>
+                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">scene</span>: build_anchor()</span></div>
+                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">motion</span>: load(<span class="code-s">"animation-guide.md"</span>)</span></div>
+                  <div class="code-line"><span class="code-n">7</span><span><span class="code-v">format</span>: <span class="code-s">"9:16 / short-form"</span></span></div>
+                  <div class="code-line"><span class="code-n">8</span><span></span></div>
+                  <div class="code-line"><span class="code-n">9</span><span><span class="code-k">for</span> clip in sequence:</span></div>
+                  <div class="code-line"><span class="code-n">10</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
+                  <div class="code-line"><span class="code-n">11</span><span>&nbsp;&nbsp;validate_product()</span></div>
+                  <div class="code-line"><span class="code-n">12</span><span>&nbsp;&nbsp;validate_physics()</span></div>
+                  <div class="code-line"><span class="code-n">13</span><span>&nbsp;&nbsp;validate_identity()</span></div>
+                  <div class="code-line"><span class="code-n">14</span><span class="code-c">// edit → QA → export → deploy</span></div>
                 </div>
               </div>
             </div>
@@ -852,14 +911,17 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Sistemas que reducen el azar creativo.
                   </h3>
+
+                  <p class="project-note">Documentación en .md para identidad, cámara, animación, continuidad y reglas de producción. Cada guía convierte decisiones creativas en instrucciones reutilizables.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">05</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
                 <span class="tool-badge">ChatGPT</span>
                 <span class="tool-badge">Markdown</span>
-                <span class="tool-badge">Git</span>
+                <span class="tool-badge">GitHub</span>
               </div>
             </div>
           </article>
@@ -877,36 +939,52 @@
 
                 <div class="p-6 min-h-[340px] bg-[#0A0B10]">
                   <div class="grid gap-3">
-                    <div class="glass rounded-2xl p-4">
+                    <div class="glass rounded-2xl p-3.5">
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">01 · Input</span>
-                        <i data-lucide="check" class="w-4 h-4 text-butter"></i>
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">01 · Research</span>
+                        <i data-lucide="radar" class="w-4 h-4 text-butter"></i>
                       </div>
-                      <p class="mt-2 text-sm">Brief + referencias + objetivo</p>
+                      <p class="mt-1.5 text-sm">Marca + referencias + objetivo</p>
                     </div>
 
-                    <div class="glass rounded-2xl p-4 ml-5">
+                    <div class="glass rounded-2xl p-3.5 ml-3">
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">02 · Build</span>
-                        <i data-lucide="workflow" class="w-4 h-4 text-violet-300"></i>
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">02 · Digitize</span>
+                        <i data-lucide="scan-line" class="w-4 h-4 text-blue-300"></i>
                       </div>
-                      <p class="mt-2 text-sm">Anclas + prompting + generación</p>
+                      <p class="mt-1.5 text-sm">Producto real → referencia usable</p>
                     </div>
 
-                    <div class="glass rounded-2xl p-4 ml-10">
+                    <div class="glass rounded-2xl p-3.5 ml-6">
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">03 · QA</span>
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">03 · Anchor</span>
+                        <i data-lucide="pin" class="w-4 h-4 text-violet-300"></i>
+                      </div>
+                      <p class="mt-1.5 text-sm">Personaje + escena + producto</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-3.5 ml-9">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">04 · Generate</span>
+                        <i data-lucide="sparkles" class="w-4 h-4 text-violet-300"></i>
+                      </div>
+                      <p class="mt-1.5 text-sm">Clips dirigidos + guías .md</p>
+                    </div>
+
+                    <div class="glass rounded-2xl p-3.5 ml-12">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">05 · Validate</span>
                         <i data-lucide="scan-search" class="w-4 h-4 text-blue-300"></i>
                       </div>
-                      <p class="mt-2 text-sm">Continuidad + física + producto</p>
+                      <p class="mt-1.5 text-sm">Identidad + física + continuidad</p>
                     </div>
 
-                    <div class="glass rounded-2xl p-4 ml-14 border-butter/20">
+                    <div class="glass rounded-2xl p-3.5 ml-14 border-butter/20">
                       <div class="flex items-center justify-between">
-                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">04 · Ship</span>
+                        <span class="text-[10px] tracking-[.13em] uppercase text-zinc-500">06 · Ship</span>
                         <i data-lucide="rocket" class="w-4 h-4 text-butter"></i>
                       </div>
-                      <p class="mt-2 text-sm">Edición + export + publicación</p>
+                      <p class="mt-1.5 text-sm">Edición + export + deploy</p>
                     </div>
                   </div>
                 </div>
@@ -920,13 +998,16 @@
                   <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
                     Del brief a una pieza lista para publicar.
                   </h3>
+
+                  <p class="project-note">Pipeline con etapas de research, digitalización, anclas, generación, validación de física/continuidad, edición y entrega final.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">06</span>
               </div>
 
               <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
                 <span class="tool-badge">GitHub</span>
-                <span class="tool-badge">AI Stack</span>
+                <span class="tool-badge">CapCut</span>
                 <span class="tool-badge">QA</span>
               </div>
             </div>
@@ -938,18 +1019,25 @@
 
     <!-- Methodology -->
     <section id="method" class="relative py-28 md:py-36 border-y border-white/[.06]">
-      <div class="site-shell grid lg:grid-cols-[.78fr_1.22fr] gap-14 lg:gap-20">
+      <div class="site-shell grid lg:grid-cols-[.76fr_1.24fr] gap-14 lg:gap-20">
         <div class="section-reveal lg:sticky lg:top-28 lg:self-start">
           <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Metodología</p>
-          <h2 class="display text-[clamp(2.8rem,5vw,4.9rem)] leading-[.98] tracking-[-.05em] font-semibold">
-            Menos prueba y error.
-            <span class="block text-zinc-500">Más dirección.</span>
+          <h2 class="title-slide display text-[clamp(2.8rem,5vw,4.9rem)] leading-[.98] tracking-[-.05em] font-semibold">
+            Un pipeline creativo.
+            <span class="block text-zinc-500">No una cadena de prompts.</span>
           </h2>
 
           <p class="mt-6 max-w-lg text-zinc-400 leading-7">
-            La IA acelera producción. El valor está en <strong class="text-white font-medium">saber qué construir,
-            cómo mantener continuidad y cuándo una pieza está lista</strong>.
+            Trabajo con <strong class="text-white font-medium">guías .md, sistemas de anclas y reglas de continuidad</strong>.
+            La idea es poder repetir calidad, no depender de una generación afortunada.
           </p>
+
+          <div class="mt-7 flex flex-wrap gap-2">
+            <span class="tool-badge tool-badge-primary">Google Labs</span>
+            <span class="tool-badge">.MD Guides</span>
+            <span class="tool-badge">Anchors</span>
+            <span class="tool-badge">GitHub</span>
+          </div>
         </div>
 
         <div class="relative section-reveal">
@@ -961,46 +1049,58 @@
               <div class="glass rounded-[26px] p-6 md:p-8">
                 <div class="flex items-center gap-3 text-butter">
                   <i data-lucide="radar" class="w-5 h-5"></i>
-                  <span class="text-[10px] tracking-[.15em] uppercase">Entender la marca</span>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Research & dirección</span>
                 </div>
-                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
-                  Objetivo, audiencia, hook y lenguaje visual.
-                </h3>
-                <p class="mt-3 text-zinc-400 leading-7">
-                  Antes de generar, se define qué debe comunicar la pieza y qué elementos no pueden perderse.
-                </p>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">Entender la marca antes de generar.</h3>
+                <p class="mt-3 text-zinc-400 leading-7">Objetivo, audiencia, hook, referencias, tono visual y qué elementos tienen que permanecer invariantes.</p>
               </div>
             </article>
 
             <article class="grid grid-cols-[38px_1fr] gap-5">
               <div class="timeline-dot text-[11px] text-zinc-400">02</div>
               <div class="glass rounded-[26px] p-6 md:p-8">
-                <div class="flex items-center gap-3 text-violet-300">
-                  <i data-lucide="braces" class="w-5 h-5"></i>
-                  <span class="text-[10px] tracking-[.15em] uppercase">Bajar la idea a sistema</span>
+                <div class="flex items-center gap-3 text-blue-300">
+                  <i data-lucide="scan-line" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Digitalización</span>
                 </div>
-                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
-                  Referencias, anclas, prompting y lógica.
-                </h3>
-                <p class="mt-3 text-zinc-400 leading-7">
-                  Personaje, producto, escena, cámara y continuidad se estructuran antes de producir clips.
-                </p>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">Convertir el producto real en una referencia controlable.</h3>
+                <p class="mt-3 text-zinc-400 leading-7">Forma, etiqueta, proporciones, material y detalles se fijan antes de llevar el producto a escenas generativas.</p>
               </div>
             </article>
 
             <article class="grid grid-cols-[38px_1fr] gap-5">
               <div class="timeline-dot text-[11px] text-zinc-400">03</div>
               <div class="glass rounded-[26px] p-6 md:p-8">
-                <div class="flex items-center gap-3 text-blue-300">
-                  <i data-lucide="rocket" class="w-5 h-5"></i>
-                  <span class="text-[10px] tracking-[.15em] uppercase">Producción y despliegue</span>
+                <div class="flex items-center gap-3 text-violet-300">
+                  <i data-lucide="pin" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Anclas + guías</span>
                 </div>
-                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">
-                  Generar, validar, editar y publicar.
-                </h3>
-                <p class="mt-3 text-zinc-400 leading-7">
-                  Se revisa realismo, coherencia, ritmo y formato hasta convertir la generación en una pieza utilizable.
-                </p>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">Bloquear identidad, escena y movimiento.</h3>
+                <p class="mt-3 text-zinc-400 leading-7">Creo anclas de personaje, producto y entorno, más guías .md de animación, cámara y física para sostener coherencia entre clips.</p>
+              </div>
+            </article>
+
+            <article class="grid grid-cols-[38px_1fr] gap-5">
+              <div class="timeline-dot text-[11px] text-zinc-400">04</div>
+              <div class="glass rounded-[26px] p-6 md:p-8">
+                <div class="flex items-center gap-3 text-violet-300">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">Producción</span>
+                </div>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">Generar por tomas, no por azar.</h3>
+                <p class="mt-3 text-zinc-400 leading-7">Cada clip se dirige con objetivo, cámara, actuación y continuidad; cuando hace falta, el last frame del clip anterior se convierte en la siguiente referencia.</p>
+              </div>
+            </article>
+
+            <article class="grid grid-cols-[38px_1fr] gap-5">
+              <div class="timeline-dot text-[11px] text-zinc-400">05</div>
+              <div class="glass rounded-[26px] p-6 md:p-8">
+                <div class="flex items-center gap-3 text-butter">
+                  <i data-lucide="rocket" class="w-5 h-5"></i>
+                  <span class="text-[10px] tracking-[.15em] uppercase">QA + entrega</span>
+                </div>
+                <h3 class="display mt-4 text-2xl md:text-3xl tracking-[-.04em] font-semibold">Validar, editar y dejarlo listo para publicar.</h3>
+                <p class="mt-3 text-zinc-400 leading-7">Reviso identidad, producto, manos, física, lipsync, ritmo y formato. Después: selección, edición, audio, export y despliegue.</p>
               </div>
             </article>
           </div>
@@ -1010,8 +1110,6 @@
 
     <!-- Contact -->
     <section id="contact" class="relative py-28 md:py-36 overflow-hidden">
-      <div class="gradient-orb orb-a left-[-190px] bottom-[-70px]" data-orb></div>
-      <div class="gradient-orb orb-c right-[6%] top-[12%]" data-orb></div>
 
       <div class="site-shell relative z-10">
         <div class="glass rounded-[34px] p-6 md:p-10 lg:p-14 overflow-hidden relative">
@@ -1020,7 +1118,7 @@
           <div class="relative grid lg:grid-cols-[.88fr_1.12fr] gap-12 lg:gap-16">
             <div class="section-reveal">
               <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Contacto directo</p>
-              <h2 class="display text-[clamp(3rem,6vw,5.8rem)] leading-[.92] tracking-[-.06em] font-semibold">
+              <h2 class="title-slide display text-[clamp(3rem,6vw,5.8rem)] leading-[.92] tracking-[-.06em] font-semibold">
                 ¿Tenés una
                 <span class="gradient-text block">idea para probar?</span>
               </h2>
@@ -1253,6 +1351,29 @@
           duration: .9,
           stagger: .08,
           ease: "power3.out"
+        });
+
+        gsap.fromTo(".hero-title-slide",
+          { opacity: 0, x: -54, clipPath: "inset(0 100% 0 0)" },
+          { opacity: 1, x: 0, clipPath: "inset(0 0% 0 0)", duration: 1.15, delay: .12, ease: "power4.out" }
+        );
+
+        gsap.utils.toArray(".title-slide").forEach(function (title) {
+          gsap.fromTo(title,
+            { opacity: 0, x: -46, clipPath: "inset(0 100% 0 0)" },
+            {
+              opacity: 1,
+              x: 0,
+              clipPath: "inset(0 0% 0 0)",
+              duration: .95,
+              ease: "power4.out",
+              scrollTrigger: {
+                trigger: title,
+                start: "top 84%",
+                once: true
+              }
+            }
+          );
         });
 
         gsap.utils.toArray(".section-reveal").forEach(function (element) {
