@@ -3542,6 +3542,101 @@
       }
     }
 
+
+    /* Methodology horizontal intro */
+    .method-intro {
+      max-width: none;
+    }
+
+    .method-intro-label {
+      margin-bottom: 18px;
+    }
+
+    .method-intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1fr);
+      gap: 24px;
+      align-items: end;
+    }
+
+    .method-intro-title,
+    .method-intro-meta {
+      min-width: 0;
+    }
+
+    .method-intro-copy {
+      max-width: 680px;
+    }
+
+    .method-intro-tools {
+      margin-top: 22px;
+    }
+
+    @media (max-width: 639px) {
+      .method-intro,
+      .method-intro-grid,
+      .method-intro-title,
+      .method-intro-meta,
+      .method-intro-copy {
+        text-align: center;
+      }
+
+      .method-intro-label {
+        margin-bottom: 14px;
+      }
+
+      .method-intro-copy {
+        margin-inline: auto;
+      }
+
+      .method-intro-tools {
+        justify-content: center;
+        margin-top: 18px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .method-intro-label {
+        margin-bottom: 16px;
+      }
+
+      .method-intro-grid {
+        grid-template-columns: minmax(0,1.12fr) minmax(360px,.88fr);
+        gap: 64px;
+        align-items: center;
+      }
+
+      .method-intro-title h2 {
+        max-width: 650px;
+        font-size: clamp(3.4rem, 4.9vw, 5.2rem);
+      }
+
+      .method-intro-meta {
+        align-self: center;
+        padding: 20px 0 4px 32px;
+        border-left: 1px solid rgba(255,255,255,.07);
+      }
+
+      .method-intro-copy {
+        max-width: 520px;
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .method-intro-tools {
+        margin-top: 20px;
+      }
+
+      #method .section-reveal.mt-12 {
+        margin-top: 36px;
+      }
+
+      #method .method-intro::after {
+        width: 100%;
+        margin-top: 30px;
+      }
+    }
+
   </style>
 </head>
 
@@ -4099,24 +4194,30 @@
     <!-- Methodology -->
     <section id="method" class="relative py-24 md:py-28 border-y border-white/[.06] overflow-hidden">
       <div class="site-shell">
-        <div class="section-reveal max-w-3xl">
-          <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Metodología</p>
+        <div class="section-reveal method-intro">
+          <p class="method-intro-label text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase">Metodología</p>
 
-          <h2 class="title-slide display text-[clamp(2.8rem,5vw,4.9rem)] leading-[.98] tracking-[-.05em] font-semibold">
-            Un pipeline creativo.
-            <span class="block text-zinc-500">No una cadena de prompts.</span>
-          </h2>
+          <div class="method-intro-grid">
+            <div class="method-intro-title">
+              <h2 class="title-slide display text-[clamp(2.8rem,5vw,4.9rem)] leading-[.98] tracking-[-.05em] font-semibold">
+                Un pipeline creativo.
+                <span class="block text-zinc-500">No una cadena de prompts.</span>
+              </h2>
+            </div>
 
-          <p class="mt-6 max-w-2xl text-zinc-400 leading-7">
-            Trabajo con <strong class="text-white font-medium">guías, sistemas de anclas y reglas de continuidad</strong>
-            para sostener identidad, producto y dirección visual entre tomas. El objetivo es repetir calidad, no depender de una generación afortunada.
-          </p>
+            <div class="method-intro-meta">
+              <p class="method-intro-copy text-zinc-400 leading-7">
+                Trabajo con <strong class="text-white font-medium">guías, sistemas de anclas y reglas de continuidad</strong>
+                para sostener identidad, producto y dirección visual entre tomas. El objetivo es repetir calidad, no depender de una generación afortunada.
+              </p>
 
-          <div class="mt-7 flex flex-wrap gap-2">
-            <span class="tool-badge tool-badge-primary">Google Labs</span>
-            <span class="tool-badge">Claude</span>
-            <span class="tool-badge">ChatGPT</span>
-            <span class="tool-badge">Workflow propio</span>
+              <div class="method-intro-tools flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">Google Labs</span>
+                <span class="tool-badge">Claude</span>
+                <span class="tool-badge">ChatGPT</span>
+                <span class="tool-badge">Workflow propio</span>
+              </div>
+            </div>
           </div>
         </div>
 
