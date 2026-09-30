@@ -6689,7 +6689,222 @@
     (function () {
       "use strict";
 
-      lucide.createIcons();
+      var videos = Array.prototype.slice.call(
+        document.querySelectorAll(".hero-video, .project-video")
+      );
+
+      if (!videos.length) return;
+
+      var activeVideo = null;
+      var rafId = null;
+
+      function isEligible(video) {
+        if (!video || !video.isConnected) return false;
+
+        var rect = video.getBoundingClientRect();
+        var style = window.getComputedStyle(video);
+
+        if (
+          style.display === "none" ||
+          style.visibility === "hidden" ||
+          parseFloat(style.opacity || "1") === 0 ||
+          rect.width <= 0 ||
+          rect.height <= 0
+        ) {
+          return false;
+        }
+
+        return rect.bottom > 0 &&
+          rect.top < window.innerHeight &&
+          rect.right > 0 &&
+          rect.left < window.innerWidth;
+      }
+
+      function score(video) {
+        if (!isEligible(video)) return -1;
+
+        var rect = video.getBoundingClientRect();
+        var vh = Math.max(window.innerHeight, 1);
+        var top = Math.max(rect.top, 0);
+        var bottom = Math.min(rect.bottom, vh);
+        var visibleHeight = Math.max(0, bottom - top);
+        var visibleRatio = visibleHeight / Math.max(rect.height, 1);
+
+        var viewportCenter = vh / 2;
+        var videoCenter = rect.top + rect.height / 2;
+        var centerDistance = Math.abs(videoCenter - viewportCenter);
+        var centerScore = 1 - Math.min(centerDistance / vh, 1);
+
+        return (visibleRatio * .8) + (centerScore * .2);
+      }
+
+      function prepare(video) {
+        video.muted = true;
+        video.defaultMuted = true;
+        video.setAttribute("muted", "");
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        video.disablePictureInPicture = true;
+        video.preload = "metadata";
+      }
+
+      function ensureButton(video) {
+        var shell = video.closest(".phone-screen, .hero-phone-screen");
+        if (!shell) return null;
+
+        var existing = shell.querySelector(".video-tap-fallback");
+        if (existing) return existing;
+
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "video-tap-fallback is-visible";
+        button.setAttribute("aria-label", "Reproducir video");
+        button.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
+          '<path d="M8 5v14l11-7z"></path></svg>' +
+          '<span>Reproducir</span>';
+
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          activate(video, true);
+        });
+
+        shell.appendChild(button);
+        return button;
+      }
+
+      function pause(video) {
+        if (video && !video.paused) {
+          try { video.pause(); } catch (e) {}
+        }
+      }
+
+      function play(video, userGesture) {
+        if (!video) return;
+
+        prepare(video);
+        video.preload = "auto";
+        var button = ensureButton(video);
+
+        var promise;
+        try {
+          promise = video.play();
+        } catch (e) {
+          if (button) button.classList.add("is-visible");
+          return;
+        }
+
+        if (promise && typeof promise.then === "function") {
+          promise.then(function () {
+            if (button) button.classList.remove("is-visible");
+          }).catch(function () {
+            if (button) button.classList.add("is-visible");
+          });
+        } else if (userGesture && button) {
+          button.classList.remove("is-visible");
+        }
+      }
+
+      function activate(next, userGesture) {
+        videos.forEach(function (video) {
+          if (video !== next) pause(video);
+        });
+
+        activeVideo = next || null;
+
+        if (activeVideo) play(activeVideo, userGesture === true);
+      }
+
+      function selectBest() {
+        rafId = null;
+
+        if (document.hidden) {
+          activate(null);
+          return;
+        }
+
+        var best = null;
+        var bestScore = .08;
+
+        videos.forEach(function (video) {
+          var current = score(video);
+          if (current > bestScore) {
+            bestScore = current;
+            best = video;
+          }
+        });
+
+        if (best !== activeVideo) {
+          activate(best);
+        } else if (best && best.paused) {
+          play(best, false);
+        }
+      }
+
+      function schedule() {
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(selectBest);
+      }
+
+      videos.forEach(function (video) {
+        prepare(video);
+        var button = ensureButton(video);
+
+        video.addEventListener("playing", function () {
+          if (button) button.classList.remove("is-visible");
+        });
+
+        video.addEventListener("pause", function () {
+          if (video === activeVideo && button) {
+            button.classList.add("is-visible");
+          }
+        });
+
+        video.addEventListener("error", function () {
+          if (button) {
+            button.classList.add("is-visible");
+            var label = button.querySelector("span");
+            if (label) label.textContent = "Tocar para abrir";
+          }
+        });
+      });
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(schedule, {
+          threshold: [0, .1, .25, .5, .75, 1]
+        });
+        videos.forEach(function (video) { observer.observe(video); });
+      }
+
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule, { passive: true });
+      window.addEventListener("orientationchange", schedule, { passive: true });
+      window.addEventListener("pageshow", schedule);
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) activate(null);
+        else schedule();
+      });
+
+      ["touchstart", "pointerdown"].forEach(function (eventName) {
+        document.addEventListener(eventName, function () {
+          selectBest();
+          if (activeVideo) play(activeVideo, true);
+        }, { passive: true, once: true });
+      });
+
+      window.setTimeout(schedule, 80);
+      window.setTimeout(schedule, 500);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      if (window.lucide && typeof window.lucide.createIcons === "function") { window.lucide.createIcons(); }
 
       var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -6757,221 +6972,6 @@
       window.addEventListener("scroll", updateMobileSampleCta, { passive: true });
       window.addEventListener("resize", updateMobileSampleCta, { passive: true });
 
-
-      // Smart video playback: exactly one visible clip plays at a time.
-      // The clip with the strongest presence in the viewport wins; every other
-      // video stays paused to reduce decoder / memory pressure on mobile.
-      var smartVideos = Array.prototype.slice.call(
-        document.querySelectorAll(".hero-video, .project-video")
-      );
-      var activeSmartVideo = null;
-      var videoSelectionRaf = null;
-
-      function isVideoEligible(video) {
-        if (!video || !video.isConnected) return false;
-
-        var rect = video.getBoundingClientRect();
-        var style = window.getComputedStyle(video);
-
-        if (
-          style.display === "none" ||
-          style.visibility === "hidden" ||
-          parseFloat(style.opacity || "1") === 0
-        ) {
-          return false;
-        }
-
-        return rect.width > 0 &&
-          rect.height > 0 &&
-          rect.bottom > 0 &&
-          rect.top < window.innerHeight &&
-          rect.right > 0 &&
-          rect.left < window.innerWidth;
-      }
-
-      function getVideoViewportScore(video) {
-        if (!isVideoEligible(video)) return -1;
-
-        var rect = video.getBoundingClientRect();
-        var viewportHeight = Math.max(window.innerHeight, 1);
-
-        var visibleTop = Math.max(rect.top, 0);
-        var visibleBottom = Math.min(rect.bottom, viewportHeight);
-        var visibleHeight = Math.max(0, visibleBottom - visibleTop);
-        var visibleRatio = visibleHeight / Math.max(rect.height, 1);
-
-        var viewportCenter = viewportHeight / 2;
-        var videoCenter = rect.top + rect.height / 2;
-        var centerDistance = Math.abs(videoCenter - viewportCenter);
-        var centerScore = 1 - Math.min(centerDistance / viewportHeight, 1);
-
-        // Visibility matters most; proximity to the center resolves ties.
-        return (visibleRatio * .78) + (centerScore * .22);
-      }
-
-      function ensureVideoFallback(video) {
-        var shell = video.closest(".phone-screen, .hero-phone-screen");
-        if (!shell) return null;
-
-        var existing = shell.querySelector(".video-tap-fallback");
-        if (existing) return existing;
-
-        var button = document.createElement("button");
-        button.type = "button";
-        button.className = "video-tap-fallback";
-        button.setAttribute("aria-label", "Reproducir video");
-        button.innerHTML =
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
-          '<path d="M8 5v14l11-7z"></path></svg>' +
-          '<span>Reproducir</span>';
-
-        button.addEventListener("click", function () {
-          setActiveSmartVideo(video, true);
-        });
-
-        shell.appendChild(button);
-        return button;
-      }
-
-      function prepareSmartVideo(video) {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.setAttribute("muted", "");
-        video.playsInline = true;
-        video.setAttribute("playsinline", "");
-        video.setAttribute("webkit-playsinline", "");
-        video.disablePictureInPicture = true;
-        video.preload = "metadata";
-      }
-
-      function pauseSmartVideo(video) {
-        if (!video) return;
-        if (!video.paused) video.pause();
-      }
-
-      function playSmartVideo(video, fromGesture) {
-        if (!video) return;
-
-        prepareSmartVideo(video);
-        video.preload = "auto";
-
-        var fallback = ensureVideoFallback(video);
-        var promise = video.play();
-
-        if (promise && typeof promise.then === "function") {
-          promise.then(function () {
-            if (fallback) fallback.classList.remove("is-visible");
-          }).catch(function () {
-            if (fallback) fallback.classList.add("is-visible");
-          });
-        } else if (fromGesture && fallback) {
-          fallback.classList.remove("is-visible");
-        }
-      }
-
-      function setActiveSmartVideo(nextVideo, fromGesture) {
-        if (activeSmartVideo && activeSmartVideo !== nextVideo) {
-          pauseSmartVideo(activeSmartVideo);
-        }
-
-        smartVideos.forEach(function (video) {
-          if (video !== nextVideo) {
-            pauseSmartVideo(video);
-          }
-        });
-
-        activeSmartVideo = nextVideo || null;
-
-        if (activeSmartVideo) {
-          playSmartVideo(activeSmartVideo, fromGesture === true);
-        }
-      }
-
-      function pickActiveSmartVideo() {
-        videoSelectionRaf = null;
-
-        if (document.hidden) {
-          setActiveSmartVideo(null);
-          return;
-        }
-
-        var bestVideo = null;
-        var bestScore = .10;
-
-        smartVideos.forEach(function (video) {
-          var score = getVideoViewportScore(video);
-          if (score > bestScore) {
-            bestScore = score;
-            bestVideo = video;
-          }
-        });
-
-        if (bestVideo !== activeSmartVideo) {
-          setActiveSmartVideo(bestVideo);
-        } else if (bestVideo && bestVideo.paused) {
-          playSmartVideo(bestVideo);
-        }
-      }
-
-      function scheduleVideoSelection() {
-        if (videoSelectionRaf) return;
-        videoSelectionRaf = window.requestAnimationFrame(pickActiveSmartVideo);
-      }
-
-      smartVideos.forEach(function (video) {
-        prepareSmartVideo(video);
-        var fallback = ensureVideoFallback(video);
-
-        video.addEventListener("playing", function () {
-          if (fallback) fallback.classList.remove("is-visible");
-        });
-
-        video.addEventListener("error", function () {
-          if (video === activeSmartVideo && fallback) {
-            fallback.classList.add("is-visible");
-          }
-        });
-      });
-
-      if ("IntersectionObserver" in window) {
-        var videoObserver = new IntersectionObserver(function () {
-          scheduleVideoSelection();
-        }, {
-          threshold: [0, .12, .25, .5, .75, 1]
-        });
-
-        smartVideos.forEach(function (video) {
-          videoObserver.observe(video);
-        });
-      }
-
-      window.addEventListener("scroll", scheduleVideoSelection, { passive: true });
-      window.addEventListener("resize", scheduleVideoSelection, { passive: true });
-      window.addEventListener("orientationchange", scheduleVideoSelection, { passive: true });
-
-      // Older mobile browsers can require a first user gesture before autoplay.
-      ["touchstart", "pointerdown"].forEach(function (eventName) {
-        document.addEventListener(eventName, function () {
-          pickActiveSmartVideo();
-          if (activeSmartVideo) {
-            playSmartVideo(activeSmartVideo, true);
-          }
-        }, {
-          passive: true,
-          once: true
-        });
-      });
-
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-          setActiveSmartVideo(null);
-        } else {
-          scheduleVideoSelection();
-        }
-      });
-
-      window.addEventListener("pageshow", scheduleVideoSelection);
-      window.setTimeout(scheduleVideoSelection, 180);
 
       // Project tabs
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
