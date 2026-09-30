@@ -4201,6 +4201,357 @@
       }
     }
 
+
+    /* Services / commercial offer */
+    .services-section {
+      border-top: 1px solid rgba(255,255,255,.055);
+      background:
+        linear-gradient(180deg, rgba(207,230,90,.018), transparent 24%, transparent 76%, rgba(207,230,90,.012)) !important;
+    }
+
+    .services-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(90px);
+      pointer-events: none;
+      opacity: .45;
+    }
+
+    .services-orb-a {
+      width: 320px;
+      height: 320px;
+      top: 4%;
+      right: -110px;
+      background: rgba(207,230,90,.10);
+    }
+
+    .services-orb-b {
+      width: 260px;
+      height: 260px;
+      bottom: -100px;
+      left: -90px;
+      background: rgba(175,198,63,.07);
+    }
+
+    .services-intro {
+      max-width: 760px;
+    }
+
+    .services-label {
+      color: #737982;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .19em;
+      text-transform: uppercase;
+    }
+
+    .services-title {
+      margin-top: 13px;
+      font-size: clamp(2.55rem, 5.1vw, 4.9rem);
+      line-height: .98;
+      letter-spacing: -.052em;
+      font-weight: 600;
+    }
+
+    .services-title span {
+      display: block;
+      color: #676D75;
+    }
+
+    .services-copy {
+      max-width: 640px;
+      margin-top: 20px;
+      color: #989EA7;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .service-card {
+      position: relative;
+      min-height: 390px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,.075);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.052), rgba(255,255,255,.014)),
+        rgba(18,21,24,.76);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 22px 60px rgba(0,0,0,.16);
+      transition:
+        transform .35s var(--ease),
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+      isolation: isolate;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(207,230,90,.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 30px 80px rgba(0,0,0,.22),
+        0 0 38px rgba(207,230,90,.055);
+    }
+
+    .service-card-glow {
+      position: absolute;
+      z-index: -1;
+      width: 190px;
+      height: 190px;
+      top: -94px;
+      right: -78px;
+      border-radius: 50%;
+      background: rgba(207,230,90,.10);
+      filter: blur(44px);
+      transition: transform .45s var(--ease), opacity .3s ease;
+      pointer-events: none;
+    }
+
+    .service-card:hover .service-card-glow {
+      transform: translate(-12px, 12px) scale(1.14);
+      opacity: .95;
+    }
+
+    .service-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .service-icon {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: var(--brand-lime);
+      border: 1px solid rgba(207,230,90,.13);
+      background: rgba(207,230,90,.05);
+      transition: transform .3s var(--ease), background .3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      transform: translateY(-2px) rotate(-3deg);
+      background: rgba(207,230,90,.09);
+    }
+
+    .service-index {
+      color: #555B63;
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+
+    .service-card-body {
+      margin-top: 34px;
+    }
+
+    .service-kicker {
+      color: var(--brand-lime);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .service-card h3 {
+      margin-top: 11px;
+      color: #F3F5F6;
+      font-size: clamp(1.45rem, 2.1vw, 1.9rem);
+      line-height: 1.07;
+      letter-spacing: -.04em;
+      font-weight: 600;
+    }
+
+    .service-card-body > p:last-child {
+      margin-top: 14px;
+      color: #90969F;
+      font-size: 13px;
+      line-height: 1.67;
+    }
+
+    .service-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 25px;
+    }
+
+    .service-chips span {
+      min-height: 29px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.025);
+      color: #8F959E;
+      font-size: 9px;
+      letter-spacing: .035em;
+    }
+
+    .service-cta {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 0 14px;
+      border-radius: 13px;
+      border: 1px solid rgba(207,230,90,.12);
+      background: rgba(207,230,90,.045);
+      color: #DDE9A4;
+      font-size: 11px;
+      font-weight: 600;
+      transition:
+        background .3s ease,
+        border-color .3s ease,
+        color .3s ease,
+        transform .3s var(--ease);
+    }
+
+    .service-cta:hover,
+    .service-cta:focus-visible {
+      background: var(--brand-lime);
+      border-color: var(--brand-lime);
+      color: #11150A;
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    .service-cta svg {
+      transition: transform .3s var(--ease);
+    }
+
+    .service-cta:hover svg,
+    .service-cta:focus-visible svg {
+      transform: translate(2px, -2px);
+    }
+
+    .services-foot {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 26px;
+    }
+
+    .services-foot-line {
+      width: 58px;
+      height: 1px;
+      flex: 0 0 auto;
+      background: linear-gradient(90deg, var(--brand-lime), transparent);
+    }
+
+    .services-foot p {
+      color: #636A72;
+      font-size: 10px;
+      letter-spacing: .04em;
+    }
+
+    @media (max-width: 900px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .services-section {
+        padding-block: 72px;
+      }
+
+      .services-intro {
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .services-title,
+      .services-copy {
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .services-copy {
+        max-width: 34rem;
+        font-size: 14px;
+      }
+
+      .services-grid {
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      .service-card {
+        padding: 19px 17px;
+        border-radius: 21px;
+        text-align: center;
+      }
+
+      .service-card-top {
+        justify-content: center;
+        position: relative;
+      }
+
+      .service-index {
+        position: absolute;
+        right: 0;
+      }
+
+      .service-card-body {
+        margin-top: 24px;
+      }
+
+      .service-card h3 {
+        max-width: 290px;
+        margin-inline: auto;
+      }
+
+      .service-card-body > p:last-child {
+        max-width: 330px;
+        margin-inline: auto;
+        margin-top: 12px;
+      }
+
+      .service-chips {
+        justify-content: center;
+        padding-top: 22px;
+      }
+
+      .service-cta {
+        justify-content: center;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .services-foot {
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .services-foot-line {
+        width: 52px;
+      }
+    }
+
   </style>
 </head>
 
@@ -4756,6 +5107,123 @@
           </article>
 
           </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Services -->
+    <section id="services" class="services-section relative py-20 md:py-24 overflow-hidden">
+      <div class="services-orb services-orb-a" aria-hidden="true"></div>
+      <div class="services-orb services-orb-b" aria-hidden="true"></div>
+
+      <div class="site-shell relative z-10">
+        <div class="section-reveal services-intro">
+          <p class="services-label">Servicios</p>
+          <h2 class="display services-title">
+            Qué puedo hacer
+            <span>por tu marca.</span>
+          </h2>
+          <p class="services-copy">
+            Tres formas de convertir una idea o producto en contenido listo para publicar, probar o escalar.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="section-reveal service-card service-card-ugc">
+            <span class="service-card-glow" aria-hidden="true"></span>
+
+            <div class="service-card-top">
+              <span class="service-icon" aria-hidden="true">
+                <i data-lucide="scan-face" class="w-5 h-5"></i>
+              </span>
+              <span class="service-index">01</span>
+            </div>
+
+            <div class="service-card-body">
+              <p class="service-kicker">UGC con IA</p>
+              <h3 class="display">Contenido que se siente nativo.</h3>
+              <p>
+                Avatares, piezas habladas y reels verticales con identidad consistente, dirección y estética UGC.
+              </p>
+            </div>
+
+            <div class="service-chips" aria-label="Entregables UGC">
+              <span>Reels 9:16</span>
+              <span>Avatares</span>
+              <span>Hooks</span>
+            </div>
+
+            <a href="https://ig.me/m/patocreando?ref=w60834601" target="_blank" rel="noopener noreferrer" class="service-cta group">
+              <span>Pedir una muestra</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </article>
+
+          <article class="section-reveal service-card service-card-product">
+            <span class="service-card-glow" aria-hidden="true"></span>
+
+            <div class="service-card-top">
+              <span class="service-icon" aria-hidden="true">
+                <i data-lucide="package" class="w-5 h-5"></i>
+              </span>
+              <span class="service-index">02</span>
+            </div>
+
+            <div class="service-card-body">
+              <p class="service-kicker">Producto / Ads</p>
+              <h3 class="display">Tu producto, con lenguaje de campaña.</h3>
+              <p>
+                Visuales y clips publicitarios aplicados a productos reales, cuidando packaging, proporciones y continuidad.
+              </p>
+            </div>
+
+            <div class="service-chips" aria-label="Entregables de producto">
+              <span>Product Ads</span>
+              <span>Campañas</span>
+              <span>Visuales</span>
+            </div>
+
+            <a href="https://ig.me/m/patocreando?ref=w60834601" target="_blank" rel="noopener noreferrer" class="service-cta group">
+              <span>Pedir una muestra</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </article>
+
+          <article class="section-reveal service-card service-card-testing">
+            <span class="service-card-glow" aria-hidden="true"></span>
+
+            <div class="service-card-top">
+              <span class="service-icon" aria-hidden="true">
+                <i data-lucide="layers-3" class="w-5 h-5"></i>
+              </span>
+              <span class="service-index">03</span>
+            </div>
+
+            <div class="service-card-body">
+              <p class="service-kicker">Creative Testing</p>
+              <h3 class="display">Más conceptos para encontrar el que funciona.</h3>
+              <p>
+                Variaciones de hook, enfoque y ejecución para probar distintas direcciones sin rehacer toda la producción.
+              </p>
+            </div>
+
+            <div class="service-chips" aria-label="Entregables de testing">
+              <span>Variantes</span>
+              <span>Hooks</span>
+              <span>Testing</span>
+            </div>
+
+            <a href="https://ig.me/m/patocreando?ref=w60834601" target="_blank" rel="noopener noreferrer" class="service-cta group">
+              <span>Pedir una muestra</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+          </article>
+        </div>
+
+        <div class="section-reveal services-foot">
+          <span class="services-foot-line" aria-hidden="true"></span>
+          <p>Una idea clara, una producción controlada y una pieza lista para publicar.</p>
         </div>
       </div>
     </section>
