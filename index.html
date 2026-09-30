@@ -2366,6 +2366,217 @@
       }
     }
 
+
+    /* Mobile global centered editorial alignment */
+    @media (max-width: 639px) {
+      /* Navigation */
+      #mobileMenu .site-shell,
+      #mobileMenu a {
+        text-align: center;
+      }
+
+      /* Section introductions */
+      #projects > .site-shell > .grid,
+      #method > .site-shell > .section-reveal:first-child,
+      #contact .section-reveal {
+        text-align: center;
+      }
+
+      #projects h2,
+      #method h2,
+      #contact h2,
+      #projects > .site-shell > .grid p,
+      #method > .site-shell > .section-reveal:first-child > p,
+      #contact .section-reveal > p {
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      /* Project tabs + category copy */
+      #projects [role="tablist"] {
+        justify-content: flex-start;
+        text-align: center;
+      }
+
+      .tab-btn {
+        text-align: center;
+      }
+
+      .project-category-row,
+      #categoryDescription {
+        text-align: center;
+      }
+
+      #categoryDescription {
+        margin-inline: auto;
+      }
+
+      /* Project cards */
+      .project-info-card {
+        text-align: center;
+      }
+
+      .project-info-card > div:first-child {
+        position: relative;
+        display: block;
+      }
+
+      .project-info-card > div:first-child > div {
+        width: 100%;
+      }
+
+      .project-info-card > div:first-child > span:last-child {
+        display: block;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .project-info-card h3,
+      .project-note,
+      .project-info-card p {
+        margin-inline: auto;
+        text-align: center;
+      }
+
+      .project-info-card .mt-5.flex.flex-wrap {
+        justify-content: center;
+      }
+
+      .tool-badge {
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Methodology */
+      #method .section-reveal:first-child .mt-7 {
+        justify-content: center;
+      }
+
+      #method .section-reveal:first-child::after {
+        margin-inline: auto;
+      }
+
+      .method-topline {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 12px !important;
+        text-align: center;
+      }
+
+      .method-topline > div {
+        justify-content: center;
+      }
+
+      .method-copy,
+      .method-card h3,
+      .method-card .method-copy > p {
+        text-align: center;
+      }
+
+      .method-card h3,
+      .method-card .method-copy > p {
+        margin-inline: auto;
+      }
+
+      .method-side {
+        text-align: center;
+      }
+
+      .method-kicker {
+        text-align: center;
+      }
+
+      .method-chip-list {
+        justify-content: center;
+      }
+
+      .method-result {
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .method-result-copy,
+      .method-result-label,
+      .method-result-value {
+        width: 100%;
+        text-align: center;
+      }
+
+      .method-result-icon {
+        margin-inline: auto;
+      }
+
+      .method-controls {
+        justify-content: center;
+        gap: 22px;
+      }
+
+      /* Contact */
+      #contact .relative.grid {
+        text-align: center;
+      }
+
+      #contact .mt-8.flex.flex-col {
+        align-items: center;
+      }
+
+      #contact .mt-8.flex.flex-col a {
+        justify-content: center;
+        text-align: center;
+      }
+
+      #contact form {
+        text-align: center;
+      }
+
+      .floating-field input,
+      .floating-field textarea {
+        text-align: center;
+      }
+
+      .floating-field label {
+        left: 50%;
+        width: max-content;
+        max-width: calc(100% - 32px);
+        transform: translateX(-50%);
+        transform-origin: center top;
+        text-align: center;
+      }
+
+      .floating-field input:focus + label,
+      .floating-field input:not(:placeholder-shown) + label,
+      .floating-field textarea:focus + label,
+      .floating-field textarea:not(:placeholder-shown) + label {
+        transform: translateX(-50%) translateY(-10px) scale(.78);
+      }
+
+      #contact button[type="submit"] {
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+      }
+
+      #contact form > p {
+        text-align: center;
+      }
+
+      #contact footer {
+        align-items: center;
+        text-align: center;
+      }
+
+      /* Preserve technical mockups as interfaces rather than prose */
+      .code-canvas,
+      .desktop-frame,
+      .desktop-frame p,
+      .desktop-frame span {
+        text-align: left;
+      }
+    }
+
   </style>
 </head>
 
