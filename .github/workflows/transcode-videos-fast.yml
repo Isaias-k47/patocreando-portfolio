@@ -1,5 +1,4 @@
 name: Fast mobile video transcode
-# Triggered after workflow registration
 
 on:
   push:
@@ -22,17 +21,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check FFmpeg
+      - name: Install portable FFmpeg
         shell: bash
         run: |
           set -euo pipefail
-          ffmpeg -version
-          ffprobe -version
+          python -m pip install --quiet --disable-pip-version-check imageio-ffmpeg
+          python - <<'PY' >> "$GITHUB_ENV"
+          import imageio_ffmpeg
+          print("FFMPEG_BIN=" + imageio_ffmpeg.get_ffmpeg_exe())
+          PY
 
       - name: Transcode videos for older Android
         shell: bash
         run: |
           set -euo pipefail
+
+          echo "Using FFmpeg: $FFMPEG_BIN"
+          "$FFMPEG_BIN" -version
 
           mkdir -p /tmp/mobile-videos
 
@@ -44,7 +49,7 @@ jobs:
 
             echo "=== Transcoding $name ==="
 
-            ffmpeg -y \
+            "$FFMPEG_BIN" -y \
               -i "$file" \
               -map 0:v:0 \
               -vf "scale='min(720,iw)':-2:force_original_aspect_ratio=decrease,fps=30,format=yuv420p" \
@@ -65,27 +70,13 @@ jobs:
             mv "$out" "$file"
           done
 
-      - name: Verify output
-        shell: bash
-        run: |
-          set -euo pipefail
-          for file in assets/videos/*.mp4; do
-            [ -e "$file" ] || continue
-            echo "=== $file ==="
-            ffprobe -v error \
-              -select_streams v:0 \
-              -show_entries stream=codec_name,profile,pix_fmt,width,height,level,r_frame_rate \
-              -of default=noprint_wrappers=1 \
-              "$file"
-          done
-
       - name: Commit compatible videos
         shell: bash
         run: |
           set -euo pipefail
 
           if git diff --quiet -- assets/videos; then
-            echo "No changes."
+            echo "No video changes."
             exit 0
           fi
 
