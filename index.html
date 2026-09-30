@@ -2200,6 +2200,127 @@
       }
     }
 
+
+    /* Selected projects: desktop 2-up horizontal carousel */
+    .project-category-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .project-carousel-controls[hidden] {
+      display: none !important;
+    }
+
+    .project-carousel-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .project-carousel-status {
+      min-width: 58px;
+      margin-right: 4px;
+      color: #6F7580;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .project-carousel-nav {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: #D7D9DF;
+      transition:
+        transform .25s var(--ease),
+        background .25s ease,
+        border-color .25s ease,
+        opacity .25s ease;
+    }
+
+    .project-carousel-nav:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+    }
+
+    .project-carousel-nav:disabled {
+      opacity: .28;
+      cursor: default;
+    }
+
+    .project-carousel-viewport {
+      min-width: 0;
+    }
+
+    @media (max-width: 1023px) {
+      .project-category-row {
+        display: block;
+        margin-top: 16px;
+      }
+
+      #projectGrid {
+        transform: none !important;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .project-carousel-viewport {
+        overflow: hidden;
+        margin-inline: -1px;
+        padding-inline: 1px;
+      }
+
+      #projectGrid {
+        display: flex !important;
+        flex-wrap: nowrap;
+        gap: 20px;
+        width: 100%;
+        will-change: transform;
+        transition: transform .7s var(--ease);
+      }
+
+      #projectGrid .project-item:not(.is-hidden) {
+        flex: 0 0 calc((100% - 20px) / 2);
+        min-width: 0;
+      }
+
+      #projectGrid.is-workflow {
+        justify-content: center;
+        transform: none !important;
+      }
+
+      #projectGrid.is-workflow .project-item:not(.is-hidden) {
+        flex-basis: calc((100% - 20px) / 2);
+      }
+
+      .project-carousel-controls {
+        display: flex;
+      }
+
+      .project-category-row {
+        min-height: 48px;
+      }
+
+      #categoryDescription {
+        margin-top: 0;
+      }
+
+      #projectGrid {
+        margin-top: 38px;
+      }
+    }
+
   </style>
 </head>
 
@@ -2354,12 +2475,25 @@
           <button class="tab-btn" data-filter="product" role="tab" aria-selected="false">Producto IA</button>
           <button class="tab-btn" data-filter="workflow" role="tab" aria-selected="false">Flujos de trabajo</button>
         </div>
-        <p id="categoryDescription" class="section-reveal mt-5 max-w-2xl text-sm leading-6 text-zinc-500">
-          UGC vertical con avatares, lifestyle y producto en uso.
-        </p>
+        <div class="project-category-row section-reveal">
+          <p id="categoryDescription" class="max-w-2xl text-sm leading-6 text-zinc-500">
+            UGC vertical con avatares, lifestyle y producto en uso.
+          </p>
 
-        <!-- Project grid: only the selected category is shown -->
-        <div id="projectGrid" class="mt-14 grid md:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-12">
+          <div id="projectCarouselControls" class="project-carousel-controls" hidden aria-label="Navegación de proyectos">
+            <span id="projectCarouselStatus" class="project-carousel-status" aria-live="polite">1–2 / 3</span>
+            <button id="projectPrev" class="project-carousel-nav" type="button" aria-label="Proyectos anteriores">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </button>
+            <button id="projectNext" class="project-carousel-nav" type="button" aria-label="Proyectos siguientes">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Project grid: mobile grid / desktop horizontal carousel -->
+        <div id="projectViewport" class="project-carousel-viewport">
+          <div id="projectGrid" class="mt-14 grid md:grid-cols-2 gap-x-5 gap-y-12">
 
           <!-- UGC 01 -->
           <article class="project-item project-reveal" data-category="ugc">
@@ -2705,6 +2839,7 @@
             </div>
           </article>
 
+          </div>
         </div>
       </div>
     </section>
@@ -3119,13 +3254,66 @@
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
       var projectItems = Array.prototype.slice.call(document.querySelectorAll(".project-item"));
       var categoryDescription = document.getElementById("categoryDescription");
+      var projectViewport = document.getElementById("projectViewport");
+      var projectGrid = document.getElementById("projectGrid");
+      var projectCarouselControls = document.getElementById("projectCarouselControls");
+      var projectCarouselStatus = document.getElementById("projectCarouselStatus");
+      var projectPrev = document.getElementById("projectPrev");
+      var projectNext = document.getElementById("projectNext");
+      var projectCarouselIndex = 0;
+      var activeProjectCategory = "ugc";
       var categoryCopy = {
         ugc: "Avatares y producto integrados en piezas verticales con estética UGC.",
         product: "Producto real llevado a campañas, fashion y muestras comerciales con control visual.",
         workflow: "Documentación y automatización para producir, revisar y entregar con consistencia."
       };
 
+      function getVisibleProjectItems() {
+        return projectItems.filter(function (item) {
+          return !item.classList.contains("is-hidden");
+        });
+      }
+
+      function renderProjectCarousel() {
+        if (!projectGrid) return;
+
+        var desktopCarousel = window.matchMedia("(min-width: 1024px)").matches;
+        var visibleItems = getVisibleProjectItems();
+        var maxIndex = Math.max(0, visibleItems.length - 2);
+
+        projectCarouselIndex = Math.min(Math.max(projectCarouselIndex, 0), maxIndex);
+        projectGrid.classList.toggle("is-workflow", activeProjectCategory === "workflow");
+
+        if (!desktopCarousel || visibleItems.length <= 2) {
+          projectGrid.style.transform = "";
+          if (projectCarouselControls) projectCarouselControls.hidden = true;
+          return;
+        }
+
+        if (projectCarouselControls) projectCarouselControls.hidden = false;
+
+        var styles = window.getComputedStyle(projectGrid);
+        var gap = parseFloat(styles.columnGap || styles.gap || "20") || 20;
+        var viewportWidth = projectViewport ? projectViewport.clientWidth : projectGrid.clientWidth;
+        var cardWidth = (viewportWidth - gap) / 2;
+        var offset = projectCarouselIndex * (cardWidth + gap);
+
+        projectGrid.style.transform = "translate3d(-" + offset.toFixed(2) + "px,0,0)";
+
+        if (projectCarouselStatus) {
+          var first = projectCarouselIndex + 1;
+          var last = Math.min(projectCarouselIndex + 2, visibleItems.length);
+          projectCarouselStatus.textContent = first + "–" + last + " / " + visibleItems.length;
+        }
+
+        if (projectPrev) projectPrev.disabled = projectCarouselIndex === 0;
+        if (projectNext) projectNext.disabled = projectCarouselIndex >= maxIndex;
+      }
+
       function showCategory(selected) {
+        activeProjectCategory = selected;
+        projectCarouselIndex = 0;
+
         projectItems.forEach(function (item) {
           var show = item.getAttribute("data-category") === selected;
 
@@ -3143,12 +3331,33 @@
           categoryDescription.textContent = categoryCopy[selected] || "";
         }
 
+        renderProjectCarousel();
+
         if (window.ScrollTrigger) {
           ScrollTrigger.refresh();
         }
       }
 
-      tabButtons.forEach(function (button) {
+      if (projectPrev) {
+        projectPrev.addEventListener("click", function () {
+          projectCarouselIndex = Math.max(0, projectCarouselIndex - 1);
+          renderProjectCarousel();
+        });
+      }
+
+      if (projectNext) {
+        projectNext.addEventListener("click", function () {
+          var visibleItems = getVisibleProjectItems();
+          projectCarouselIndex = Math.min(Math.max(0, visibleItems.length - 2), projectCarouselIndex + 1);
+          renderProjectCarousel();
+        });
+      }
+
+      window.addEventListener("resize", function () {
+        window.requestAnimationFrame(renderProjectCarousel);
+      }, { passive: true });
+
+            tabButtons.forEach(function (button) {
         button.addEventListener("click", function () {
           var selected = button.getAttribute("data-filter");
 
