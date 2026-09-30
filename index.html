@@ -6758,21 +6758,55 @@
       window.addEventListener("resize", updateMobileSampleCta, { passive: true });
 
 
-      // Smart video playback: avoid opening every decoder at once on mobile.
-      // This is especially important on older / low-memory Android devices.
+      // Smart video playback: exactly one visible clip plays at a time.
+      // The clip with the strongest presence in the viewport wins; every other
+      // video stays paused to reduce decoder / memory pressure on mobile.
       var smartVideos = Array.prototype.slice.call(
         document.querySelectorAll(".hero-video, .project-video")
       );
+      var activeSmartVideo = null;
+      var videoSelectionRaf = null;
 
-      function isVideoVisible(video) {
+      function isVideoEligible(video) {
         if (!video || !video.isConnected) return false;
+
         var rect = video.getBoundingClientRect();
         var style = window.getComputedStyle(video);
-        if (style.display === "none" || style.visibility === "hidden") return false;
-        return rect.bottom > 0 &&
+
+        if (
+          style.display === "none" ||
+          style.visibility === "hidden" ||
+          parseFloat(style.opacity || "1") === 0
+        ) {
+          return false;
+        }
+
+        return rect.width > 0 &&
+          rect.height > 0 &&
+          rect.bottom > 0 &&
           rect.top < window.innerHeight &&
           rect.right > 0 &&
           rect.left < window.innerWidth;
+      }
+
+      function getVideoViewportScore(video) {
+        if (!isVideoEligible(video)) return -1;
+
+        var rect = video.getBoundingClientRect();
+        var viewportHeight = Math.max(window.innerHeight, 1);
+
+        var visibleTop = Math.max(rect.top, 0);
+        var visibleBottom = Math.min(rect.bottom, viewportHeight);
+        var visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        var visibleRatio = visibleHeight / Math.max(rect.height, 1);
+
+        var viewportCenter = viewportHeight / 2;
+        var videoCenter = rect.top + rect.height / 2;
+        var centerDistance = Math.abs(videoCenter - viewportCenter);
+        var centerScore = 1 - Math.min(centerDistance / viewportHeight, 1);
+
+        // Visibility matters most; proximity to the center resolves ties.
+        return (visibleRatio * .78) + (centerScore * .22);
       }
 
       function ensureVideoFallback(video) {
@@ -6792,30 +6826,14 @@
           '<span>Reproducir</span>';
 
         button.addEventListener("click", function () {
-          video.muted = true;
-          video.setAttribute("muted", "");
-          video.playsInline = true;
-          video.setAttribute("playsinline", "");
-          video.setAttribute("webkit-playsinline", "");
-          video.preload = "auto";
-
-          var promise = video.play();
-          if (promise && typeof promise.then === "function") {
-            promise.then(function () {
-              button.classList.remove("is-visible");
-            }).catch(function () {
-              button.classList.add("is-visible");
-            });
-          }
+          setActiveSmartVideo(video, true);
         });
 
         shell.appendChild(button);
         return button;
       }
 
-      function playSmartVideo(video) {
-        if (!video || !isVideoVisible(video)) return;
-
+      function prepareSmartVideo(video) {
         video.muted = true;
         video.defaultMuted = true;
         video.setAttribute("muted", "");
@@ -6823,10 +6841,19 @@
         video.setAttribute("playsinline", "");
         video.setAttribute("webkit-playsinline", "");
         video.disablePictureInPicture = true;
+        video.preload = "metadata";
+      }
 
-        if (video.preload !== "auto") {
-          video.preload = "auto";
-        }
+      function pauseSmartVideo(video) {
+        if (!video) return;
+        if (!video.paused) video.pause();
+      }
+
+      function playSmartVideo(video, fromGesture) {
+        if (!video) return;
+
+        prepareSmartVideo(video);
+        video.preload = "auto";
 
         var fallback = ensureVideoFallback(video);
         var promise = video.play();
@@ -6837,67 +6864,99 @@
           }).catch(function () {
             if (fallback) fallback.classList.add("is-visible");
           });
+        } else if (fromGesture && fallback) {
+          fallback.classList.remove("is-visible");
         }
       }
 
-      function pauseSmartVideo(video) {
-        if (!video) return;
-        if (!video.paused) video.pause();
+      function setActiveSmartVideo(nextVideo, fromGesture) {
+        if (activeSmartVideo && activeSmartVideo !== nextVideo) {
+          pauseSmartVideo(activeSmartVideo);
+        }
+
+        smartVideos.forEach(function (video) {
+          if (video !== nextVideo) {
+            pauseSmartVideo(video);
+          }
+        });
+
+        activeSmartVideo = nextVideo || null;
+
+        if (activeSmartVideo) {
+          playSmartVideo(activeSmartVideo, fromGesture === true);
+        }
+      }
+
+      function pickActiveSmartVideo() {
+        videoSelectionRaf = null;
+
+        if (document.hidden) {
+          setActiveSmartVideo(null);
+          return;
+        }
+
+        var bestVideo = null;
+        var bestScore = .10;
+
+        smartVideos.forEach(function (video) {
+          var score = getVideoViewportScore(video);
+          if (score > bestScore) {
+            bestScore = score;
+            bestVideo = video;
+          }
+        });
+
+        if (bestVideo !== activeSmartVideo) {
+          setActiveSmartVideo(bestVideo);
+        } else if (bestVideo && bestVideo.paused) {
+          playSmartVideo(bestVideo);
+        }
+      }
+
+      function scheduleVideoSelection() {
+        if (videoSelectionRaf) return;
+        videoSelectionRaf = window.requestAnimationFrame(pickActiveSmartVideo);
       }
 
       smartVideos.forEach(function (video) {
+        prepareSmartVideo(video);
         var fallback = ensureVideoFallback(video);
 
         video.addEventListener("playing", function () {
           if (fallback) fallback.classList.remove("is-visible");
         });
 
-        video.addEventListener("canplay", function () {
-          if (isVideoVisible(video) && video.paused) {
-            playSmartVideo(video);
-          }
-        });
-
         video.addEventListener("error", function () {
-          if (fallback) fallback.classList.add("is-visible");
+          if (video === activeSmartVideo && fallback) {
+            fallback.classList.add("is-visible");
+          }
         });
       });
 
       if ("IntersectionObserver" in window) {
-        var videoObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting && entry.intersectionRatio >= .16) {
-              playSmartVideo(entry.target);
-            } else {
-              pauseSmartVideo(entry.target);
-            }
-          });
+        var videoObserver = new IntersectionObserver(function () {
+          scheduleVideoSelection();
         }, {
-          threshold: [0, .16, .5]
+          threshold: [0, .12, .25, .5, .75, 1]
         });
 
         smartVideos.forEach(function (video) {
           videoObserver.observe(video);
         });
-      } else {
-        smartVideos.forEach(function (video) {
-          playSmartVideo(video);
-        });
       }
 
-      function retryVisibleVideos() {
-        smartVideos.forEach(function (video) {
-          if (isVideoVisible(video)) {
-            playSmartVideo(video);
-          } else {
-            pauseSmartVideo(video);
-          }
-        });
-      }
+      window.addEventListener("scroll", scheduleVideoSelection, { passive: true });
+      window.addEventListener("resize", scheduleVideoSelection, { passive: true });
+      window.addEventListener("orientationchange", scheduleVideoSelection, { passive: true });
 
-      // Older mobile browsers may only allow playback after the first gesture.
+      // Older mobile browsers can require a first user gesture before autoplay.
       ["touchstart", "pointerdown"].forEach(function (eventName) {
-        document.addEventListener(eventName, retryVisibleVideos, {
+        document.addEventListener(eventName, function () {
+          pickActiveSmartVideo();
+          if (activeSmartVideo) {
+            playSmartVideo(activeSmartVideo, true);
+          }
+        }, {
           passive: true,
           once: true
         });
@@ -6905,14 +6964,14 @@
 
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
-          smartVideos.forEach(pauseSmartVideo);
+          setActiveSmartVideo(null);
         } else {
-          retryVisibleVideos();
+          scheduleVideoSelection();
         }
       });
 
-      window.addEventListener("pageshow", retryVisibleVideos);
-      window.setTimeout(retryVisibleVideos, 250);
+      window.addEventListener("pageshow", scheduleVideoSelection);
+      window.setTimeout(scheduleVideoSelection, 180);
 
       // Project tabs
       var tabButtons = Array.prototype.slice.call(document.querySelectorAll("[data-filter]"));
