@@ -7927,6 +7927,152 @@
       }
     }
 
+  
+    /* Hero title clean system */
+    #top .hero-title-clean {
+      position: relative;
+      width: min(100%, 780px);
+      margin-top: 4px;
+      padding-bottom: 14px;
+    }
+
+    #top .hero-title-clean .hero-title-slide {
+      display: block !important;
+      max-width: none !important;
+      margin: 0 !important;
+      overflow: visible !important;
+      text-wrap: initial !important;
+    }
+
+    #top .hero-clean-intro,
+    #top .hero-clean-main,
+    #top .hero-clean-product {
+      display: block !important;
+      width: fit-content !important;
+      float: none !important;
+      clear: both !important;
+    }
+
+    #top .hero-clean-intro {
+      margin: 0 0 14px 0 !important;
+      color: #8C9299 !important;
+      font-size: clamp(1.1rem, 1.85vw, 1.55rem) !important;
+      font-weight: 560 !important;
+      line-height: 1.05 !important;
+      letter-spacing: -.03em !important;
+    }
+
+    #top .hero-clean-main,
+    #top .hero-clean-product {
+      color: #F6F7F8 !important;
+      font-weight: 650 !important;
+      line-height: .90 !important;
+      letter-spacing: -.062em !important;
+      -webkit-text-stroke: .55px rgba(160,168,176,.44) !important;
+      paint-order: stroke fill !important;
+      text-shadow: 0 1px 0 rgba(255,255,255,.025) !important;
+    }
+
+    #top .hero-clean-main {
+      margin: 0 !important;
+      font-size: clamp(4.15rem, 6.5vw, 6.25rem) !important;
+    }
+
+    #top .hero-clean-product {
+      position: relative;
+      margin: 4px 0 0 0 !important;
+      font-size: clamp(4.55rem, 7.05vw, 6.85rem) !important;
+      -webkit-text-stroke-color: rgba(188,196,202,.48) !important;
+    }
+
+    #top .hero-clean-product::after {
+      content: "";
+      position: absolute;
+      left: .02em;
+      right: -.01em;
+      bottom: .035em;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(207,230,90,.86);
+      pointer-events: none;
+    }
+
+    #top .hero-clean-subline {
+      width: fit-content;
+      margin: 20px 0 0 auto;
+      color: #9AA0A6;
+      font-size: clamp(.95rem, 1.4vw, 1.1rem);
+      font-weight: 520;
+      line-height: 1.4;
+      letter-spacing: -.018em;
+    }
+
+    #top .hero-clean-rule {
+      display: block;
+      width: min(100%, 600px);
+      height: 1px;
+      margin-top: 16px;
+      background:
+        linear-gradient(90deg,
+          rgba(207,230,90,.60) 0 11%,
+          rgba(255,255,255,.085) 11% 100%);
+    }
+
+    @media (max-width: 639px) {
+      #top .hero-title-clean {
+        width: 100%;
+        margin-inline: auto;
+        padding-bottom: 10px;
+      }
+
+      #top .hero-clean-intro,
+      #top .hero-clean-main,
+      #top .hero-clean-product {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+      }
+
+      #top .hero-clean-intro {
+        margin-bottom: 10px !important;
+        font-size: 1rem !important;
+      }
+
+      #top .hero-clean-main {
+        font-size: clamp(2.55rem, 11.8vw, 3.35rem) !important;
+        line-height: .92 !important;
+      }
+
+      #top .hero-clean-product {
+        margin-top: 5px !important;
+        font-size: clamp(2.85rem, 12.8vw, 3.72rem) !important;
+        line-height: .90 !important;
+      }
+
+      #top .hero-clean-main,
+      #top .hero-clean-product {
+        -webkit-text-stroke-width: .45px !important;
+      }
+
+      #top .hero-clean-product::after {
+        left: 8%;
+        right: 8%;
+        bottom: .02em;
+        height: 3px;
+      }
+
+      #top .hero-clean-subline {
+        margin: 18px auto 0;
+        font-size: .95rem;
+        text-align: center;
+      }
+
+      #top .hero-clean-rule {
+        width: 70%;
+        margin: 14px auto 0;
+      }
+    }
+
   </style>
 </head>
 
@@ -7984,14 +8130,15 @@
             AI Content Creator · UGC + Campañas
           </p>
 
-          <div class="hero-title-final">
+          <div class="hero-title-clean">
             <h1 class="hero-title-slide display font-semibold">
-              <span class="hero-final-intro">Más formas de</span>
-              <span class="hero-final-main">mostrar tu</span>
-              <span class="hero-final-product">producto.</span>
-              <span class="hero-final-close">Sin empezar de cero cada vez.</span>
+              <span class="hero-clean-intro">Más formas de</span>
+              <span class="hero-clean-main">mostrar tu</span>
+              <span class="hero-clean-product">producto.</span>
             </h1>
-            <span class="hero-final-rule" aria-hidden="true"></span>
+
+            <p class="hero-clean-subline">Sin empezar de cero cada vez.</p>
+            <span class="hero-clean-rule" aria-hidden="true"></span>
           </div>
 
           <div class="hero-reveal hero-summary-card" id="heroSummaryCard">
