@@ -8072,7 +8072,16 @@
     /* Hero native audio — desktop hard override */
     @media (min-width: 640px) {
       #heroPhone .hero-phone-screen {
-        position: relative !important;
+        position: absolute !important;
+        inset: 7px !important;
+        overflow: hidden !important;
+      }
+
+      #heroPhone .hero-video {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
       }
 
       #heroPhone #heroSoundToggle {
