@@ -7726,6 +7726,51 @@
       }
     }
 
+  
+    /* Hero title v2.1 — separate product line + refined letter edging */
+    .hero-premium-main-line,
+    .hero-premium-product {
+      display: block;
+      width: fit-content;
+      color: #F5F6F7;
+      -webkit-text-stroke: .7px rgba(255,255,255,.24);
+      text-stroke: .7px rgba(255,255,255,.24);
+      paint-order: stroke fill;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.035),
+        0 0 1px rgba(255,255,255,.16);
+    }
+
+    .hero-premium-product {
+      position: relative;
+      margin-top: .035em;
+      font-size: 1.08em;
+      line-height: .86;
+      letter-spacing: -.072em;
+    }
+
+    .hero-premium-product::after {
+      left: .025em;
+      right: -.02em;
+      bottom: .035em;
+      height: .07em;
+    }
+
+    @media (max-width: 639px) {
+      .hero-premium-main-line,
+      .hero-premium-product {
+        margin-left: auto;
+        margin-right: auto;
+        -webkit-text-stroke-width: .55px;
+        text-stroke-width: .55px;
+      }
+
+      .hero-premium-product {
+        margin-top: .08em;
+        font-size: 1.06em;
+      }
+    }
+
   </style>
 </head>
 
@@ -7787,7 +7832,8 @@
             <h1 class="hero-title-slide display font-semibold">
               <span class="hero-premium-intro">Más formas de</span>
               <span class="hero-premium-main">
-                mostrar tu <span class="hero-premium-accent">producto.</span>
+                <span class="hero-premium-main-line">mostrar tu</span>
+                <span class="hero-premium-product hero-premium-accent">producto.</span>
               </span>
               <span class="hero-premium-close">
                 Sin empezar de cero cada vez.
