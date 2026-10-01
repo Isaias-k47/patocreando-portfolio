@@ -6814,6 +6814,65 @@
       }
     }
 
+  
+    /* Hero audio control — desktop + mobile */
+    .hero-device-stage {
+      position: relative;
+    }
+
+    .hero-sound-toggle {
+      position: absolute;
+      z-index: 60;
+      right: 18px;
+      bottom: 18px;
+      min-height: 42px;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(8,10,12,.68);
+      color: #F3F5F6;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: auto !important;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background .2s ease, border-color .2s ease, transform .18s ease !important;
+      touch-action: manipulation;
+    }
+
+    .hero-sound-toggle:hover {
+      background: rgba(18,21,23,.84);
+      border-color: rgba(207,230,90,.34);
+    }
+
+    .hero-sound-toggle:active {
+      transform: scale(.96) !important;
+    }
+
+    .hero-sound-toggle.is-audible {
+      border-color: rgba(207,230,90,.42);
+      background: rgba(21,25,19,.78);
+    }
+
+    @media (max-width: 639px) {
+      .hero-device-wrap.mobile-takeover-enabled .hero-sound-toggle {
+        right: max(14px, env(safe-area-inset-right)) !important;
+        bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px)) !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8205,7 +8264,7 @@
       "use strict";
 
       var videos = Array.prototype.slice.call(
-        document.querySelectorAll(".hero-video, .project-video")
+        document.querySelectorAll(".project-video")
       );
 
       if (!videos.length) return;
@@ -8451,12 +8510,23 @@
 
       function updateSoundUi() {
         if (!soundToggle) return;
+        var muted = video.muted || video.volume === 0;
         var label = soundToggle.querySelector(".hero-sound-label");
-        if (label) label.textContent = video.muted ? "Escuchar" : "Silenciar";
+        var icon = soundToggle.querySelector("[data-lucide]");
+
+        if (label) label.textContent = muted ? "Escuchar" : "Silenciar";
         soundToggle.setAttribute(
           "aria-label",
-          video.muted ? "Activar audio del video" : "Silenciar video"
+          muted ? "Activar audio del video" : "Silenciar video"
         );
+        soundToggle.classList.toggle("is-audible", !muted);
+
+        if (icon) {
+          icon.setAttribute("data-lucide", muted ? "volume-x" : "volume-2");
+          if (window.lucide && typeof window.lucide.createIcons === "function") {
+            window.lucide.createIcons();
+          }
+        }
       }
 
       function resetMobileState() {
@@ -8512,10 +8582,6 @@
           }
         }
 
-        if (!inside && lastInside && !video.paused) {
-          try { video.pause(); } catch (e) {}
-        }
-
         lastInside = inside;
       }
 
@@ -8539,15 +8605,19 @@
       }
 
       if (soundToggle) {
-        soundToggle.addEventListener("click", function () {
-          var turningOn = video.muted;
+        soundToggle.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
 
-          video.dataset.userUnmuted = turningOn ? "true" : "false";
-          video.muted = !turningOn;
-          video.defaultMuted = !turningOn;
+          var turningOn = video.muted || video.volume === 0;
 
           if (turningOn) {
+            video.dataset.userUnmuted = "true";
+            video.muted = false;
+            video.defaultMuted = false;
+            video.volume = 1;
             video.removeAttribute("muted");
+
             var promise;
             try { promise = video.play(); } catch (e) {}
             if (promise && typeof promise.catch === "function") {
@@ -8560,6 +8630,9 @@
               });
             }
           } else {
+            video.dataset.userUnmuted = "false";
+            video.muted = true;
+            video.defaultMuted = true;
             video.setAttribute("muted", "");
           }
 
@@ -8587,6 +8660,74 @@
         mobileQuery.addEventListener("change", refresh);
         reduceMotionQuery.addEventListener("change", refresh);
       }
+
+      var heroIsVisible = false;
+
+      function playHeroIfVisible() {
+        if (!heroIsVisible || document.hidden) return;
+        video.preload = "auto";
+
+        var keepAudio = video.dataset.userUnmuted === "true";
+        if (keepAudio) {
+          video.muted = false;
+          video.defaultMuted = false;
+          video.volume = 1;
+          video.removeAttribute("muted");
+        }
+
+        var playPromise;
+        try { playPromise = video.play(); } catch (e) {}
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(function () {});
+        }
+      }
+
+      function pauseHeroIfHidden() {
+        if (!heroIsVisible && !video.paused) {
+          try { video.pause(); } catch (e) {}
+        }
+      }
+
+      if ("IntersectionObserver" in window) {
+        var heroObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            heroIsVisible = entry.isIntersecting && entry.intersectionRatio > .08;
+          });
+
+          if (heroIsVisible) playHeroIfVisible();
+          else pauseHeroIfHidden();
+        }, {
+          threshold: [0, .08, .25, .5, .75, 1]
+        });
+
+        heroObserver.observe(stage);
+      } else {
+        heroIsVisible = true;
+        playHeroIfVisible();
+      }
+
+      video.addEventListener("pause", function () {
+        if (heroIsVisible && !document.hidden) {
+          window.setTimeout(playHeroIfVisible, 60);
+        }
+      });
+
+      video.addEventListener("ended", function () {
+        if (heroIsVisible && !document.hidden) {
+          try { video.currentTime = 0; } catch (e) {}
+          playHeroIfVisible();
+        }
+      });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          if (!video.paused) {
+            try { video.pause(); } catch (e) {}
+          }
+        } else {
+          playHeroIfVisible();
+        }
+      });
 
       updateSoundUi();
       refresh();
