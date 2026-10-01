@@ -5757,6 +5757,16 @@
         padding: 64px 0;
       }
 
+      .creative-paths-title {
+        font-size: clamp(3.15rem, 14vw, 4.7rem);
+        line-height: .91;
+        letter-spacing: -.062em;
+      }
+
+      .creative-paths-head > .conversion-kicker {
+        margin-bottom: 2px;
+      }
+
       .conversion-tension-inner,
       .creative-paths-head,
       .fit-head,
@@ -5783,8 +5793,9 @@
         padding-right: 18px;
         overflow-x: auto;
         overscroll-behavior-inline: contain;
-        scroll-snap-type: x proximity;
+        scroll-snap-type: none;
         scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
       }
 
       .creative-paths-grid::-webkit-scrollbar {
@@ -5799,7 +5810,7 @@
         border-radius: 18px;
         text-align: center;
         display: block;
-        scroll-snap-align: start;
+        scroll-snap-align: none;
       }
 
       .creative-path small {
@@ -5847,6 +5858,15 @@
       }
     }
 
+
+    @media (max-width: 639px) {
+      .creative-paths-grid .creative-path.is-loop-clone {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        pointer-events: auto;
+      }
+    }
 
     /* Ambient section system */
     #top,
@@ -7622,6 +7642,151 @@
 
       window.setTimeout(schedule, 80);
       window.setTimeout(schedule, 500);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var rail = document.querySelector("#creativePaths .creative-paths-grid");
+      if (!rail) return;
+
+      var mobileQuery = window.matchMedia("(max-width: 639px)");
+      var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var rafId = null;
+      var resumeTimer = null;
+      var running = false;
+      var lastTime = 0;
+      var halfWidth = 0;
+
+      function removeClones() {
+        rail.querySelectorAll(".is-loop-clone").forEach(function (clone) {
+          clone.remove();
+        });
+        halfWidth = 0;
+      }
+
+      function measureLoop() {
+        var originals = Array.prototype.slice.call(
+          rail.querySelectorAll(".creative-path:not(.is-loop-clone)")
+        );
+        if (!originals.length) return;
+
+        var first = originals[0];
+        var last = originals[originals.length - 1];
+        halfWidth = (last.offsetLeft + last.offsetWidth) - first.offsetLeft;
+      }
+
+      function buildClones() {
+        removeClones();
+
+        if (!mobileQuery.matches || reduceMotionQuery.matches) return;
+
+        var originals = Array.prototype.slice.call(
+          rail.querySelectorAll(".creative-path:not(.is-loop-clone)")
+        );
+
+        originals.forEach(function (item) {
+          var clone = item.cloneNode(true);
+          clone.classList.add("is-loop-clone");
+          clone.classList.remove("section-reveal");
+          clone.setAttribute("aria-hidden", "true");
+          rail.appendChild(clone);
+        });
+
+        measureLoop();
+      }
+
+      function frame(time) {
+        if (!running) return;
+        if (!lastTime) lastTime = time;
+
+        var delta = Math.min(time - lastTime, 34);
+        lastTime = time;
+
+        if (halfWidth > 0) {
+          rail.scrollLeft += delta * 0.026;
+
+          if (rail.scrollLeft >= halfWidth) {
+            rail.scrollLeft -= halfWidth;
+          }
+        }
+
+        rafId = window.requestAnimationFrame(frame);
+      }
+
+      function start() {
+        if (
+          running ||
+          !mobileQuery.matches ||
+          reduceMotionQuery.matches ||
+          document.hidden
+        ) return;
+
+        if (!rail.querySelector(".is-loop-clone")) buildClones();
+        measureLoop();
+
+        running = true;
+        lastTime = 0;
+        rafId = window.requestAnimationFrame(frame);
+      }
+
+      function stop() {
+        running = false;
+        lastTime = 0;
+        if (rafId) {
+          window.cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+
+      function pauseForInteraction() {
+        stop();
+        if (resumeTimer) window.clearTimeout(resumeTimer);
+      }
+
+      function resumeAfterInteraction() {
+        if (resumeTimer) window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(start, 1100);
+      }
+
+      function refresh() {
+        stop();
+        removeClones();
+
+        if (mobileQuery.matches && !reduceMotionQuery.matches) {
+          buildClones();
+          rail.scrollLeft = 0;
+          window.setTimeout(start, 120);
+        } else {
+          rail.scrollLeft = 0;
+        }
+      }
+
+      rail.addEventListener("touchstart", pauseForInteraction, { passive: true });
+      rail.addEventListener("touchend", resumeAfterInteraction, { passive: true });
+      rail.addEventListener("pointerdown", function (event) {
+        if (event.pointerType === "touch") return;
+        pauseForInteraction();
+      }, { passive: true });
+      rail.addEventListener("pointerup", resumeAfterInteraction, { passive: true });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop();
+        else start();
+      });
+
+      window.addEventListener("orientationchange", function () {
+        window.setTimeout(refresh, 180);
+      }, { passive: true });
+
+      if (typeof mobileQuery.addEventListener === "function") {
+        mobileQuery.addEventListener("change", refresh);
+        reduceMotionQuery.addEventListener("change", refresh);
+      }
+
+      refresh();
     })();
   </script>
 
