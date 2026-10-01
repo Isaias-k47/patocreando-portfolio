@@ -6991,6 +6991,98 @@
       }
     }
 
+  
+    /* Methodology ambient motion — waves / liquid / smoke */
+    .method-card {
+      isolation: isolate;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+        rgba(12,14,17,.84);
+    }
+
+    .method-card-media {
+      position: absolute;
+      inset: -4%;
+      z-index: 0;
+      width: 108%;
+      height: 108%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .15;
+      pointer-events: none;
+      filter: saturate(.72) contrast(1.06) brightness(.78);
+      transform: scale(1.02);
+      transition: opacity .45s ease, transform 1.2s var(--ease), filter .45s ease;
+    }
+
+    .method-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(10,12,15,.84) 0%, rgba(10,12,15,.68) 48%, rgba(10,12,15,.78) 100%),
+        linear-gradient(180deg, rgba(10,12,15,.12), rgba(10,12,15,.52));
+    }
+
+    .method-card::before {
+      z-index: 1;
+    }
+
+    .method-card > .method-topline,
+    .method-card > .method-layout {
+      position: relative;
+      z-index: 2;
+    }
+
+    .method-slide[aria-label="1 de 5"] .method-card-media {
+      opacity: .17;
+      object-position: 52% center;
+    }
+
+    .method-slide[aria-label="2 de 5"] .method-card-media {
+      opacity: .18;
+      filter: saturate(.78) contrast(1.08) brightness(.82);
+    }
+
+    .method-slide[aria-label="3 de 5"] .method-card-media {
+      opacity: .13;
+      object-position: 60% center;
+      transform: scale(1.06) rotate(.2deg);
+    }
+
+    .method-slide[aria-label="4 de 5"] .method-card-media {
+      opacity: .20;
+      filter: saturate(.58) contrast(1.04) brightness(.72);
+    }
+
+    .method-slide[aria-label="5 de 5"] .method-card-media {
+      opacity: .11;
+      filter: saturate(.62) contrast(1.04) brightness(.76);
+    }
+
+    .method-slide:hover .method-card-media {
+      opacity: .22;
+      transform: scale(1.055);
+    }
+
+    @media (max-width: 639px) {
+      .method-card-media {
+        opacity: .10 !important;
+      }
+
+      .method-card::after {
+        background: linear-gradient(180deg, rgba(10,12,15,.55), rgba(10,12,15,.86));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .method-card-media {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -7966,6 +8058,9 @@
 
               <article class="method-slide" aria-label="1 de 5">
                 <div class="method-card glass">
+                  <video class="method-card-media method-card-media-1" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f34bd4e5-60f0-49a3-9d68-0723503c65d8.mp4" type="video/mp4" />
+                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="radar" class="w-5 h-5"></i>
@@ -8011,6 +8106,9 @@
 
               <article class="method-slide" aria-label="2 de 5">
                 <div class="method-card glass">
+                  <video class="method-card-media method-card-media-2" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/48758813-d0c6-4660-b833-ff4a2ce3c098.mp4" type="video/mp4" />
+                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-blue-300">
                       <i data-lucide="scan-line" class="w-5 h-5"></i>
@@ -8056,6 +8154,9 @@
 
               <article class="method-slide" aria-label="3 de 5">
                 <div class="method-card glass">
+                  <video class="method-card-media method-card-media-3" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f34bd4e5-60f0-49a3-9d68-0723503c65d8.mp4" type="video/mp4" />
+                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="pin" class="w-5 h-5"></i>
@@ -8101,6 +8202,9 @@
 
               <article class="method-slide" aria-label="4 de 5">
                 <div class="method-card glass">
+                  <video class="method-card-media method-card-media-4" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0481a04b-f326-488e-8ef3-8f247439d94e.mp4" type="video/mp4" />
+                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="sparkles" class="w-5 h-5"></i>
@@ -8146,6 +8250,9 @@
 
               <article class="method-slide" aria-label="5 de 5">
                 <div class="method-card glass">
+                  <video class="method-card-media method-card-media-5" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/48758813-d0c6-4660-b833-ff4a2ce3c098.mp4" type="video/mp4" />
+                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="rocket" class="w-5 h-5"></i>
@@ -9898,6 +10005,55 @@
         videos.forEach(function (video) {
           if (document.hidden) video.pause();
           else {
+            var rect = video.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) play(video);
+          }
+        });
+      });
+    })();
+  </script>
+
+
+  <script>
+    (function methodAmbientMotion() {
+      "use strict";
+
+      var videos = Array.prototype.slice.call(document.querySelectorAll(".method-card-media"));
+      if (!videos.length) return;
+
+      function play(video) {
+        if (document.hidden) return;
+        video.muted = true;
+        var p = video.play();
+        if (p && typeof p.catch === "function") p.catch(function () {});
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio > .18) {
+              play(entry.target);
+            } else {
+              entry.target.pause();
+            }
+          });
+        }, {
+          threshold: [0, .18, .5]
+        });
+
+        videos.forEach(function (video) {
+          video.muted = true;
+          observer.observe(video);
+        });
+      } else {
+        videos.forEach(play);
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        videos.forEach(function (video) {
+          if (document.hidden) {
+            video.pause();
+          } else {
             var rect = video.getBoundingClientRect();
             if (rect.bottom > 0 && rect.top < window.innerHeight) play(video);
           }
