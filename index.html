@@ -5178,72 +5178,56 @@
     }
 
 
-    /* Launch offer */
-    .launch-offer {
+    /* Pricing packs / value ladder */
+    .pricing-packs {
       position: relative;
-      display: grid;
-      grid-template-columns: minmax(0,1fr) auto;
-      gap: 28px;
-      align-items: center;
-      margin-top: 18px;
-      padding: 24px 25px;
+      margin-top: 28px;
+      padding: 30px;
       overflow: hidden;
-      border-radius: 24px;
-      border: 1px solid rgba(207,230,90,.24);
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 30px;
       background:
-        radial-gradient(circle at 88% 12%, rgba(207,230,90,.15), transparent 30%),
-        linear-gradient(135deg, rgba(207,230,90,.065), rgba(255,255,255,.018) 46%),
-        rgba(18,21,24,.84);
+        radial-gradient(ellipse 42% 46% at 52% 18%, rgba(207,230,90,.075), transparent 72%),
+        linear-gradient(180deg, rgba(255,255,255,.024), rgba(255,255,255,.01)),
+        rgba(15,18,21,.74);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 22px 64px rgba(0,0,0,.20);
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 30px 90px rgba(0,0,0,.16);
       isolation: isolate;
-      transition:
-        transform .35s var(--ease),
-        border-color .3s ease,
-        box-shadow .3s ease;
     }
 
-    .launch-offer:hover {
-      transform: translateY(-4px);
-      border-color: rgba(207,230,90,.38);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.045),
-        0 30px 80px rgba(0,0,0,.24),
-        0 0 38px rgba(207,230,90,.07);
-    }
-
-    .launch-offer-glow {
+    .pricing-packs::before {
+      content: "";
       position: absolute;
-      z-index: -1;
-      width: 240px;
-      height: 240px;
-      right: -90px;
-      top: -120px;
+      width: 460px;
+      height: 260px;
+      left: 50%;
+      top: -160px;
+      transform: translateX(-50%);
       border-radius: 50%;
-      background: rgba(207,230,90,.15);
-      filter: blur(52px);
+      background: rgba(207,230,90,.09);
+      filter: blur(70px);
       pointer-events: none;
-      transition: transform .45s var(--ease);
+      z-index: -1;
     }
 
-    .launch-offer:hover .launch-offer-glow {
-      transform: translate(-12px, 12px) scale(1.08);
+    .pricing-packs-head {
+      display: grid;
+      grid-template-columns: minmax(0,1.15fr) minmax(300px,.65fr);
+      gap: 48px;
+      align-items: end;
     }
 
-    .launch-offer-main {
-      min-width: 0;
-    }
-
-    .launch-offer-badges {
+    .pricing-packs-meta {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
+      margin-bottom: 14px;
     }
 
-    .launch-offer-label,
-    .launch-offer-slots {
+    .pricing-packs-label,
+    .pricing-packs-slots {
       min-height: 28px;
       display: inline-flex;
       align-items: center;
@@ -5251,163 +5235,342 @@
       padding: 0 10px;
       border-radius: 999px;
       font-size: 8px;
-      font-weight: 700;
+      font-weight: 750;
       letter-spacing: .11em;
       text-transform: uppercase;
     }
 
-    .launch-offer-label {
+    .pricing-packs-label {
       color: #10140A;
       background: var(--brand-lime);
     }
 
-    .launch-offer-slots {
+    .pricing-packs-slots {
       color: #C5CD9C;
       border: 1px solid rgba(207,230,90,.14);
       background: rgba(207,230,90,.045);
     }
 
-    .launch-offer-heading h3 {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 10px 18px;
-      margin-top: 14px;
-      letter-spacing: -.045em;
-    }
-
-    .launch-offer-heading h3 > span {
-      color: #F3F5F6;
-      font-size: clamp(1.7rem, 3vw, 2.45rem);
-      line-height: 1;
+    .pricing-packs-head h3 {
+      max-width: 720px;
+      font-size: clamp(2.5rem,4.9vw,4.8rem);
+      line-height: .95;
+      letter-spacing: -.055em;
       font-weight: 600;
     }
 
-    .launch-offer-heading h3 > strong {
-      color: var(--brand-lime);
-      font-size: clamp(2rem, 4vw, 3.15rem);
-      line-height: .95;
+    .pricing-packs-head h3 span {
+      display: block;
+      color: #777D84;
+    }
+
+    .pricing-packs-head > p {
+      max-width: 430px;
+      color: #969CA4;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .pricing-pack-rail {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 12px;
+      margin-top: 30px;
+      align-items: stretch;
+    }
+
+    .pricing-pack {
+      position: relative;
+      min-width: 0;
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        rgba(14,17,20,.82);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+    }
+
+    .pricing-pack-featured {
+      transform: translateY(-8px);
+      border-color: rgba(207,230,90,.30);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(207,230,90,.10), transparent 36%),
+        linear-gradient(180deg, rgba(207,230,90,.045), rgba(255,255,255,.014)),
+        rgba(15,18,21,.92);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 28px 70px rgba(0,0,0,.20),
+        0 0 52px rgba(207,230,90,.055);
+    }
+
+    .pricing-pack-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      min-height: 25px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      color: #11150A;
+      background: var(--brand-lime);
+      font-size: 7.5px;
+      font-weight: 800;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+
+    .pricing-pack-kicker {
+      color: #8D949C;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .pricing-pack-top h4 {
+      max-width: 290px;
+      margin-top: 10px;
+      font-size: 1.45rem;
+      line-height: 1.06;
+      letter-spacing: -.035em;
+      font-weight: 600;
+    }
+
+    .pricing-pack-price {
+      display: block;
+      margin-top: 22px;
+      color: #F3F5F6;
+      font-size: clamp(1.85rem,2.6vw,2.7rem);
+      line-height: 1;
+      letter-spacing: -.045em;
       font-weight: 700;
     }
 
-    .launch-offer-heading > p {
-      max-width: 690px;
-      margin-top: 12px;
-      color: #949AA3;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .launch-offer-includes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px 16px;
-      margin-top: 17px;
-    }
-
-    .launch-offer-includes span {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #AEB4BC;
-      font-size: 10px;
-    }
-
-    .launch-offer-includes svg {
+    .pricing-pack-featured .pricing-pack-price {
       color: var(--brand-lime);
     }
 
-    .launch-offer-action {
-      min-width: 176px;
-      display: grid;
-      gap: 8px;
-      justify-items: stretch;
+    .pricing-pack-summary {
+      margin-top: 10px;
+      color: #D7DBDF;
+      font-size: 12px;
+      font-weight: 650;
     }
 
-    .launch-offer-cta {
-      min-height: 50px;
+    .pricing-pack-extra {
+      margin-top: 4px;
+      color: #9BA1A8;
+      font-size: 11px;
+    }
+
+    .pricing-pack-list {
+      display: grid;
+      gap: 9px;
+      margin-top: 22px;
+      padding-top: 19px;
+      border-top: 1px solid rgba(255,255,255,.065);
+    }
+
+    .pricing-pack-list span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #AEB4BC;
+      font-size: 10.5px;
+      line-height: 1.4;
+    }
+
+    .pricing-pack-list svg {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 auto;
+      color: var(--brand-lime);
+    }
+
+    .pricing-pack-note {
+      margin-top: 18px;
+      color: #737A82;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .pricing-pack-cta {
+      min-height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      padding-inline: 18px;
+      gap: 8px;
+      margin-top: auto;
+      padding: 0 15px;
       border-radius: 15px;
-      background: var(--brand-lime);
-      color: #10140A;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 750;
-      box-shadow: 0 14px 34px rgba(207,230,90,.10);
       transition:
-        transform .3s var(--ease),
-        background .3s ease,
-        box-shadow .3s ease;
+        transform .28s var(--ease),
+        border-color .28s ease,
+        background .28s ease,
+        box-shadow .28s ease;
     }
 
-    .launch-offer-cta:hover,
-    .launch-offer-cta:focus-visible {
+    .pricing-pack-cta svg {
+      width: 14px;
+      height: 14px;
+      transition: transform .28s var(--ease);
+    }
+
+    .pricing-pack-cta:hover,
+    .pricing-pack-cta:focus-visible {
       transform: translateY(-2px);
-      background: var(--brand-lime-soft);
-      box-shadow: 0 18px 42px rgba(207,230,90,.16);
       outline: none;
     }
 
-    .launch-offer-cta svg {
-      transition: transform .3s var(--ease);
-    }
-
-    .launch-offer-cta:hover svg,
-    .launch-offer-cta:focus-visible svg {
+    .pricing-pack-cta:hover svg,
+    .pricing-pack-cta:focus-visible svg {
       transform: translate(2px,-2px);
     }
 
-    .launch-offer-action > p {
-      color: #626870;
-      font-size: 8px;
-      line-height: 1.4;
+    .pricing-pack-cta-primary {
+      color: #10140A;
+      background: var(--brand-lime);
+      box-shadow: 0 14px 34px rgba(207,230,90,.10);
+    }
+
+    .pricing-pack-cta-primary:hover,
+    .pricing-pack-cta-primary:focus-visible {
+      background: var(--brand-lime-soft);
+      box-shadow: 0 18px 44px rgba(207,230,90,.16);
+    }
+
+    .pricing-pack-cta-secondary {
+      color: #E8EAED;
+      border: 1px solid rgba(255,255,255,.105);
+      background: rgba(255,255,255,.03);
+    }
+
+    .pricing-pack-cta-secondary:hover,
+    .pricing-pack-cta-secondary:focus-visible {
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.055);
+    }
+
+    .pricing-packs-disclaimer {
+      margin-top: 18px;
+      color: #5F666E;
+      font-size: 8.5px;
+      line-height: 1.5;
       text-align: center;
     }
 
-    @media (max-width: 767px) {
-      .launch-offer {
+    @media (max-width: 900px) {
+      .pricing-packs-head {
         grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 20px 17px;
+        gap: 18px;
+      }
+
+      .pricing-packs-head > p {
+        max-width: 620px;
+      }
+
+      .pricing-pack {
+        min-height: 500px;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .pricing-packs {
+        margin-top: 22px;
+        padding: 24px 0 22px;
+        border-radius: 26px;
+      }
+
+      .pricing-packs-head {
+        padding-inline: 18px;
         text-align: center;
       }
 
-      .launch-offer-badges,
-      .launch-offer-heading h3,
-      .launch-offer-includes {
+      .pricing-packs-meta {
         justify-content: center;
       }
 
-      .launch-offer-heading h3 {
-        display: grid;
-        gap: 8px;
+      .pricing-packs-head h3 {
+        font-size: clamp(2.7rem,12vw,4rem);
+        line-height: .94;
+        text-align: center;
       }
 
-      .launch-offer-heading h3 > span,
-      .launch-offer-heading h3 > strong {
-        display: block;
-      }
-
-      .launch-offer-heading > p {
-        max-width: 420px;
+      .pricing-packs-head > p {
+        max-width: 350px;
         margin-inline: auto;
+        text-align: center;
       }
 
-      .launch-offer-includes {
-        max-width: 360px;
-        margin-inline: auto;
-        margin-top: 16px;
+      .pricing-pack-rail {
+        display: flex;
+        gap: 10px;
+        margin-top: 24px;
+        padding: 8px 18px 14px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
       }
 
-      .launch-offer-action {
-        min-width: 0;
+      .pricing-pack-rail::-webkit-scrollbar {
+        display: none;
       }
 
-      .launch-offer-cta {
+      .pricing-pack {
+        flex: 0 0 min(84vw, 330px);
+        min-height: 460px;
+        padding: 19px 18px;
+        border-radius: 21px;
+        scroll-snap-align: center;
+        text-align: center;
+      }
+
+      .pricing-pack-featured {
+        transform: none;
+      }
+
+      .pricing-pack-badge {
+        position: static;
+        align-self: center;
+        margin-bottom: 12px;
+      }
+
+      .pricing-pack-top h4,
+      .pricing-pack-list,
+      .pricing-pack-note {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .pricing-pack-top h4 {
+        max-width: 270px;
+      }
+
+      .pricing-pack-list {
         width: 100%;
+        max-width: 280px;
+      }
+
+      .pricing-pack-list span {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .pricing-pack-note {
+        max-width: 270px;
+      }
+
+      .pricing-packs-disclaimer {
+        padding-inline: 18px;
       }
     }
 
@@ -7171,51 +7334,119 @@
           </p>
         </article>
 
-        <article class="section-reveal launch-offer" id="launchOffer">
-          <span class="launch-offer-glow" aria-hidden="true"></span>
-
-          <div class="launch-offer-main">
-            <div class="launch-offer-heading">
-              <div class="launch-offer-badges">
-                <span class="launch-offer-label">Oferta lanzamiento</span>
-                <span class="launch-offer-slots">
+        <section class="section-reveal pricing-packs" id="launchOffer" aria-labelledby="pricingTitle">
+          <div class="pricing-packs-head">
+            <div>
+              <div class="pricing-packs-meta">
+                <span class="pricing-packs-label">Packs de lanzamiento</span>
+                <span class="pricing-packs-slots">
                   <i data-lucide="users" class="w-3.5 h-3.5"></i>
                   5 cupos
                 </span>
               </div>
 
-              <h3 class="display">
-                <span>4 UGC con IA</span>
-                <strong>ARS 100.000</strong>
+              <h3 class="display" id="pricingTitle">
+                Una base.
+                <span>Distintos niveles de producción.</span>
               </h3>
-
-              <p>
-                Un paquete inicial para marcas que quieren probar contenido vertical con una propuesta clara y lista para publicar.
-              </p>
             </div>
 
-            <div class="launch-offer-includes" aria-label="Incluye">
-              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>4 videos 9:16</span>
-              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>Portadas</span>
-              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>3 variantes de copy</span>
-              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>3 variantes de CTA</span>
-              <span><i data-lucide="check" class="w-3.5 h-3.5"></i>Edición final</span>
-            </div>
+            <p>
+              Elegí según cuánto material necesite tu marca. Cada opción combina formatos pensados para convivir en redes, lanzamientos y campañas.
+            </p>
           </div>
 
-          <div class="launch-offer-action">
-            <a href="https://ig.me/m/patocreando?ref=w60834601"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="launch-offer-cta"
-               aria-label="Reclamar cupo de lanzamiento por Instagram">
-              <span>Reclamar cupo</span>
-              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-            </a>
+          <div class="pricing-pack-rail" id="pricingPackRail">
+            <article class="pricing-pack">
+              <div class="pricing-pack-top">
+                <p class="pricing-pack-kicker">Inicio</p>
+                <h4 class="display">Para probar el formato.</h4>
+                <strong class="pricing-pack-price">ARS 50.000</strong>
+                <p class="pricing-pack-summary">1 UGC + 3 imágenes</p>
+              </div>
 
-            <p>Alcance sujeto a brief y complejidad.</p>
+              <div class="pricing-pack-list" aria-label="Incluye pack Inicio">
+                <span><i data-lucide="check"></i>1 video UGC 9:16</span>
+                <span><i data-lucide="check"></i>3 imágenes para feed</span>
+                <span><i data-lucide="check"></i>Edición final</span>
+                <span><i data-lucide="check"></i>1 copy + CTA</span>
+              </div>
+
+              <p class="pricing-pack-note">Una primera salida para llevar tu producto a video y feed.</p>
+
+              <a href="https://ig.me/m/patocreando?ref=w60834601"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="pricing-pack-cta pricing-pack-cta-secondary"
+                 aria-label="Consultar pack Inicio por Instagram">
+                <span>Empezar con Inicio</span>
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+            </article>
+
+            <article class="pricing-pack pricing-pack-featured" aria-label="Pack Multiformato, opción destacada">
+              <span class="pricing-pack-badge">Más completo</span>
+
+              <div class="pricing-pack-top">
+                <p class="pricing-pack-kicker">Multiformato</p>
+                <h4 class="display">Más salidas desde una misma idea.</h4>
+                <strong class="pricing-pack-price">ARS 100.000</strong>
+                <p class="pricing-pack-summary">2 UGC + 1 video de producto</p>
+                <p class="pricing-pack-extra">+ 4 imágenes o 1 carrusel</p>
+              </div>
+
+              <div class="pricing-pack-list" aria-label="Incluye pack Multiformato">
+                <span><i data-lucide="check"></i>2 videos UGC 9:16</span>
+                <span><i data-lucide="check"></i>1 video de producto</span>
+                <span><i data-lucide="check"></i>4 imágenes o 1 carrusel</span>
+                <span><i data-lucide="check"></i>Portadas + edición final</span>
+                <span><i data-lucide="check"></i>Variantes de copy + CTA</span>
+              </div>
+
+              <p class="pricing-pack-note">Reels, feed y una pieza con lenguaje de campaña dentro del mismo universo visual.</p>
+
+              <a href="https://ig.me/m/patocreando?ref=w60834601"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="pricing-pack-cta pricing-pack-cta-primary"
+                 aria-label="Consultar pack Multiformato por Instagram">
+                <span>Elegir Multiformato</span>
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+            </article>
+
+            <article class="pricing-pack">
+              <div class="pricing-pack-top">
+                <p class="pricing-pack-kicker">Campaña</p>
+                <h4 class="display">Un universo más amplio.</h4>
+                <strong class="pricing-pack-price">ARS 150.000</strong>
+                <p class="pricing-pack-summary">2 UGC + 2 videos de producto</p>
+                <p class="pricing-pack-extra">+ 6 imágenes + 1 carrusel</p>
+              </div>
+
+              <div class="pricing-pack-list" aria-label="Incluye pack Campaña">
+                <span><i data-lucide="check"></i>2 videos UGC 9:16</span>
+                <span><i data-lucide="check"></i>2 videos de producto</span>
+                <span><i data-lucide="check"></i>6 imágenes + 1 carrusel</span>
+                <span><i data-lucide="check"></i>Portadas + edición final</span>
+                <span><i data-lucide="check"></i>Variantes de copy + CTA</span>
+              </div>
+
+              <p class="pricing-pack-note">Pensado para lanzamientos o marcas que necesitan varias salidas coordinadas.</p>
+
+              <a href="https://ig.me/m/patocreando?ref=w60834601"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="pricing-pack-cta pricing-pack-cta-secondary"
+                 aria-label="Consultar pack Campaña por Instagram">
+                <span>Armar una campaña</span>
+                <i data-lucide="arrow-up-right"></i>
+              </a>
+            </article>
           </div>
-        </article>
+
+          <p class="pricing-packs-disclaimer">Precios de lanzamiento. Alcance sujeto a brief y complejidad.</p>
+        </section>
 
         <div class="section-reveal deliverables-card">
           <div class="deliverables-head">
@@ -8085,6 +8316,38 @@
       }
 
       refresh();
+    })();
+  </script>
+
+  <script>
+    (function pricingPackInitialFocus() {
+      "use strict";
+
+      var rail = document.getElementById("pricingPackRail");
+      if (!rail) return;
+
+      function focusFeaturedPack() {
+        if (!window.matchMedia("(max-width: 639px)").matches) {
+          rail.scrollLeft = 0;
+          return;
+        }
+
+        var featured = rail.querySelector(".pricing-pack-featured");
+        if (!featured) return;
+
+        var target = featured.offsetLeft - ((rail.clientWidth - featured.offsetWidth) / 2);
+        rail.scrollLeft = Math.max(0, target);
+      }
+
+      window.addEventListener("pageshow", function () {
+        window.setTimeout(focusFeaturedPack, 120);
+      });
+
+      window.addEventListener("orientationchange", function () {
+        window.setTimeout(focusFeaturedPack, 180);
+      }, { passive: true });
+
+      window.setTimeout(focusFeaturedPack, 180);
     })();
   </script>
 
