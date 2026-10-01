@@ -8929,11 +8929,16 @@
         min-height: 145dvh !important;
       }
 
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
+        background: transparent !important;
+      }
+
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
       .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
         transform:
-          translate3d(0, var(--hero-mobile-store-y, 0px), 0)
-          scale(1) !important;
+          translate3d(0,0,0)
+          scaleY(var(--hero-mobile-store-scale-y, 1)) !important;
+        transform-origin: top center !important;
         transition:
           inset .22s cubic-bezier(.2,.8,.2,1),
           border-radius .22s cubic-bezier(.2,.8,.2,1),
@@ -8946,7 +8951,14 @@
         border-radius: 0 !important;
       }
 
+      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-video,
+      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-phone-screen {
+        transform: none !important;
+      }
+
       .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-sound-toggle {
+        opacity: calc(1 - var(--hero-mobile-store-progress, 0)) !important;
+        pointer-events: none !important;
         transition: none !important;
       }
     }
@@ -10714,6 +10726,7 @@
         phone.style.clipPath = "";
         phone.style.webkitClipPath = "";
         phone.style.removeProperty("--hero-mobile-store-y");
+        phone.style.removeProperty("--hero-mobile-store-scale-y");
         phone.style.removeProperty("--hero-mobile-store-progress");
         wrap.classList.remove("is-takeover");
         wrap.classList.remove("is-storing");
@@ -10747,15 +10760,15 @@
         }
 
         // Reversible vertical store:
-        // keep the video full-screen through most of the sticky range,
-        // then slide it upward with scroll. Scrolling back reverses it.
+        // compress the whole video vertically instead of translating/cropping it.
+        // Scrolling back restores the exact same height.
         var storeStart = .70;
         var storeProgress = smoothstep(
           clamp((progress - storeStart) / (1 - storeStart), 0, 1)
         );
-        var storeY = -(storeProgress * viewportH);
+        var storeScaleY = 1 - (storeProgress * .90);
 
-        phone.style.setProperty("--hero-mobile-store-y", storeY.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-store-scale-y", storeScaleY.toFixed(4));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
         phone.style.clipPath = "none";
         phone.style.webkitClipPath = "none";
