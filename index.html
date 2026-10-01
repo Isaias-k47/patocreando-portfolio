@@ -8931,6 +8931,10 @@
         height: 132dvh !important;
         min-height: 132dvh !important;
         margin: 0 !important;
+        /* Keep the 32dvh scroll runway for the fullscreen → card morph,
+           but remove that runway from normal document flow so the next
+           section rises immediately instead of leaving an empty band. */
+        margin-bottom: -32dvh !important;
         overflow: visible !important;
       }
 
