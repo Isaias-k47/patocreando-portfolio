@@ -8100,16 +8100,39 @@
         pointer-events: none !important;
       }
     }
+    /* Hero audio split — mobile native / desktop isolated */
+    .hero-sound-toggle-desktop {
+      display: none !important;
+    }
 
-  
-    /* Dedicated hero audio track */
-    #heroAudioTrack {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      overflow: hidden !important;
+    @media (min-width: 640px) {
+      #heroSoundToggle {
+        display: none !important;
+      }
+
+      #heroPhone #heroSoundToggleDesktop {
+        position: absolute !important;
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 999 !important;
+        right: 10px !important;
+        bottom: 10px !important;
+        min-height: 36px !important;
+        padding: 0 10px !important;
+        cursor: pointer !important;
+      }
+
+      #heroPhone #heroSoundToggleDesktop * {
+        pointer-events: none !important;
+      }
+    }
+
+    @media (max-width: 639px) {
+      #heroSoundToggleDesktop {
+        display: none !important;
+      }
     }
 
   </style>
@@ -8238,13 +8261,17 @@
                 <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
                   <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0b0f7ca6-fe2a-47b8-8752-1449bb482c30.mp4" type="video/mp4" />
                 </video>
-                <audio id="heroAudioTrack" preload="auto" loop aria-hidden="true">
-                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/212fa988-0798-4598-a386-18d35c324ab9.mp3" type="audio/mpeg" />
-                </audio>
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
-                <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
+                <button class="hero-sound-toggle hero-sound-toggle-mobile" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
+                  <span class="hero-sound-icon" aria-hidden="true">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                  </span>
+                  <span class="hero-sound-label">Escuchar</span>
+                </button>
+
+                <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video" onclick="window.__desktopHeroAudioToggle && window.__desktopHeroAudioToggle(event,this)">
                   <span class="hero-sound-icon" aria-hidden="true">
                     <i data-lucide="volume-2" class="w-4 h-4"></i>
                   </span>
@@ -9732,6 +9759,63 @@
         videos.forEach(function (video) { observer.observe(video); });
       }
 
+      function applyHeroAudioState(enabled) {
+        video.dataset.userUnmuted = enabled ? "true" : "false";
+        video.volume = enabled ? 1 : 0;
+        video.muted = !enabled;
+        video.defaultMuted = !enabled;
+
+        if (enabled) {
+          video.removeAttribute("muted");
+        } else {
+          video.setAttribute("muted", "");
+        }
+      }
+
+      if (soundToggle) {
+        soundToggle.addEventListener("click", function (event) {
+          if (!mobileQuery.matches) return;
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          var turningOn = video.dataset.userUnmuted !== "true";
+          applyHeroAudioState(turningOn);
+
+          if (turningOn) {
+            video.preload = "auto";
+
+            var promise;
+            try { promise = video.play(); } catch (e) {}
+
+            if (promise && typeof promise.then === "function") {
+              promise.then(function () {
+                if (video.dataset.userUnmuted === "true") {
+                  applyHeroAudioState(true);
+                  updateSoundUi();
+                }
+              }).catch(function () {
+                applyHeroAudioState(false);
+                updateSoundUi();
+              });
+            }
+
+            window.setTimeout(function () {
+              if (video.dataset.userUnmuted === "true") {
+                applyHeroAudioState(true);
+                updateSoundUi();
+              }
+            }, 80);
+          }
+
+          updateSoundUi();
+        });
+
+        video.addEventListener("volumechange", function () {
+          if (mobileQuery.matches) updateSoundUi();
+        });
+      }
+
       window.addEventListener("scroll", schedule, { passive: true });
       window.addEventListener("resize", schedule, { passive: true });
       window.addEventListener("orientationchange", schedule, { passive: true });
@@ -9904,12 +9988,12 @@
         if (!heroIsVisible || document.hidden) return;
         video.preload = "auto";
 
-        // Visual hero remains permanently muted so autoplay is deterministic.
-        video.dataset.userUnmuted = "false";
-        video.volume = 0;
-        video.muted = true;
-        video.defaultMuted = true;
-        video.setAttribute("muted", "");
+        var keepAudio = mobileQuery.matches && video.dataset.userUnmuted === "true";
+        if (keepAudio) {
+          applyHeroAudioState(true);
+        } else {
+          applyHeroAudioState(false);
+        }
 
         var playPromise;
         try { playPromise = video.play(); } catch (e) {}
@@ -11105,139 +11189,150 @@
     })();
   </script>
 
-
   <script>
-    (function heroAudioController() {
+    (function desktopHeroAudioController() {
       "use strict";
 
-      var video = document.querySelector("#heroPhone .hero-video");
-      var audio = document.getElementById("heroAudioTrack");
-      var button = document.getElementById("heroSoundToggle");
+      var AUDIO_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/212fa988-0798-4598-a386-18d35c324ab9.mp3";
+      var desktopQuery = window.matchMedia("(min-width: 640px)");
+      var audio = null;
+      var active = false;
+      var syncTimer = null;
 
-      if (!video || !audio || !button) return;
+      function getVideo() {
+        return document.querySelector("#heroPhone .hero-video");
+      }
 
-      var label = button.querySelector(".hero-sound-label");
-      var enabled = false;
-
-      function renderUi() {
-        if (label) label.textContent = enabled ? "Silenciar" : "Escuchar";
-        button.classList.toggle("is-audible", enabled);
+      function updateButton(button) {
+        if (!button) return;
+        var label = button.querySelector(".hero-sound-label");
+        if (label) label.textContent = active ? "Silenciar" : "Escuchar";
+        button.classList.toggle("is-audible", active);
         button.setAttribute(
           "aria-label",
-          enabled ? "Silenciar video" : "Activar audio del video"
+          active ? "Silenciar video" : "Activar audio del video"
         );
       }
 
-      function keepVideoMuted() {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.volume = 0;
-        video.setAttribute("muted", "");
+      function ensureAudio() {
+        if (audio) return audio;
+
+        audio = new Audio(AUDIO_URL);
+        audio.preload = "auto";
+        audio.loop = true;
+        audio.volume = 1;
+        audio.muted = false;
+        return audio;
       }
 
-      function syncAudio(force) {
-        if (!enabled) return;
+      function syncToVideo(force) {
+        if (!audio || !active) return;
+        var video = getVideo();
+        if (!video) return;
 
         var vt = Number(video.currentTime || 0);
         var at = Number(audio.currentTime || 0);
 
-        if (force || Math.abs(vt - at) > .18) {
+        if (force || Math.abs(vt - at) > .20) {
           try { audio.currentTime = vt; } catch (e) {}
         }
       }
 
-      function playAudioFromGesture() {
-        keepVideoMuted();
-
-        audio.muted = false;
-        audio.volume = 1;
-        audio.preload = "auto";
-        syncAudio(true);
-
-        var p;
-        try { p = audio.play(); } catch (e) {
-          enabled = false;
-          renderUi();
-          return;
-        }
-
-        if (p && typeof p.then === "function") {
-          p.then(function () {
-            if (!enabled) {
-              try { audio.pause(); } catch (e) {}
-              return;
-            }
-            syncAudio(true);
-          }).catch(function () {
-            enabled = false;
-            try { audio.pause(); } catch (e) {}
-            renderUi();
-          });
+      function stopSync() {
+        if (syncTimer) {
+          window.clearInterval(syncTimer);
+          syncTimer = null;
         }
       }
 
-      button.addEventListener("click", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+      function startSync() {
+        stopSync();
+        syncTimer = window.setInterval(function () {
+          if (!active || !desktopQuery.matches) return;
+          syncToVideo(false);
+        }, 500);
+      }
 
-        enabled = !enabled;
+      window.__desktopHeroAudioToggle = function (event, button) {
+        if (!desktopQuery.matches) return;
 
-        if (enabled) {
-          // This play() runs synchronously from the user's click gesture.
-          playAudioFromGesture();
-
-          if (video.paused) {
-            var vp;
-            try { vp = video.play(); } catch (e) {}
-            if (vp && typeof vp.catch === "function") vp.catch(function () {});
-          }
-        } else {
-          try { audio.pause(); } catch (e) {}
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
         }
 
-        renderUi();
-      });
+        var video = getVideo();
+        if (!video) return;
 
-      video.addEventListener("timeupdate", function () {
-        if (enabled && !audio.paused) syncAudio(false);
-      });
+        var track = ensureAudio();
 
-      video.addEventListener("seeking", function () {
-        if (enabled) syncAudio(true);
-      });
+        if (active) {
+          active = false;
+          try { track.pause(); } catch (e) {}
+          stopSync();
+          updateButton(button);
+          return;
+        }
 
-      video.addEventListener("play", function () {
-        keepVideoMuted();
-        if (enabled && audio.paused) {
-          syncAudio(true);
+        active = true;
+
+        try { track.currentTime = Number(video.currentTime || 0); } catch (e) {}
+        track.volume = 1;
+        track.muted = false;
+
+        // Critical: play() is called synchronously from the desktop click gesture.
+        var promise;
+        try { promise = track.play(); } catch (e) {
+          active = false;
+          updateButton(button);
+          return;
+        }
+
+        updateButton(button);
+        startSync();
+
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(function () {
+            // Fallback to the video's own audio if the standalone track is blocked.
+            try {
+              video.volume = 1;
+              video.muted = false;
+              video.defaultMuted = false;
+              video.removeAttribute("muted");
+              var vp = video.play();
+              if (vp && typeof vp.catch === "function") {
+                vp.catch(function () {});
+              }
+            } catch (e) {}
+
+            active = !video.muted;
+            updateButton(button);
+          });
+        }
+      };
+
+      document.addEventListener("visibilitychange", function () {
+        if (!audio) return;
+
+        if (document.hidden) {
+          try { audio.pause(); } catch (e) {}
+        } else if (active && desktopQuery.matches) {
+          syncToVideo(true);
           var p;
           try { p = audio.play(); } catch (e) {}
           if (p && typeof p.catch === "function") p.catch(function () {});
         }
       });
 
-      video.addEventListener("pause", function () {
-        if (!audio.paused) {
-          try { audio.pause(); } catch (e) {}
-        }
-      });
-
-      audio.addEventListener("loadedmetadata", function () {
-        if (enabled) syncAudio(true);
-      });
-
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-          if (!audio.paused) {
+      if (typeof desktopQuery.addEventListener === "function") {
+        desktopQuery.addEventListener("change", function (event) {
+          if (!event.matches && audio) {
+            active = false;
             try { audio.pause(); } catch (e) {}
+            stopSync();
           }
-        } else if (enabled && !video.paused) {
-          playAudioFromGesture();
-        }
-      });
-
-      keepVideoMuted();
-      renderUi();
+        });
+      }
     })();
   </script>
 
