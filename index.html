@@ -7209,6 +7209,84 @@
       }
     }
 
+  
+    /* Final proposal atmospheric motion */
+    .contact-proposal-card {
+      isolation: isolate;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+        rgba(10,12,15,.84);
+    }
+
+    .contact-proposal-media {
+      position: absolute;
+      inset: -10% -4% -10% auto;
+      z-index: 0;
+      width: 58%;
+      height: 120%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .10;
+      pointer-events: none;
+      filter: blur(8px) saturate(.58) contrast(1.03) brightness(.70);
+      transform: scale(1.07);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.24) 20%, #000 62%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.24) 20%, #000 62%);
+      transition: opacity .45s ease, transform 1s var(--ease);
+    }
+
+    .contact-proposal-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg,
+          rgba(9,11,14,.96) 0%,
+          rgba(9,11,14,.90) 46%,
+          rgba(9,11,14,.72) 74%,
+          rgba(9,11,14,.66) 100%),
+        radial-gradient(circle at 88% 16%, rgba(207,230,90,.055), transparent 30%);
+    }
+
+    .contact-proposal-card:hover .contact-proposal-media {
+      opacity: .13;
+      transform: scale(1.085);
+    }
+
+    @keyframes contactProposalAmbientIn {
+      0% {
+        opacity: .035;
+        transform: scale(1.10) translateX(10px);
+      }
+      100% {
+        opacity: .10;
+        transform: scale(1.07) translateX(0);
+      }
+    }
+
+    .contact-proposal-card.is-contact-ambient-active .contact-proposal-media {
+      animation: contactProposalAmbientIn .9s cubic-bezier(.22,.8,.26,1) both;
+    }
+
+    @media (max-width: 639px) {
+      .contact-proposal-media {
+        width: 82%;
+        opacity: .065;
+      }
+
+      .contact-proposal-overlay {
+        background:
+          linear-gradient(180deg, rgba(9,11,14,.78), rgba(9,11,14,.93));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .contact-proposal-media {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8453,10 +8531,13 @@
     <section id="contact" class="relative py-28 md:py-36 overflow-hidden">
 
       <div class="site-shell relative z-10">
-        <div class="glass rounded-[34px] p-6 md:p-10 lg:p-14 overflow-hidden relative">
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(207,230,90,.13),transparent_30%),radial-gradient(circle_at_10%_90%,rgba(175,198,63,.14),transparent_28%)] pointer-events-none"></div>
+        <div class="glass rounded-[34px] p-6 md:p-10 lg:p-14 overflow-hidden relative contact-proposal-card">
+          <video class="contact-proposal-media" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+            <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0481a04b-f326-488e-8ef3-8f247439d94e.mp4" type="video/mp4" />
+          </video>
+          <div class="contact-proposal-overlay" aria-hidden="true"></div>
 
-          <div class="relative grid lg:grid-cols-[.88fr_1.12fr] gap-12 lg:gap-16">
+          <div class="relative z-10 grid lg:grid-cols-[.88fr_1.12fr] gap-12 lg:gap-16">
             <div class="section-reveal">
               <p class="text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase mb-4">Contacto directo</p>
               <h2 class="title-slide display text-[clamp(3rem,6vw,5.8rem)] leading-[.92] tracking-[-.06em] font-semibold">
@@ -10197,6 +10278,51 @@
             if (rect.bottom > 0 && rect.top < window.innerHeight) play(video);
           }
         });
+      });
+    })();
+  </script>
+
+
+  <script>
+    (function contactProposalAmbientMotion() {
+      "use strict";
+
+      var card = document.querySelector(".contact-proposal-card");
+      var video = card ? card.querySelector(".contact-proposal-media") : null;
+      if (!card || !video) return;
+
+      function play() {
+        if (document.hidden) return;
+        video.muted = true;
+        var p = video.play();
+        if (p && typeof p.catch === "function") p.catch(function () {});
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio > .18) {
+              card.classList.add("is-contact-ambient-active");
+              play();
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: [0, .18, .45] });
+
+        observer.observe(card);
+      } else {
+        card.classList.add("is-contact-ambient-active");
+        play();
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          video.pause();
+        } else {
+          var rect = card.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) play();
+        }
       });
     })();
   </script>
