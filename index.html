@@ -5642,10 +5642,24 @@
     }
 
     .fit-head {
-      max-width: 860px;
+      display: grid;
+      grid-template-columns: minmax(220px,.62fr) minmax(0,1.38fr);
+      grid-template-areas: "kicker title";
+      column-gap: 64px;
+      align-items: start;
+      max-width: none;
+    }
+
+    .fit-head > .conversion-kicker {
+      grid-area: kicker;
+      margin: 8px 0 0;
+      align-self: start;
     }
 
     .fit-title {
+      grid-area: title;
+      max-width: 760px;
+      margin-left: auto;
       font-size: clamp(2.8rem,5.5vw,5.4rem);
       line-height: .96;
       letter-spacing: -.055em;
@@ -5660,30 +5674,35 @@
     .fit-grid {
       display: grid;
       grid-template-columns: repeat(3,minmax(0,1fr));
-      gap: 12px;
-      margin-top: 38px;
+      gap: 10px;
+      margin-top: 30px;
     }
 
     .fit-card {
-      min-height: 210px;
-      padding: 22px;
+      aspect-ratio: 2.15 / 1;
+      min-height: 0;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
       border: 1px solid rgba(255,255,255,.075);
       border-radius: 24px;
       background: rgba(255,255,255,.018);
     }
 
     .fit-card h3 {
-      margin-top: 48px;
-      font-size: 1.35rem;
+      margin-top: 0;
+      font-size: 1.28rem;
       letter-spacing: -.03em;
     }
 
     .fit-card p {
-      max-width: 330px;
-      margin-top: 12px;
+      max-width: 285px;
+      margin: 8px auto 0;
       color: #8E949A;
-      font-size: 13px;
-      line-height: 1.65;
+      font-size: 11px;
+      line-height: 1.5;
     }
 
     .direction-principle {
@@ -5747,12 +5766,28 @@
         grid-template-columns: repeat(2,minmax(0,1fr));
       }
 
+      .fit-head {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "kicker"
+          "title";
+        row-gap: 12px;
+      }
+
+      .fit-head > .conversion-kicker {
+        margin-top: 0;
+      }
+
+      .fit-title {
+        margin-left: 0;
+      }
+
       .fit-grid {
         grid-template-columns: 1fr;
       }
 
       .fit-card {
-        min-height: 170px;
+        min-height: 0;
       }
     }
 
@@ -5839,23 +5874,51 @@
         line-height: 1.45;
       }
 
+      .fit-head {
+        text-align: center;
+      }
+
+      .fit-title {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
       .fit-grid {
-        margin-top: 28px;
+        display: flex;
+        gap: 9px;
+        margin-top: 24px;
+        margin-right: calc((100vw - 100%) / -2);
+        padding-right: 18px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .fit-grid::-webkit-scrollbar {
+        display: none;
       }
 
       .fit-card {
-        min-height: 150px;
+        flex: 0 0 min(84vw, 330px);
+        aspect-ratio: 2.1 / 1;
+        min-height: 0;
+        padding: 14px 16px;
+        border-radius: 18px;
         text-align: center;
-        padding: 19px;
       }
 
       .fit-card h3 {
-        margin-top: 26px;
+        margin-top: 0;
+        font-size: 1.18rem;
       }
 
       .fit-card p {
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 250px;
+        margin: 7px auto 0;
+        font-size: 10.8px;
+        line-height: 1.45;
       }
 
       .direction-principle {
@@ -5987,9 +6050,19 @@
     /* FIT — cleaner chapter, lighter center to support identification */
     #fit {
       background:
-        radial-gradient(ellipse 52% 58% at 50% 43%, rgba(243,245,246,.045), transparent 72%),
-        radial-gradient(ellipse 30% 38% at 85% 24%, rgba(207,230,90,.045), transparent 72%),
-        linear-gradient(180deg, #111417 0%, #121519 52%, #101316 100%);
+        radial-gradient(ellipse 46% 52% at 78% 24%, rgba(207,230,90,.075), transparent 70%),
+        radial-gradient(ellipse 50% 62% at 18% 74%, rgba(243,245,246,.042), transparent 72%),
+        linear-gradient(180deg, #111417 0%, #13171b 50%, #101316 100%);
+    }
+
+    #fit::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,.012) 48%, transparent 100%);
     }
 
     .fit-card {
@@ -6938,19 +7011,16 @@
 
         <div class="fit-grid">
           <article class="fit-card section-reveal">
-            <span class="fit-index">01</span>
             <h3 class="display">Marcas de producto</h3>
             <p>Catálogos que necesitan alimentar redes, lanzamientos o paid social con mayor frecuencia.</p>
           </article>
 
           <article class="fit-card section-reveal">
-            <span class="fit-index">02</span>
             <h3 class="display">Ecommerce</h3>
             <p>Equipos que quieren darle más recorrido visual a lo que ya tienen disponible.</p>
           </article>
 
           <article class="fit-card section-reveal">
-            <span class="fit-index">03</span>
             <h3 class="display">Agencias</h3>
             <p>Capacidad creativa adicional para pitches, campañas o entregas sin ampliar estructura.</p>
           </article>
