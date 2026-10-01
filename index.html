@@ -6756,6 +6756,64 @@
       }
     }
 
+  
+    /* Mobile hero takeover v2 — stable one-way reveal, no blank travel */
+    @media (max-width: 639px) {
+      .hero-device-wrap.mobile-takeover-enabled {
+        height: 120dvh !important;
+        min-height: 120dvh !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        overflow: visible !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
+        top: 0 !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        width: 100vw !important;
+        overflow: hidden !important;
+        background: #080a0c !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell {
+        inset: 10px !important;
+        width: auto !important;
+        height: auto !important;
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+        border-radius: 22px !important;
+        overflow: hidden !important;
+        opacity: .94;
+        transform: scale(.985) !important;
+        transition:
+          inset .26s cubic-bezier(.2,.8,.2,1),
+          border-radius .26s cubic-bezier(.2,.8,.2,1),
+          transform .26s cubic-bezier(.2,.8,.2,1),
+          opacity .2s ease !important;
+        will-change: inset, border-radius, transform, opacity;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
+        inset: 0 !important;
+        border-radius: 0 !important;
+        opacity: 1;
+        transform: scale(1) !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen,
+      .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: inherit !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        object-fit: cover !important;
+        object-position: center center !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -6874,9 +6932,8 @@
               </div>
 
               <div class="hero-phone-screen">
-                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video" data-preferred-source="hero-avatar-ugc.mp4">
-                  <source src="./assets/videos/hero-avatar-ugc.mp4" type="video/mp4" />
-                  <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
+                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/8dddc552-6401-4eb4-a108-42481b0a3cd6.mp4" type="video/mp4" />
                 </video>
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
@@ -8416,6 +8473,7 @@
 
         if (!enabled) {
           resetMobileState();
+          wrap.classList.remove("is-revealed");
         }
       }
 
@@ -8431,13 +8489,13 @@
         // Compact top-to-bottom reveal:
         // 0–22%: uncover the video from the top edge.
         // 22–100%: keep it completely static; the sticky section exits naturally.
-        var reveal = smoothstep(progress / .22);
-        var hiddenBottom = (1 - reveal) * 100;
-        var clip = "inset(0 0 " + hiddenBottom.toFixed(2) + "% 0)";
+        if (progress >= .02 || rect.top <= viewportH * .82) {
+          wrap.classList.add("is-revealed");
+        }
 
         phone.style.transform = "translate3d(0,0,0)";
-        phone.style.clipPath = clip;
-        phone.style.webkitClipPath = clip;
+        phone.style.clipPath = "none";
+        phone.style.webkitClipPath = "none";
 
         var inside = rect.top < viewportH && rect.bottom > 0;
         var fullyCovering = inside && progress >= .16 && progress <= .995;
