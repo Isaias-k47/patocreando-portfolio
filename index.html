@@ -820,17 +820,15 @@
 
     #projects [role="tablist"] {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
       gap: 8px;
-      overflow-x: auto;
+      overflow: visible;
+      width: 100%;
+      max-width: 390px;
+      margin: 0 auto;
       padding-bottom: 4px;
-      margin-inline: -2px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    #projects [role="tablist"]::-webkit-scrollbar {
-      display: none;
     }
 
     .tab-btn {
@@ -839,13 +837,21 @@
       padding-inline: 15px;
       font-size: 13px;
       white-space: nowrap;
+      text-align: center;
     }
 
     #categoryDescription {
-      margin-top: 16px;
+      width: 100%;
+      max-width: 360px;
+      margin: 16px auto 0;
       min-height: 48px;
       font-size: 13px;
       line-height: 1.65;
+      text-align: center;
+    }
+
+    .project-category-row {
+      text-align: center;
     }
 
     #projectGrid {
