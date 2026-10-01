@@ -8736,6 +8736,45 @@
       }
     }
 
+  
+    /* Workflow code — one-shot desktop typewriter */
+    @media (min-width: 768px) {
+      #workflowCodeCanvas.workflow-code-armed .code-line > span:last-child {
+        display: inline-block;
+        max-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        opacity: 0;
+        vertical-align: bottom;
+      }
+
+      #workflowCodeCanvas.workflow-code-armed .code-line.is-typed > span:last-child,
+      #workflowCodeCanvas.workflow-code-armed .code-line.is-typing > span:last-child {
+        opacity: 1;
+      }
+
+      #workflowCodeCanvas.workflow-code-armed .code-line.is-typing > span:last-child {
+        border-right: 1px solid rgba(207,230,90,.92);
+        box-shadow: 1px 0 0 rgba(207,230,90,.16);
+      }
+
+      #workflowCodeCanvas.workflow-code-complete .code-line > span:last-child {
+        max-width: none !important;
+        overflow: visible !important;
+        opacity: 1 !important;
+        border-right: 0 !important;
+      }
+    }
+
+    @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+      #workflowCodeCanvas .code-line > span:last-child {
+        max-width: none !important;
+        overflow: visible !important;
+        opacity: 1 !important;
+        border-right: 0 !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -9203,21 +9242,26 @@
                   <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">workflow.md</span>
                 </div>
 
-                <div class="code-canvas">
+                <div class="code-canvas workflow-code-canvas" id="workflowCodeCanvas">
                   <div class="code-line"><span class="code-n">1</span><span><span class="code-k">#</span> Production_System.md</span></div>
-                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// brief → product → anchors → motion</span></div>
-                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">product</span>: digitize(real_reference)</span></div>
-                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">character</span>: identity_lock()</span></div>
-                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">scene</span>: build_anchor()</span></div>
-                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">motion</span>: load(<span class="code-s">"animation-guide.md"</span>)</span></div>
-                  <div class="code-line"><span class="code-n">7</span><span><span class="code-v">format</span>: <span class="code-s">"9:16 / short-form"</span></span></div>
-                  <div class="code-line"><span class="code-n">8</span><span></span></div>
-                  <div class="code-line"><span class="code-n">9</span><span><span class="code-k">for</span> clip in sequence:</span></div>
-                  <div class="code-line"><span class="code-n">10</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
-                  <div class="code-line"><span class="code-n">11</span><span>&nbsp;&nbsp;validate_product()</span></div>
-                  <div class="code-line"><span class="code-n">12</span><span>&nbsp;&nbsp;validate_physics()</span></div>
-                  <div class="code-line"><span class="code-n">13</span><span>&nbsp;&nbsp;validate_identity()</span></div>
-                  <div class="code-line"><span class="code-n">14</span><span class="code-c">// edit → QA → export → deploy</span></div>
+                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// brief → producto → anclas → movimiento</span></div>
+                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">objetivo</span>: define(marca, audiencia, hook)</span></div>
+                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">producto</span>: digitalize(real_reference)</span></div>
+                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">personaje</span>: identity_lock()</span></div>
+                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">escena</span>: build_anchor()</span></div>
+                  <div class="code-line"><span class="code-n">7</span><span><span class="code-v">imagen</span>: <span class="code-s">"Nano Banana Pro / Higgsfield Soul"</span></span></div>
+                  <div class="code-line"><span class="code-n">8</span><span><span class="code-v">video</span>: <span class="code-s">"Omni 1.1 Flash / Seedance 2.5"</span></span></div>
+                  <div class="code-line"><span class="code-n">9</span><span><span class="code-v">dirección</span>: load(<span class="code-s">"camera-physics-performance.md"</span>)</span></div>
+                  <div class="code-line"><span class="code-n">10</span><span><span class="code-v">formato</span>: <span class="code-s">"9:16 / short-form"</span></span></div>
+                  <div class="code-line"><span class="code-n">11</span><span></span></div>
+                  <div class="code-line"><span class="code-n">12</span><span><span class="code-k">for</span> clip in sequence:</span></div>
+                  <div class="code-line"><span class="code-n">13</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
+                  <div class="code-line"><span class="code-n">14</span><span>&nbsp;&nbsp;generate_variants(2..4)</span></div>
+                  <div class="code-line"><span class="code-n">15</span><span>&nbsp;&nbsp;validate_product()</span></div>
+                  <div class="code-line"><span class="code-n">16</span><span>&nbsp;&nbsp;validate_physics()</span></div>
+                  <div class="code-line"><span class="code-n">17</span><span>&nbsp;&nbsp;validate_identity()</span></div>
+                  <div class="code-line"><span class="code-n">18</span><span>&nbsp;&nbsp;select_best_take()</span></div>
+                  <div class="code-line"><span class="code-n">19</span><span class="code-c">// edición → QA → CapCut → export → deploy</span></div>
                 </div>
               </div>
             </div>
@@ -9259,7 +9303,7 @@
                   <div class="funnel-ambient-overlay" aria-hidden="true"></div>
 
                   <div class="funnel-statusbar" aria-hidden="true">
-                    <span class="funnel-status-label">AUTO PIPELINE</span>
+                    <span class="funnel-status-label">PIPELINE AUTO</span>
                     <span class="funnel-status-line"><i id="funnelAutoProgress"></i></span>
                     <span class="funnel-status-count" id="funnelAutoCount">01 / 06</span>
                   </div>
@@ -9267,56 +9311,56 @@
                   <div class="funnel-stack" role="tablist" aria-label="Etapas del pipeline">
                     <button class="funnel-step is-active" type="button" role="tab" aria-selected="true"
                       data-funnel-step="research"
-                      data-title="Research"
+                      data-title="Investigación"
                       data-copy="Marca + insumos + objetivo"
                       data-output="Brief creativo">
                       <span class="funnel-step-number">01</span>
-                      <span class="funnel-step-title">Research</span>
+                      <span class="funnel-step-title">Investigación</span>
                     </button>
 
                     <button class="funnel-step" type="button" role="tab" aria-selected="false"
                       data-funnel-step="digitize"
-                      data-title="Digitize"
+                      data-title="Digitalización"
                       data-copy="Producto real → referencia controlable"
                       data-output="Referencia maestra">
                       <span class="funnel-step-number">02</span>
-                      <span class="funnel-step-title">Digitize</span>
+                      <span class="funnel-step-title">Digitalización</span>
                     </button>
 
                     <button class="funnel-step" type="button" role="tab" aria-selected="false"
                       data-funnel-step="anchor"
-                      data-title="Anchor"
+                      data-title="Anclas"
                       data-copy="Personaje + escena + producto"
                       data-output="Sistema de anclas">
                       <span class="funnel-step-number">03</span>
-                      <span class="funnel-step-title">Anchor</span>
+                      <span class="funnel-step-title">Anclas</span>
                     </button>
 
                     <button class="funnel-step" type="button" role="tab" aria-selected="false"
                       data-funnel-step="generate"
-                      data-title="Generate"
-                      data-copy="Tomas dirigidas + guías"
+                      data-title="Generación"
+                      data-copy="Tomas dirigidas + guías de cámara"
                       data-output="Clips base">
                       <span class="funnel-step-number">04</span>
-                      <span class="funnel-step-title">Generate</span>
+                      <span class="funnel-step-title">Generación</span>
                     </button>
 
                     <button class="funnel-step" type="button" role="tab" aria-selected="false"
                       data-funnel-step="validate"
-                      data-title="Validate"
+                      data-title="Validación"
                       data-copy="Identidad + física + continuidad"
                       data-output="Revisión aprobada">
                       <span class="funnel-step-number">05</span>
-                      <span class="funnel-step-title">Validate</span>
+                      <span class="funnel-step-title">Validación</span>
                     </button>
 
                     <button class="funnel-step" type="button" role="tab" aria-selected="false"
                       data-funnel-step="ship"
-                      data-title="Ship"
-                      data-copy="Edición + export + entrega"
+                      data-title="Entrega"
+                      data-copy="Edición + exportación + entrega"
                       data-output="Pieza final">
                       <span class="funnel-step-number">06</span>
-                      <span class="funnel-step-title">Ship</span>
+                      <span class="funnel-step-title">Entrega</span>
                     </button>
                   </div>
 
@@ -9325,7 +9369,7 @@
                       <span class="funnel-detail-kicker">Etapa activa</span>
                       <span class="funnel-detail-index" id="funnelDetailIndex">01</span>
                     </div>
-                    <h4 class="funnel-detail-title" id="funnelDetailTitle">Research</h4>
+                    <h4 class="funnel-detail-title" id="funnelDetailTitle">Investigación</h4>
                     <p class="funnel-detail-copy" id="funnelDetailCopy">Marca + insumos + objetivo</p>
                     <div class="funnel-detail-output">
                       <span>Resultado</span>
@@ -9344,7 +9388,7 @@
                     Un sistema de punta a punta.
                   </h3>
 
-                  <p class="project-note">Research, anclas, generación, control técnico, edición y entrega conectados en un flujo que reduce retrabajo.</p>
+                  <p class="project-note">Investigación, anclas, generación, control técnico, edición y entrega conectados en un flujo que reduce retrabajo.</p>
                 </div>
                 <span class="text-zinc-600 text-sm">08</span>
               </div>
@@ -11374,6 +11418,122 @@
         });
       }
 
+      // Workflow code — type once per page load, desktop only
+      var workflowCodeCanvas = document.getElementById("workflowCodeCanvas");
+      var workflowTypingPlayed = false;
+      var workflowDesktopQuery = window.matchMedia("(min-width: 768px)");
+
+      function completeWorkflowCode() {
+        if (!workflowCodeCanvas) return;
+        workflowCodeCanvas.classList.remove("workflow-code-armed");
+        workflowCodeCanvas.classList.add("workflow-code-complete");
+        Array.prototype.forEach.call(workflowCodeCanvas.querySelectorAll(".code-line"), function (line) {
+          var content = line.lastElementChild;
+          line.classList.remove("is-typing");
+          line.classList.add("is-typed");
+          if (content) {
+            content.style.maxWidth = "";
+            content.style.width = "";
+          }
+        });
+      }
+
+      function runWorkflowTypewriterOnce() {
+        if (
+          !workflowCodeCanvas ||
+          workflowTypingPlayed ||
+          !workflowDesktopQuery.matches ||
+          reduceMotion
+        ) {
+          if (workflowCodeCanvas && (!workflowDesktopQuery.matches || reduceMotion)) completeWorkflowCode();
+          return;
+        }
+
+        workflowTypingPlayed = true;
+        var lines = Array.prototype.slice.call(workflowCodeCanvas.querySelectorAll(".code-line"));
+        var index = 0;
+
+        function typeNextLine() {
+          if (index >= lines.length) {
+            window.setTimeout(completeWorkflowCode, 220);
+            return;
+          }
+
+          var line = lines[index++];
+          var content = line.lastElementChild;
+          if (!content) {
+            typeNextLine();
+            return;
+          }
+
+          line.classList.add("is-typing");
+          content.style.opacity = "1";
+          content.style.maxWidth = "none";
+          content.style.width = "auto";
+
+          var targetWidth = Math.ceil(content.scrollWidth);
+          var chars = Math.max(1, (content.textContent || "").length);
+          var duration = Math.max(90, Math.min(390, chars * 10));
+
+          content.style.width = "0px";
+          content.style.maxWidth = "0px";
+
+          var animation;
+          try {
+            animation = content.animate(
+              [
+                { width: "0px", maxWidth: "0px" },
+                { width: targetWidth + "px", maxWidth: targetWidth + "px" }
+              ],
+              {
+                duration: duration,
+                easing: "steps(" + chars + ", end)",
+                fill: "forwards"
+              }
+            );
+          } catch (e) {}
+
+          var finish = function () {
+            line.classList.remove("is-typing");
+            line.classList.add("is-typed");
+            content.style.width = targetWidth + "px";
+            content.style.maxWidth = targetWidth + "px";
+            window.setTimeout(typeNextLine, 42);
+          };
+
+          if (animation && animation.finished && typeof animation.finished.then === "function") {
+            animation.finished.then(finish).catch(finish);
+          } else {
+            window.setTimeout(finish, duration);
+          }
+        }
+
+        typeNextLine();
+      }
+
+      if (workflowCodeCanvas) {
+        if (workflowDesktopQuery.matches && !reduceMotion) {
+          workflowCodeCanvas.classList.add("workflow-code-armed");
+
+          if ("IntersectionObserver" in window) {
+            var workflowCodeObserver = new IntersectionObserver(function (entries, observer) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting && entry.intersectionRatio > .24) {
+                  observer.unobserve(workflowCodeCanvas);
+                  runWorkflowTypewriterOnce();
+                }
+              });
+            }, { threshold: [0, .24, .55] });
+
+            workflowCodeObserver.observe(workflowCodeCanvas);
+          } else {
+            runWorkflowTypewriterOnce();
+          }
+        } else {
+          completeWorkflowCode();
+        }
+      }
+
       // Interactive workflow funnel — autoplay + neon state
       var pipelineFunnel = document.getElementById("pipelineFunnel");
       var funnelSteps = Array.prototype.slice.call(document.querySelectorAll(".funnel-step"));
@@ -11389,7 +11549,7 @@
       var funnelResumeTimer = null;
       var funnelIndex = 0;
       var funnelVisible = false;
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var pipelineReduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
       function restartFunnelProgress() {
         if (!pipelineFunnel || !funnelAutoProgress) return;
@@ -11397,13 +11557,13 @@
         pipelineFunnel.classList.remove("is-auto-running");
         void funnelAutoProgress.offsetWidth;
 
-        if (!reduceMotion.matches && funnelVisible) {
+        if (!pipelineReduceMotion.matches && funnelVisible) {
           pipelineFunnel.classList.add("is-auto-running");
         }
       }
 
       function animateFunnelDetail() {
-        if (!funnelDetail || reduceMotion.matches) return;
+        if (!funnelDetail || pipelineReduceMotion.matches) return;
         funnelDetail.classList.remove("is-funnel-animating");
         void funnelDetail.offsetWidth;
         funnelDetail.classList.add("is-funnel-animating");
@@ -11452,7 +11612,7 @@
 
       function scheduleFunnelAuto() {
         stopFunnelAuto();
-        if (!funnelVisible || reduceMotion.matches || !funnelSteps.length || document.hidden) return;
+        if (!funnelVisible || pipelineReduceMotion.matches || !funnelSteps.length || document.hidden) return;
 
         restartFunnelProgress();
 
@@ -11492,7 +11652,7 @@
             funnelVisible = entry.isIntersecting && entry.intersectionRatio > .28;
 
             if (funnelAmbient) {
-              if (funnelVisible && !document.hidden && !reduceMotion.matches) {
+              if (funnelVisible && !document.hidden && !pipelineReduceMotion.matches) {
                 var fp;
                 try { fp = funnelAmbient.play(); } catch (e) {}
                 if (fp && typeof fp.catch === "function") fp.catch(function () {});
@@ -11519,7 +11679,7 @@
             try { funnelAmbient.pause(); } catch (e) {}
           }
         } else if (funnelVisible) {
-          if (funnelAmbient && !reduceMotion.matches) {
+          if (funnelAmbient && !pipelineReduceMotion.matches) {
             var fp;
             try { fp = funnelAmbient.play(); } catch (e) {}
             if (fp && typeof fp.catch === "function") fp.catch(function () {});
@@ -11528,9 +11688,9 @@
         }
       });
 
-      if (typeof reduceMotion.addEventListener === "function") {
-        reduceMotion.addEventListener("change", function () {
-          if (reduceMotion.matches) stopFunnelAuto();
+      if (typeof pipelineReduceMotion.addEventListener === "function") {
+        pipelineReduceMotion.addEventListener("change", function () {
+          if (pipelineReduceMotion.matches) stopFunnelAuto();
           else if (funnelVisible) scheduleFunnelAuto();
         });
       }
