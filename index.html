@@ -8927,6 +8927,8 @@
       .hero-device-wrap.mobile-takeover-enabled {
         height: 145dvh !important;
         min-height: 145dvh !important;
+        margin-bottom: var(--hero-mobile-collapse-gap, 0px) !important;
+        transition: none !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
@@ -10728,6 +10730,7 @@
         phone.style.removeProperty("--hero-mobile-store-y");
         phone.style.removeProperty("--hero-mobile-store-scale-y");
         phone.style.removeProperty("--hero-mobile-store-progress");
+        wrap.style.removeProperty("--hero-mobile-collapse-gap");
         wrap.classList.remove("is-takeover");
         wrap.classList.remove("is-storing");
         document.body.classList.remove("hero-takeover-active");
@@ -10767,9 +10770,11 @@
           clamp((progress - storeStart) / (1 - storeStart), 0, 1)
         );
         var storeScaleY = 1 - (storeProgress * .90);
+        var collapseGap = -(storeProgress * viewportH * .72);
 
         phone.style.setProperty("--hero-mobile-store-scale-y", storeScaleY.toFixed(4));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
+        wrap.style.setProperty("--hero-mobile-collapse-gap", collapseGap.toFixed(1) + "px");
         phone.style.clipPath = "none";
         phone.style.webkitClipPath = "none";
 
