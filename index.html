@@ -5651,7 +5651,7 @@
         border-radius: 0;
         background: #080a0c;
         box-shadow: none !important;
-        transform: translate3d(100vw,0,0);
+        transform: translate3d(0,-100svh,0);
         transform-origin: center center;
         transition: none !important;
         will-change: transform;
@@ -8423,23 +8423,23 @@
         var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
         var progress = clamp((-rect.top) / scrollRange, 0, 1);
 
-        // Horizontal cover:
-        // 0–30%: enters from the right
+        // Vertical cover:
+        // 0–30%: enters from the top
         // 30–72%: remains full screen
-        // 72–100%: exits to the left
-        var x;
+        // 72–100%: exits downward
+        var y;
 
         if (progress < .30) {
           var enter = smoothstep(progress / .30);
-          x = (1 - enter) * 100;
+          y = -(1 - enter) * 100;
         } else if (progress <= .72) {
-          x = 0;
+          y = 0;
         } else {
           var exit = smoothstep((progress - .72) / .28);
-          x = -exit * 100;
+          y = exit * 100;
         }
 
-        phone.style.transform = "translate3d(" + x.toFixed(3) + "vw,0,0)";
+        phone.style.transform = "translate3d(0," + y.toFixed(3) + "svh,0)";
 
         var inside = rect.top < viewportH && rect.bottom > 0;
         var fullyCovering = inside && progress >= .24 && progress <= .78;
