@@ -8398,6 +8398,68 @@
       }
     }
 
+  
+    /* Hero lockup pro refinement — tighter, cleaner */
+    #top .hero-lockup-product::before {
+      left: .015em !important;
+      bottom: -.055em !important;
+      width: 18% !important;
+      height: 2px !important;
+      border-radius: 999px !important;
+      background: rgba(207,230,90,.86) !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    #top .hero-lockup-product::after {
+      display: none !important;
+    }
+
+    #top .hero-lockup-footer {
+      min-height: 0 !important;
+      margin-top: 14px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      gap: 8px !important;
+    }
+
+    #top .hero-lockup-dot {
+      width: 5px !important;
+      height: 5px !important;
+      box-shadow: none !important;
+      background: rgba(207,230,90,.88) !important;
+    }
+
+    #top .hero-lockup-footer p {
+      color: #9EA4AB !important;
+      font-size: clamp(.92rem, 1.25vw, 1.05rem) !important;
+      font-weight: 520 !important;
+      line-height: 1.25 !important;
+      letter-spacing: -.015em !important;
+    }
+
+    @media (max-width: 639px) {
+      #top .hero-lockup-product::before {
+        left: 14% !important;
+        width: 16% !important;
+        bottom: -.07em !important;
+      }
+
+      #top .hero-lockup-footer {
+        margin-top: 12px !important;
+        justify-content: center !important;
+      }
+
+      #top .hero-lockup-footer p {
+        font-size: .92rem !important;
+      }
+    }
+
   </style>
 </head>
 
