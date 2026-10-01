@@ -5521,7 +5521,7 @@
     }
 
     .creative-paths {
-      padding: 92px 0 104px;
+      padding: 76px 0 88px;
       background:
         radial-gradient(circle at 85% 18%, rgba(207,230,90,.075), transparent 30%),
         transparent;
@@ -5529,12 +5529,23 @@
 
     .creative-paths-head {
       display: grid;
-      grid-template-columns: minmax(0,1.2fr) minmax(260px,.55fr);
-      gap: 50px;
-      align-items: end;
+      grid-template-columns: minmax(260px,.72fr) minmax(0,1.28fr);
+      grid-template-areas:
+        "kicker title"
+        "copy title";
+      column-gap: 64px;
+      row-gap: 18px;
+      align-items: start;
+    }
+
+    .creative-paths-head > .conversion-kicker {
+      grid-area: kicker;
+      margin-bottom: 0;
+      align-self: start;
     }
 
     .creative-paths-title {
+      grid-area: title;
       font-size: clamp(2.8rem, 5.6vw, 5.6rem);
       line-height: .96;
       letter-spacing: -.055em;
@@ -5547,6 +5558,7 @@
     }
 
     .creative-paths-head > p:last-child {
+      grid-area: copy;
       max-width: 430px;
       color: #92979D;
       font-size: 14px;
@@ -5557,13 +5569,13 @@
       display: grid;
       grid-template-columns: repeat(4,minmax(0,1fr));
       gap: 10px;
-      margin-top: 42px;
+      margin-top: 34px;
     }
 
     .creative-path {
       position: relative;
-      min-height: 270px;
-      padding: 22px;
+      min-height: 232px;
+      padding: 20px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,.075);
       border-radius: 24px;
@@ -5594,7 +5606,7 @@
 
     .creative-path small {
       display: block;
-      margin-top: 54px;
+      margin-top: 38px;
       color: #CFE65A;
       font-size: 9px;
       font-weight: 700;
@@ -5714,6 +5726,14 @@
         gap: 24px;
       }
 
+      .creative-paths-head {
+        grid-template-areas:
+          "kicker"
+          "title"
+          "copy";
+        row-gap: 14px;
+      }
+
       .creative-paths-grid {
         grid-template-columns: repeat(2,minmax(0,1fr));
       }
@@ -5754,22 +5774,49 @@
 
       .creative-paths-grid {
         grid-template-columns: 1fr;
-        gap: 9px;
-        margin-top: 30px;
+        gap: 8px;
+        margin-top: 24px;
       }
 
       .creative-path {
-        min-height: 205px;
-        text-align: center;
+        min-height: 0;
+        padding: 15px 17px 16px;
+        border-radius: 18px;
+        text-align: left;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+          "index label"
+          "title title"
+          "copy copy";
+        column-gap: 14px;
+        row-gap: 6px;
+      }
+
+      .creative-path-index {
+        grid-area: index;
+        align-self: center;
       }
 
       .creative-path small {
-        margin-top: 30px;
+        grid-area: label;
+        margin-top: 0;
+        justify-self: end;
+        align-self: center;
+      }
+
+      .creative-path h3 {
+        grid-area: title;
+        margin-top: 2px;
+        font-size: 1.28rem;
       }
 
       .creative-path p {
-        margin-left: auto;
-        margin-right: auto;
+        grid-area: copy;
+        max-width: none;
+        margin: 0;
+        font-size: 11.5px;
+        line-height: 1.55;
       }
 
       .fit-grid {
