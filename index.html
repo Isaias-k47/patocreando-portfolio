@@ -8921,6 +8921,36 @@
       }
     }
 
+  
+    /* Mobile hero reversible vertical store */
+    @media (max-width: 639px) {
+      .hero-device-wrap.mobile-takeover-enabled {
+        height: 145dvh !important;
+        min-height: 145dvh !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
+      .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
+        transform:
+          translate3d(0, var(--hero-mobile-store-y, 0px), 0)
+          scale(1) !important;
+        transition:
+          inset .22s cubic-bezier(.2,.8,.2,1),
+          border-radius .22s cubic-bezier(.2,.8,.2,1),
+          opacity .18s ease !important;
+        will-change: transform, inset, border-radius, opacity !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-phone-shell {
+        inset: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-sound-toggle {
+        transition: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -10683,7 +10713,10 @@
         phone.style.transform = "";
         phone.style.clipPath = "";
         phone.style.webkitClipPath = "";
+        phone.style.removeProperty("--hero-mobile-store-y");
+        phone.style.removeProperty("--hero-mobile-store-progress");
         wrap.classList.remove("is-takeover");
+        wrap.classList.remove("is-storing");
         document.body.classList.remove("hero-takeover-active");
       }
 
@@ -10713,13 +10746,27 @@
           wrap.classList.add("is-revealed");
         }
 
-        phone.style.transform = "translate3d(0,0,0)";
+        // Reversible vertical store:
+        // keep the video full-screen through most of the sticky range,
+        // then slide it upward with scroll. Scrolling back reverses it.
+        var storeStart = .70;
+        var storeProgress = smoothstep(
+          clamp((progress - storeStart) / (1 - storeStart), 0, 1)
+        );
+        var storeY = -(storeProgress * viewportH);
+
+        phone.style.setProperty("--hero-mobile-store-y", storeY.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
         phone.style.clipPath = "none";
         phone.style.webkitClipPath = "none";
 
         var inside = rect.top < viewportH && rect.bottom > 0;
-        var fullyCovering = inside && progress >= .16 && progress <= .995;
+        var fullyCovering =
+          inside &&
+          progress >= .16 &&
+          storeProgress < .88;
 
+        wrap.classList.toggle("is-storing", storeProgress > .015);
         wrap.classList.toggle("is-takeover", fullyCovering);
         document.body.classList.toggle("hero-takeover-active", fullyCovering);
 
