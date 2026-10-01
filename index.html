@@ -6873,6 +6873,62 @@
       }
     }
 
+  
+    /* Hero desktop composition fix — keep audio inside the device */
+    @media (min-width: 640px) {
+      #top {
+        min-height: auto !important;
+        padding-bottom: 56px !important;
+      }
+
+      .hero-device-stage {
+        min-height: 570px !important;
+        padding: 24px 20px 38px !important;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 268px) !important;
+      }
+
+      .hero-phone-screen .hero-sound-toggle {
+        right: 10px !important;
+        bottom: 10px !important;
+        min-height: 36px !important;
+        padding: 0 10px !important;
+        font-size: 8px !important;
+        letter-spacing: .07em !important;
+        background: rgba(7,9,11,.64) !important;
+        border-color: rgba(255,255,255,.14) !important;
+      }
+
+      .hero-phone-screen .hero-sound-toggle .hero-sound-icon svg {
+        width: 13px !important;
+        height: 13px !important;
+      }
+
+      .hero-stage-caption {
+        bottom: 10px !important;
+        width: calc(100% - 34px) !important;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-device-stage {
+        min-height: 585px !important;
+      }
+
+      .hero-phone-shell {
+        width: min(100%, 272px) !important;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen .hero-sound-toggle {
+        right: max(14px, env(safe-area-inset-right)) !important;
+        bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px)) !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -6997,15 +7053,14 @@
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
+                <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
+                  <span class="hero-sound-icon" aria-hidden="true">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                  </span>
+                  <span class="hero-sound-label">Escuchar</span>
+                </button>
               </div>
             </div>
-
-            <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
-              <span class="hero-sound-icon" aria-hidden="true">
-                <i data-lucide="volume-2" class="w-4 h-4"></i>
-              </span>
-              <span class="hero-sound-label">Escuchar</span>
-            </button>
 
             <div class="hero-stage-caption">
               <span class="hero-stage-caption-line"></span>
