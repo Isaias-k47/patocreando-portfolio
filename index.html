@@ -5655,7 +5655,7 @@
 
     .conversion-kicker {
       margin: 0 0 18px;
-      color: #777D84;
+      color: #9EA875;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: .18em;
@@ -5681,14 +5681,15 @@
 
     .conversion-tension-title strong {
       margin-top: 8px;
-      color: #7E848A;
+      color: #AAB29B;
       font-weight: 600;
+      text-shadow: 0 0 34px rgba(207,230,90,.055);
     }
 
     .conversion-tension-copy {
       max-width: 660px;
       margin-top: 30px;
-      color: #9CA0A5;
+      color: #B0B5BB;
       font-size: 15px;
       line-height: 1.75;
     }
@@ -6145,9 +6146,10 @@
     /* PAIN — quieter, denser atmosphere so the statement carries the section */
     #bottleneck {
       background:
-        radial-gradient(ellipse 54% 70% at 14% 35%, rgba(243,245,246,.055), transparent 68%),
-        radial-gradient(ellipse 38% 54% at 84% 78%, rgba(207,230,90,.035), transparent 70%),
-        linear-gradient(180deg, #101316 0%, #111417 52%, #0f1215 100%);
+        radial-gradient(ellipse 60% 70% at 18% 34%, rgba(243,245,246,.085), transparent 68%),
+        radial-gradient(ellipse 52% 58% at 76% 42%, rgba(207,230,90,.085), transparent 70%),
+        radial-gradient(ellipse 34% 40% at 92% 88%, rgba(207,230,90,.04), transparent 72%),
+        linear-gradient(180deg, #111519 0%, #14191d 48%, #101316 100%);
     }
 
     #bottleneck::before {
@@ -6157,8 +6159,26 @@
       z-index: 0;
       pointer-events: none;
       background:
-        linear-gradient(90deg, transparent 0%, rgba(255,255,255,.018) 48%, transparent 78%);
-      opacity: .75;
+        linear-gradient(90deg, transparent 0%, rgba(255,255,255,.024) 43%, rgba(207,230,90,.022) 66%, transparent 92%);
+      opacity: .9;
+    }
+
+    #bottleneck::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      width: 520px;
+      height: 520px;
+      right: -170px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      border: 1px solid rgba(207,230,90,.07);
+      box-shadow:
+        0 0 0 82px rgba(207,230,90,.014),
+        0 0 0 164px rgba(255,255,255,.006);
+      opacity: .78;
     }
 
     /* TRANSFORMATION — light progression supporting the four-stage story */
@@ -6348,8 +6368,13 @@
 
       #bottleneck {
         background:
-          radial-gradient(ellipse 90% 46% at 50% 28%, rgba(243,245,246,.04), transparent 72%),
-          #101316;
+          radial-gradient(ellipse 92% 44% at 50% 22%, rgba(243,245,246,.065), transparent 72%),
+          radial-gradient(ellipse 88% 40% at 64% 68%, rgba(207,230,90,.055), transparent 74%),
+          linear-gradient(180deg, #111519 0%, #12171b 54%, #101316 100%);
+      }
+
+      #bottleneck::after {
+        display: none;
       }
 
       #creativePaths {
