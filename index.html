@@ -7562,6 +7562,170 @@
       }
     }
 
+  
+    /* Hero title v2 — minimal premium composition */
+    .hero-title-premium {
+      position: relative;
+      width: min(100%, 820px);
+      margin-top: 2px;
+      padding-bottom: 18px;
+    }
+
+    .hero-title-premium .hero-title-slide {
+      max-width: none !important;
+      margin: 0 !important;
+      overflow: visible !important;
+      text-wrap: initial !important;
+    }
+
+    .hero-premium-intro,
+    .hero-premium-main,
+    .hero-premium-close {
+      display: block;
+    }
+
+    .hero-premium-intro {
+      margin-bottom: .18em;
+      color: #858B92;
+      font-size: .34em;
+      font-weight: 550;
+      line-height: 1;
+      letter-spacing: -.02em;
+    }
+
+    .hero-premium-main {
+      max-width: 760px;
+      color: #F5F6F7;
+      font-size: 1em;
+      line-height: .90;
+      letter-spacing: -.064em;
+    }
+
+    .hero-premium-accent {
+      position: relative;
+      display: inline-block;
+      color: #F5F6F7;
+      z-index: 1;
+    }
+
+    .hero-premium-accent::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: .03em;
+      right: -.03em;
+      bottom: .04em;
+      height: .075em;
+      border-radius: 999px;
+      background: rgba(207,230,90,.90);
+      transform-origin: left center;
+    }
+
+    .hero-premium-close {
+      width: fit-content;
+      margin-top: .42em;
+      margin-left: auto;
+      padding-right: .04em;
+      color: #92989F;
+      font-size: .27em;
+      font-weight: 520;
+      line-height: 1.2;
+      letter-spacing: -.015em;
+    }
+
+    .hero-premium-rule {
+      display: block;
+      width: min(100%, 620px);
+      height: 1px;
+      margin-top: 18px;
+      background:
+        linear-gradient(90deg,
+          rgba(207,230,90,.72) 0 12%,
+          rgba(255,255,255,.10) 12% 100%);
+    }
+
+    /* Neutralize previous title experiment */
+    .hero-title-code,
+    .hero-title-rule {
+      display: none !important;
+    }
+
+    @media (min-width: 768px) {
+      .hero-title-premium {
+        width: min(110%, 860px);
+      }
+
+      .hero-title-premium .hero-title-slide {
+        font-size: clamp(4.45rem, 7.25vw, 6.95rem) !important;
+        line-height: .92 !important;
+        letter-spacing: -.06em !important;
+      }
+
+      .hero-premium-intro {
+        font-size: .30em;
+      }
+
+      .hero-premium-close {
+        font-size: .22em;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-title-premium {
+        width: 112%;
+        margin-right: -12%;
+      }
+
+      .hero-premium-main {
+        max-width: 790px;
+      }
+    }
+
+    @media (max-width: 639px) {
+      .hero-title-premium {
+        width: 100%;
+        margin-inline: auto;
+        padding-bottom: 14px;
+      }
+
+      .hero-title-premium .hero-title-slide {
+        font-size: clamp(2.55rem, 11.7vw, 3.3rem) !important;
+        line-height: .94 !important;
+        letter-spacing: -.052em !important;
+        text-align: center !important;
+      }
+
+      .hero-premium-intro {
+        margin-bottom: .24em;
+        font-size: .38em;
+        text-align: center;
+      }
+
+      .hero-premium-main {
+        max-width: 100%;
+        line-height: .94;
+        text-align: center;
+      }
+
+      .hero-premium-close {
+        margin: .52em auto 0;
+        padding: 0;
+        font-size: .34em;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .hero-premium-rule {
+        width: 72%;
+        margin: 16px auto 0;
+      }
+
+      .hero-premium-accent::after {
+        left: 6%;
+        right: 6%;
+      }
+    }
+
   </style>
 </head>
 
@@ -7619,25 +7783,17 @@
             AI Content Creator · UGC + Campañas
           </p>
 
-          <div class="hero-title-composition">
-            <span class="hero-title-code" aria-hidden="true">AI CONTENT / 2026</span>
-
+          <div class="hero-title-premium">
             <h1 class="hero-title-slide display font-semibold">
-              <span class="hero-line hero-line-intro">Más formas de</span>
-              <span class="hero-line hero-line-main">
-                <span class="hero-main-copy">mostrar tu</span>
-                <span class="hero-product-word">producto.</span>
+              <span class="hero-premium-intro">Más formas de</span>
+              <span class="hero-premium-main">
+                mostrar tu <span class="hero-premium-accent">producto.</span>
               </span>
-              <span class="hero-line hero-line-close">
-                <span>Sin empezar de cero</span>
-                <span class="hero-line-close-accent">cada vez.</span>
+              <span class="hero-premium-close">
+                Sin empezar de cero cada vez.
               </span>
             </h1>
-
-            <span class="hero-title-rule" aria-hidden="true">
-              <span></span>
-              <small>UGC · PRODUCT · CAMPAIGN</small>
-            </span>
+            <span class="hero-premium-rule" aria-hidden="true"></span>
           </div>
 
           <div class="hero-reveal hero-summary-card" id="heroSummaryCard">
