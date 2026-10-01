@@ -8320,34 +8320,153 @@
   </script>
 
   <script>
-    (function pricingPackInitialFocus() {
+    (function pricingPackMobileLoop() {
       "use strict";
 
       var rail = document.getElementById("pricingPackRail");
       if (!rail) return;
 
-      function focusFeaturedPack() {
-        if (!window.matchMedia("(max-width: 639px)").matches) {
+      var mobileQuery = window.matchMedia("(max-width: 639px)");
+      var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var timer = null;
+      var resumeTimer = null;
+      var currentIndex = 1;
+      var delay = 4600;
+
+      function cards() {
+        return Array.prototype.slice.call(rail.querySelectorAll(".pricing-pack"));
+      }
+
+      function targetLeft(card) {
+        return Math.max(0, card.offsetLeft - ((rail.clientWidth - card.offsetWidth) / 2));
+      }
+
+      function goTo(index, smooth) {
+        var items = cards();
+        if (!items.length) return;
+
+        currentIndex = ((index % items.length) + items.length) % items.length;
+        var left = targetLeft(items[currentIndex]);
+
+        if (typeof rail.scrollTo === "function") {
+          rail.scrollTo({
+            left: left,
+            behavior: smooth && !reduceMotionQuery.matches ? "smooth" : "auto"
+          });
+        } else {
+          rail.scrollLeft = left;
+        }
+      }
+
+      function syncIndexFromScroll() {
+        var items = cards();
+        if (!items.length) return;
+
+        var railCenter = rail.scrollLeft + (rail.clientWidth / 2);
+        var nearest = 0;
+        var best = Infinity;
+
+        items.forEach(function (card, index) {
+          var center = card.offsetLeft + (card.offsetWidth / 2);
+          var distance = Math.abs(center - railCenter);
+          if (distance < best) {
+            best = distance;
+            nearest = index;
+          }
+        });
+
+        currentIndex = nearest;
+      }
+
+      function stop() {
+        if (timer) {
+          window.clearInterval(timer);
+          timer = null;
+        }
+      }
+
+      function start() {
+        stop();
+        if (
+          !mobileQuery.matches ||
+          reduceMotionQuery.matches ||
+          document.hidden
+        ) return;
+
+        timer = window.setInterval(function () {
+          syncIndexFromScroll();
+          goTo(currentIndex + 1, true);
+        }, delay);
+      }
+
+      function pauseForInteraction() {
+        stop();
+        if (resumeTimer) {
+          window.clearTimeout(resumeTimer);
+          resumeTimer = null;
+        }
+      }
+
+      function resumeAfterInteraction() {
+        syncIndexFromScroll();
+        if (resumeTimer) window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(start, 1200);
+      }
+
+      function refresh() {
+        stop();
+
+        if (!mobileQuery.matches) {
           rail.scrollLeft = 0;
           return;
         }
 
         var featured = rail.querySelector(".pricing-pack-featured");
-        if (!featured) return;
+        var items = cards();
+        var featuredIndex = items.indexOf(featured);
+        currentIndex = featuredIndex >= 0 ? featuredIndex : 0;
 
-        var target = featured.offsetLeft - ((rail.clientWidth - featured.offsetWidth) / 2);
-        rail.scrollLeft = Math.max(0, target);
+        window.setTimeout(function () {
+          goTo(currentIndex, false);
+          start();
+        }, 140);
       }
 
-      window.addEventListener("pageshow", function () {
-        window.setTimeout(focusFeaturedPack, 120);
+      rail.addEventListener("touchstart", pauseForInteraction, { passive: true });
+      rail.addEventListener("touchend", resumeAfterInteraction, { passive: true });
+      rail.addEventListener("touchcancel", resumeAfterInteraction, { passive: true });
+
+      rail.addEventListener("pointerdown", function (event) {
+        if (event.pointerType === "touch") return;
+        pauseForInteraction();
+      }, { passive: true });
+
+      rail.addEventListener("pointerup", function (event) {
+        if (event.pointerType === "touch") return;
+        resumeAfterInteraction();
+      }, { passive: true });
+
+      rail.addEventListener("scroll", function () {
+        if (!mobileQuery.matches) return;
+        if (resumeTimer) window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(syncIndexFromScroll, 120);
+      }, { passive: true });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop();
+        else start();
       });
 
       window.addEventListener("orientationchange", function () {
-        window.setTimeout(focusFeaturedPack, 180);
+        window.setTimeout(refresh, 200);
       }, { passive: true });
 
-      window.setTimeout(focusFeaturedPack, 180);
+      if (typeof mobileQuery.addEventListener === "function") {
+        mobileQuery.addEventListener("change", refresh);
+        reduceMotionQuery.addEventListener("change", refresh);
+      }
+
+      refresh();
     })();
   </script>
 
