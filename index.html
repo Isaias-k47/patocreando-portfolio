@@ -7083,6 +7083,54 @@
       }
     }
 
+  
+    /* Brief transition animation for methodology slides */
+    @keyframes methodCopyIn {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes methodSideIn {
+      0% { opacity: 0; transform: translateX(12px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes methodBgIn {
+      0% { opacity: .07; transform: scale(1.075); }
+      100% { opacity: var(--method-media-opacity, .15); transform: scale(1.02); }
+    }
+
+    .method-slide.is-method-animating .method-topline {
+      animation: methodCopyIn .42s cubic-bezier(.22,.8,.26,1) both;
+    }
+
+    .method-slide.is-method-animating .method-copy {
+      animation: methodCopyIn .48s .05s cubic-bezier(.22,.8,.26,1) both;
+    }
+
+    .method-slide.is-method-animating .method-side {
+      animation: methodSideIn .48s .09s cubic-bezier(.22,.8,.26,1) both;
+    }
+
+    .method-slide.is-method-animating .method-card-media {
+      animation: methodBgIn .72s cubic-bezier(.22,.8,.26,1) both;
+    }
+
+    .method-slide[aria-label="1 de 5"] { --method-media-opacity: .17; }
+    .method-slide[aria-label="2 de 5"] { --method-media-opacity: .18; }
+    .method-slide[aria-label="3 de 5"] { --method-media-opacity: .13; }
+    .method-slide[aria-label="4 de 5"] { --method-media-opacity: .20; }
+    .method-slide[aria-label="5 de 5"] { --method-media-opacity: .11; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .method-slide.is-method-animating .method-topline,
+      .method-slide.is-method-animating .method-copy,
+      .method-slide.is-method-animating .method-side,
+      .method-slide.is-method-animating .method-card-media {
+        animation: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -9496,6 +9544,19 @@
 
         methodIndex = (nextIndex + methodSlides.length) % methodSlides.length;
         methodTrack.style.transform = "translate3d(-" + (methodIndex * 100) + "%,0,0)";
+
+        methodSlides.forEach(function (slide, index) {
+          slide.classList.remove("is-method-animating");
+          slide.classList.toggle("is-method-active", index === methodIndex);
+        });
+
+        if (!reduceMotion) {
+          var activeMethodSlide = methodSlides[methodIndex];
+          if (activeMethodSlide) {
+            void activeMethodSlide.offsetWidth;
+            activeMethodSlide.classList.add("is-method-animating");
+          }
+        }
 
         methodDots.forEach(function (dot, index) {
           dot.classList.toggle("is-active", index === methodIndex);
