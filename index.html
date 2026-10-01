@@ -2079,13 +2079,20 @@
         gap: 38px;
       }
 
+      .hero-meta-row {
+        justify-content: center;
+        text-align: center;
+      }
+
       .hero-status {
         max-width: 100%;
+        justify-content: center;
       }
 
       .hero-location {
-        width: 100%;
-        padding-left: 2px;
+        width: auto;
+        padding-left: 0;
+        text-align: center;
       }
 
       .hero-title-slide {
@@ -6654,7 +6661,7 @@
 
       <div class="site-shell relative z-10 grid lg:grid-cols-[1.05fr_.95fr] items-center gap-12 xl:gap-20">
         <div class="hero-copy">
-          <div class="hero-reveal flex flex-wrap items-center gap-3 mb-6">
+          <div class="hero-reveal hero-meta-row flex flex-wrap items-center gap-3 mb-6">
             <span class="hero-status inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 bg-white/[.035] text-[10px] tracking-[.12em] uppercase text-zinc-400">
               <span class="status-dot"></span>
               Disponible para proyectos
