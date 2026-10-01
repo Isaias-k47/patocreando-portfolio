@@ -7911,6 +7911,22 @@
       }
     }
 
+  
+    /* External hero audio track */
+    #heroAudioTrack {
+      display: none !important;
+    }
+
+    @media (min-width: 640px) {
+      #heroSoundToggle {
+        display: inline-flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        z-index: 80 !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8036,6 +8052,9 @@
                 <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
                   <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0b0f7ca6-fe2a-47b8-8752-1449bb482c30.mp4" type="video/mp4" />
                 </video>
+                <audio id="heroAudioTrack" loop preload="metadata" playsinline aria-hidden="true">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/212fa988-0798-4598-a386-18d35c324ab9.mp3" type="audio/mpeg" />
+                </audio>
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
@@ -9558,6 +9577,7 @@
       var phone = document.getElementById("heroPhone");
       var video = phone ? phone.querySelector(".hero-video") : null;
       var soundToggle = document.getElementById("heroSoundToggle");
+      var audioTrack = document.getElementById("heroAudioTrack");
 
       if (!wrap || !stage || !phone || !video) return;
 
@@ -9578,7 +9598,7 @@
 
       function updateSoundUi() {
         if (!soundToggle) return;
-        var muted = video.muted || video.volume === 0;
+        var muted = video.dataset.userUnmuted !== "true";
         var label = soundToggle.querySelector(".hero-sound-label");
         var icon = soundToggle.querySelector("[data-lucide]");
 
@@ -9672,16 +9692,57 @@
         }
       }
 
+      function syncHeroAudio(force) {
+        if (!audioTrack) return;
+
+        var videoTime = Number(video.currentTime || 0);
+        var audioTime = Number(audioTrack.currentTime || 0);
+
+        if (force || Math.abs(videoTime - audioTime) > .22) {
+          try { audioTrack.currentTime = videoTime; } catch (e) {}
+        }
+      }
+
+      function stopHeroAudio() {
+        if (!audioTrack) return;
+        if (!audioTrack.paused) {
+          try { audioTrack.pause(); } catch (e) {}
+        }
+      }
+
+      function startHeroAudio() {
+        if (!audioTrack || video.dataset.userUnmuted !== "true") return;
+
+        audioTrack.preload = "auto";
+        audioTrack.muted = false;
+        audioTrack.volume = 1;
+        syncHeroAudio(true);
+
+        var audioPromise;
+        try { audioPromise = audioTrack.play(); } catch (e) {}
+
+        if (audioPromise && typeof audioPromise.catch === "function") {
+          audioPromise.catch(function () {
+            video.dataset.userUnmuted = "false";
+            stopHeroAudio();
+            updateSoundUi();
+          });
+        }
+      }
+
       function applyHeroAudioState(enabled) {
         video.dataset.userUnmuted = enabled ? "true" : "false";
-        video.volume = enabled ? 1 : 0;
-        video.muted = !enabled;
-        video.defaultMuted = !enabled;
+
+        // Keep the visual video muted permanently so autoplay remains reliable.
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.setAttribute("muted", "");
 
         if (enabled) {
-          video.removeAttribute("muted");
+          startHeroAudio();
         } else {
-          video.setAttribute("muted", "");
+          stopHeroAudio();
         }
       }
 
@@ -9695,39 +9756,42 @@
 
           if (turningOn) {
             video.preload = "auto";
-
             var promise;
             try { promise = video.play(); } catch (e) {}
-
-            if (promise && typeof promise.then === "function") {
-              promise.then(function () {
-                // Re-assert audio after the gesture-backed play starts.
-                // This avoids desktop browsers restoring the muted autoplay state.
-                if (video.dataset.userUnmuted === "true") {
-                  applyHeroAudioState(true);
-                  updateSoundUi();
-                }
-              }).catch(function () {
-                applyHeroAudioState(false);
-                updateSoundUi();
-              });
+            if (promise && typeof promise.catch === "function") {
+              promise.catch(function () {});
             }
 
+            // Re-sync once playback has advanced from the user gesture.
             window.setTimeout(function () {
               if (video.dataset.userUnmuted === "true") {
-                applyHeroAudioState(true);
-                updateSoundUi();
+                syncHeroAudio(true);
+                startHeroAudio();
               }
-            }, 80);
+            }, 90);
           }
 
           updateSoundUi();
         });
-
-        video.addEventListener("volumechange", function () {
-          updateSoundUi();
-        });
       }
+
+      video.addEventListener("timeupdate", function () {
+        if (
+          audioTrack &&
+          video.dataset.userUnmuted === "true" &&
+          !audioTrack.paused
+        ) {
+          syncHeroAudio(false);
+        }
+      });
+
+      video.addEventListener("seeking", function () {
+        if (video.dataset.userUnmuted === "true") syncHeroAudio(true);
+      });
+
+      video.addEventListener("play", function () {
+        if (video.dataset.userUnmuted === "true") startHeroAudio();
+      });
 
       window.addEventListener("scroll", schedule, { passive: true });
       window.addEventListener("resize", schedule, { passive: true });
@@ -9756,11 +9820,16 @@
         if (!heroIsVisible || document.hidden) return;
         video.preload = "auto";
 
-        var keepAudio = video.dataset.userUnmuted === "true";
-        if (keepAudio) {
-          applyHeroAudioState(true);
+        // Video stays muted for autoplay; external audio follows only after user opt-in.
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.setAttribute("muted", "");
+
+        if (video.dataset.userUnmuted === "true") {
+          startHeroAudio();
         } else {
-          applyHeroAudioState(false);
+          stopHeroAudio();
         }
 
         var playPromise;
@@ -9771,8 +9840,11 @@
       }
 
       function pauseHeroIfHidden() {
-        if (!heroIsVisible && !video.paused) {
-          try { video.pause(); } catch (e) {}
+        if (!heroIsVisible) {
+          stopHeroAudio();
+          if (!video.paused) {
+            try { video.pause(); } catch (e) {}
+          }
         }
       }
 
@@ -9809,6 +9881,7 @@
 
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
+          stopHeroAudio();
           if (!video.paused) {
             try { video.pause(); } catch (e) {}
           }
