@@ -5637,13 +5637,13 @@
     }
 
     .fit-section {
-      padding: 88px 0 92px;
+      padding: 72px 0 76px;
       border-top: 1px solid rgba(255,255,255,.055);
     }
 
     .fit-head {
       display: block;
-      max-width: 760px;
+      max-width: 720px;
       margin-left: auto;
     }
 
@@ -5653,7 +5653,7 @@
     }
 
     .fit-title {
-      max-width: 760px;
+      max-width: 720px;
       margin-left: 0;
       font-size: clamp(2.8rem,5.5vw,5.4rem);
       line-height: .96;
@@ -5669,13 +5669,13 @@
     .fit-grid {
       display: grid;
       grid-template-columns: repeat(3,minmax(0,1fr));
-      gap: 14px;
-      width: min(100%, 1010px);
-      margin: 28px auto 0;
+      gap: 12px;
+      width: min(100%, 920px);
+      margin: 22px 0 0 auto;
     }
 
     .fit-card {
-      aspect-ratio: 2.45 / 1;
+      aspect-ratio: 2.65 / 1;
       min-height: 0;
       padding: 15px 18px;
       display: flex;
@@ -5764,6 +5764,11 @@
 
       .fit-head {
         max-width: none;
+        margin-left: 0;
+      }
+
+      .fit-grid {
+        width: 100%;
         margin-left: 0;
       }
 
@@ -6044,21 +6049,27 @@
     /* FIT — cleaner chapter, lighter center to support identification */
     #fit {
       background:
-        radial-gradient(ellipse 44% 38% at 70% 24%, rgba(207,230,90,.085), transparent 72%),
-        radial-gradient(ellipse 38% 44% at 48% 76%, rgba(243,245,246,.035), transparent 74%),
-        linear-gradient(180deg, #101316 0%, #13171a 48%, #101316 100%);
+        radial-gradient(ellipse 42% 40% at 73% 24%, rgba(207,230,90,.07), transparent 72%),
+        radial-gradient(ellipse 34% 42% at 18% 58%, rgba(243,245,246,.028), transparent 74%),
+        linear-gradient(180deg, #101316 0%, #121619 50%, #101316 100%);
     }
 
     #fit::before {
       content: "";
       position: absolute;
-      inset: 0;
       z-index: 0;
       pointer-events: none;
-      opacity: .62;
-      background-image:
-        linear-gradient(112deg, transparent 0 47%, rgba(255,255,255,.022) 47.2% 47.35%, transparent 47.55% 100%),
-        linear-gradient(90deg, transparent 0%, rgba(207,230,90,.018) 52%, transparent 88%);
+      width: 430px;
+      height: 430px;
+      left: -150px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      border: 1px solid rgba(207,230,90,.055);
+      box-shadow:
+        0 0 0 70px rgba(207,230,90,.014),
+        0 0 0 140px rgba(255,255,255,.006);
+      opacity: .82;
     }
 
     #fit::after {
@@ -6066,14 +6077,14 @@
       position: absolute;
       z-index: 0;
       pointer-events: none;
-      width: min(780px, 72vw);
-      height: 260px;
-      right: -5%;
-      top: 10%;
+      width: min(700px, 58vw);
+      height: 220px;
+      right: 2%;
+      top: 8%;
       border-radius: 50%;
-      background: rgba(207,230,90,.055);
-      filter: blur(82px);
-      opacity: .72;
+      background: rgba(207,230,90,.048);
+      filter: blur(80px);
+      opacity: .68;
     }
 
     .fit-card {
@@ -6192,6 +6203,7 @@
           linear-gradient(180deg, #101316 0%, #111519 54%, #0f1215 100%);
       }
 
+      #fit::before,
       #fit::after {
         display: none;
       }
