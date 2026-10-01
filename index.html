@@ -5642,24 +5642,19 @@
     }
 
     .fit-head {
-      display: grid;
-      grid-template-columns: minmax(220px,.62fr) minmax(0,1.38fr);
-      grid-template-areas: "kicker title";
-      column-gap: 64px;
-      align-items: start;
-      max-width: none;
+      display: block;
+      max-width: 760px;
+      margin-left: auto;
     }
 
     .fit-head > .conversion-kicker {
-      grid-area: kicker;
-      margin: 8px 0 0;
-      align-self: start;
+      margin: 0 0 12px;
+      text-align: left;
     }
 
     .fit-title {
-      grid-area: title;
       max-width: 760px;
-      margin-left: auto;
+      margin-left: 0;
       font-size: clamp(2.8rem,5.5vw,5.4rem);
       line-height: .96;
       letter-spacing: -.055em;
@@ -5674,14 +5669,15 @@
     .fit-grid {
       display: grid;
       grid-template-columns: repeat(3,minmax(0,1fr));
-      gap: 10px;
-      margin-top: 30px;
+      gap: 14px;
+      width: min(100%, 1010px);
+      margin: 28px auto 0;
     }
 
     .fit-card {
-      aspect-ratio: 2.15 / 1;
+      aspect-ratio: 2.45 / 1;
       min-height: 0;
-      padding: 18px 20px;
+      padding: 15px 18px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -5693,16 +5689,16 @@
 
     .fit-card h3 {
       margin-top: 0;
-      font-size: 1.28rem;
+      font-size: 1.16rem;
       letter-spacing: -.03em;
     }
 
     .fit-card p {
-      max-width: 285px;
-      margin: 8px auto 0;
+      max-width: 260px;
+      margin: 7px auto 0;
       color: #8E949A;
-      font-size: 11px;
-      line-height: 1.5;
+      font-size: 10.4px;
+      line-height: 1.48;
     }
 
     .direction-principle {
@@ -5767,15 +5763,12 @@
       }
 
       .fit-head {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-          "kicker"
-          "title";
-        row-gap: 12px;
+        max-width: none;
+        margin-left: 0;
       }
 
       .fit-head > .conversion-kicker {
-        margin-top: 0;
+        margin-bottom: 10px;
       }
 
       .fit-title {
@@ -5874,7 +5867,8 @@
         line-height: 1.45;
       }
 
-      .fit-head {
+      .fit-head,
+      .fit-head > .conversion-kicker {
         text-align: center;
       }
 
@@ -5901,10 +5895,10 @@
       }
 
       .fit-card {
-        flex: 0 0 min(84vw, 330px);
-        aspect-ratio: 2.1 / 1;
+        flex: 0 0 min(78vw, 300px);
+        aspect-ratio: 2.3 / 1;
         min-height: 0;
-        padding: 14px 16px;
+        padding: 13px 15px;
         border-radius: 18px;
         text-align: center;
       }
@@ -6050,9 +6044,9 @@
     /* FIT — cleaner chapter, lighter center to support identification */
     #fit {
       background:
-        radial-gradient(ellipse 46% 52% at 78% 24%, rgba(207,230,90,.075), transparent 70%),
-        radial-gradient(ellipse 50% 62% at 18% 74%, rgba(243,245,246,.042), transparent 72%),
-        linear-gradient(180deg, #111417 0%, #13171b 50%, #101316 100%);
+        radial-gradient(ellipse 44% 38% at 70% 24%, rgba(207,230,90,.085), transparent 72%),
+        radial-gradient(ellipse 38% 44% at 48% 76%, rgba(243,245,246,.035), transparent 74%),
+        linear-gradient(180deg, #101316 0%, #13171a 48%, #101316 100%);
     }
 
     #fit::before {
@@ -6061,8 +6055,25 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background:
-        linear-gradient(90deg, transparent 0%, rgba(255,255,255,.012) 48%, transparent 100%);
+      opacity: .62;
+      background-image:
+        linear-gradient(112deg, transparent 0 47%, rgba(255,255,255,.022) 47.2% 47.35%, transparent 47.55% 100%),
+        linear-gradient(90deg, transparent 0%, rgba(207,230,90,.018) 52%, transparent 88%);
+    }
+
+    #fit::after {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      width: min(780px, 72vw);
+      height: 260px;
+      right: -5%;
+      top: 10%;
+      border-radius: 50%;
+      background: rgba(207,230,90,.055);
+      filter: blur(82px);
+      opacity: .72;
     }
 
     .fit-card {
@@ -6170,10 +6181,19 @@
       }
 
       #projects,
-      #fit,
       #services,
       #contact {
         background: linear-gradient(180deg, #101316 0%, #0f1215 100%);
+      }
+
+      #fit {
+        background:
+          radial-gradient(ellipse 82% 34% at 50% 18%, rgba(207,230,90,.055), transparent 72%),
+          linear-gradient(180deg, #101316 0%, #111519 54%, #0f1215 100%);
+      }
+
+      #fit::after {
+        display: none;
       }
 
       #method::before {
