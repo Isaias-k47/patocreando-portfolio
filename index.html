@@ -422,31 +422,30 @@
       box-shadow: 0 8px 24px rgba(207,230,90,.10);
     }
 
-    /* Shared AI-avatar marker: hero + UGC media */
+    /* AVATAR IA marker — mirrors the editorial DIGITALIZED language used in campaign media */
     .ai-avatar-badge {
       position: absolute;
       z-index: 12;
-      top: 16px;
       left: 14px;
+      bottom: 16px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      min-height: 24px;
-      padding: 0 9px;
-      border: 1px solid rgba(207,230,90,.54);
-      border-radius: 999px;
-      background: rgba(12,14,14,.72);
-      color: #E9F6A0;
+      min-height: 25px;
+      padding: 0 10px 0 11px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-left-color: rgba(207,230,90,.92);
+      border-radius: 2px;
+      background:
+        linear-gradient(90deg, rgba(207,230,90,.08), transparent 44%),
+        rgba(8,10,11,.72);
+      color: rgba(246,247,241,.96);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.06),
-        0 8px 24px rgba(0,0,0,.22),
-        0 0 22px rgba(207,230,90,.08);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      font-size: 8px;
-      font-weight: 750;
-      line-height: 1;
-      letter-spacing: .14em;
+        inset 0 1px 0 rgba(255,255,255,.045),
+        0 8px 24px rgba(0,0,0,.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font: 700 8px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: .19em;
       text-transform: uppercase;
       white-space: nowrap;
       pointer-events: none;
@@ -454,26 +453,38 @@
 
     .ai-avatar-badge::before {
       content: "";
-      width: 5px;
-      height: 5px;
-      flex: 0 0 5px;
-      border-radius: 50%;
+      width: 4px;
+      height: 4px;
+      flex: 0 0 4px;
+      margin-right: 7px;
       background: #CFE65A;
-      box-shadow: 0 0 10px rgba(207,230,90,.72);
+      box-shadow: 0 0 9px rgba(207,230,90,.55);
+    }
+
+    .ai-avatar-badge::after {
+      content: "";
+      position: absolute;
+      left: -1px;
+      top: -5px;
+      width: 18px;
+      height: 1px;
+      background: linear-gradient(90deg, #CFE65A, rgba(207,230,90,0));
+      opacity: .82;
     }
 
     @media (max-width: 639px) {
       .ai-avatar-badge {
-        top: max(14px, env(safe-area-inset-top));
         left: max(12px, env(safe-area-inset-left));
-        min-height: 23px;
-        padding-inline: 8px;
+        bottom: max(14px, env(safe-area-inset-bottom));
+        min-height: 24px;
+        padding-inline: 9px;
         font-size: 7.5px;
+        letter-spacing: .17em;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .ai-avatar-badge {
-        top: max(18px, env(safe-area-inset-top));
         left: max(14px, env(safe-area-inset-left));
+        bottom: max(18px, calc(env(safe-area-inset-bottom) + 12px));
       }
     }
 
