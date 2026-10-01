@@ -6872,7 +6872,8 @@
               </div>
 
               <div class="hero-phone-screen">
-                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
+                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video" data-preferred-source="hero-avatar-ugc.mp4">
+                  <source src="./assets/videos/hero-avatar-ugc.mp4" type="video/mp4" />
                   <source src="./assets/videos/hero-showreel.mp4" type="video/mp4" />
                 </video>
 
@@ -6885,7 +6886,7 @@
               <span class="hero-sound-icon" aria-hidden="true">
                 <i data-lucide="volume-2" class="w-4 h-4"></i>
               </span>
-              <span class="hero-sound-label">Activar audio</span>
+              <span class="hero-sound-label">Escuchar</span>
             </button>
 
             <div class="hero-stage-caption">
@@ -8392,7 +8393,7 @@
       function updateSoundUi() {
         if (!soundToggle) return;
         var label = soundToggle.querySelector(".hero-sound-label");
-        if (label) label.textContent = video.muted ? "Activar audio" : "Silenciar";
+        if (label) label.textContent = video.muted ? "Escuchar" : "Silenciar";
         soundToggle.setAttribute(
           "aria-label",
           video.muted ? "Activar audio del video" : "Silenciar video"
