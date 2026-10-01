@@ -8161,6 +8161,17 @@
       }
     }
 
+  
+    /* Final desktop sound hit target */
+    @media (min-width: 640px) {
+      #heroPhone > #heroSoundToggleDesktop {
+        pointer-events: auto !important;
+        touch-action: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8298,8 +8309,7 @@
                 </button>
               </div>
 
-              <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video"
-                onclick="event.preventDefault();event.stopPropagation();var v=this.closest('#heroPhone').querySelector('.hero-video');var on=v.dataset.userUnmuted!=='true';v.dataset.userUnmuted=on?'true':'false';v.volume=1;v.muted=!on;v.defaultMuted=!on;if(on){v.removeAttribute('muted');var p=v.play();if(p&&p.catch)p.catch(function(){});this.classList.add('is-audible');this.setAttribute('aria-label','Silenciar video');this.querySelector('.hero-sound-label').textContent='Silenciar';}else{v.setAttribute('muted','');this.classList.remove('is-audible');this.setAttribute('aria-label','Activar audio del video');this.querySelector('.hero-sound-label').textContent='Escuchar';}">
+              <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video">
                 <span class="hero-sound-icon" aria-hidden="true">
                   <i data-lucide="volume-2" class="w-4 h-4"></i>
                 </span>
@@ -11242,5 +11252,122 @@
       });
     })();
   </script>
+
+  <script>
+    (function desktopHeroSoundCapture() {
+      "use strict";
+
+      var desktopQuery = window.matchMedia("(min-width: 640px)");
+      var button = document.getElementById("heroSoundToggleDesktop");
+      var video = document.querySelector("#heroPhone .hero-video");
+
+      if (!button || !video) return;
+
+      var label = button.querySelector(".hero-sound-label");
+      var active = false;
+      var handling = false;
+
+      function updateUi(stateText) {
+        button.classList.toggle("is-audible", active);
+        button.setAttribute(
+          "aria-label",
+          active ? "Silenciar video" : "Activar audio del video"
+        );
+        if (label) label.textContent = stateText || (active ? "Silenciar" : "Escuchar");
+      }
+
+      function applyState(next) {
+        active = next;
+        video.dataset.userUnmuted = active ? "true" : "false";
+        video.volume = 1;
+        video.muted = !active;
+        video.defaultMuted = !active;
+
+        if (active) {
+          video.removeAttribute("muted");
+        } else {
+          video.setAttribute("muted", "");
+        }
+      }
+
+      function toggleFromGesture(event) {
+        if (!desktopQuery.matches || handling) return;
+
+        handling = true;
+        event.preventDefault();
+        event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === "function") {
+          event.stopImmediatePropagation();
+        }
+
+        var next = !active;
+        applyState(next);
+
+        if (!next) {
+          updateUi("Escuchar");
+          handling = false;
+          return;
+        }
+
+        updateUi("Activando...");
+
+        var playPromise;
+        try { playPromise = video.play(); } catch (e) {
+          applyState(false);
+          updateUi("Bloqueado");
+          handling = false;
+          window.setTimeout(function () { updateUi("Escuchar"); }, 1200);
+          return;
+        }
+
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise.then(function () {
+            applyState(true);
+            updateUi("Silenciar");
+            handling = false;
+          }).catch(function () {
+            applyState(false);
+            updateUi("Bloqueado");
+            handling = false;
+            window.setTimeout(function () { updateUi("Escuchar"); }, 1200);
+          });
+        } else {
+          applyState(true);
+          updateUi("Silenciar");
+          handling = false;
+        }
+      }
+
+      // Capture phase + coordinate hit test: works even if another layer is above the button.
+      document.addEventListener("pointerdown", function (event) {
+        if (!desktopQuery.matches) return;
+
+        var rect = button.getBoundingClientRect();
+        var inside =
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom;
+
+        if (inside) toggleFromGesture(event);
+      }, true);
+
+      // Keyboard accessibility.
+      button.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          toggleFromGesture(event);
+        }
+      });
+
+      video.addEventListener("volumechange", function () {
+        if (!desktopQuery.matches || handling) return;
+        active = video.dataset.userUnmuted === "true" && !video.muted && video.volume > 0;
+        updateUi();
+      });
+
+      updateUi("Escuchar");
+    })();
+  </script>
+
 </body>
 </html>
