@@ -8925,20 +8925,21 @@
     /* Mobile hero reversible vertical store — stable geometry */
     @media (max-width: 639px) {
       .hero-device-wrap.mobile-takeover-enabled {
-        height: 200dvh !important;
-        min-height: 200dvh !important;
+        height: 142dvh !important;
+        min-height: 142dvh !important;
         margin-bottom: 0 !important;
         transition: none !important;
       }
 
-      /* Static overlap: avoids changing layout metrics during scroll.
-         82dvh matches the video's 100% → 18% vertical compression. */
       #bottleneck {
-        margin-top: -82dvh !important;
+        margin-top: 0 !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
-        background: transparent !important;
+        background:
+          radial-gradient(ellipse 92% 44% at 50% 22%, rgba(243,245,246,.065), transparent 72%),
+          radial-gradient(ellipse 88% 40% at 64% 68%, rgba(207,230,90,.055), transparent 74%),
+          linear-gradient(180deg, #111519 0%, #12171b 54%, #101316 100%) !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
@@ -8965,9 +8966,9 @@
       }
 
       .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-sound-toggle {
-        opacity: calc(1 - var(--hero-mobile-store-progress, 0)) !important;
-        pointer-events: none !important;
-        transition: none !important;
+        opacity: clamp(.62, calc(1 - var(--hero-mobile-store-progress, 0)), 1) !important;
+        pointer-events: auto !important;
+        transition: opacity .12s linear !important;
       }
     }
 
@@ -9101,7 +9102,7 @@
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
-                <button class="hero-sound-toggle hero-sound-toggle-mobile" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
+                <button class="hero-sound-toggle hero-sound-toggle-mobile" id="heroSoundToggle" type="button" data-takeover-audio="true" aria-label="Activar audio del video">
                   <span class="hero-sound-icon" aria-hidden="true">
                     <i data-lucide="volume-2" class="w-4 h-4"></i>
                   </span>
@@ -10615,7 +10616,7 @@
         }
       }
 
-      if (soundToggle) {
+      if (soundToggle && !soundToggle.hasAttribute("data-takeover-audio")) {
         soundToggle.addEventListener("click", function (event) {
           if (!mobileQuery.matches) return;
 
@@ -10729,6 +10730,56 @@
         }
       }
 
+      function setMobileHeroAudio(audible) {
+        video.dataset.userUnmuted = audible ? "true" : "false";
+        video.volume = 1;
+        video.muted = !audible;
+        video.defaultMuted = !audible;
+
+        if (audible) {
+          video.removeAttribute("muted");
+        } else {
+          video.setAttribute("muted", "");
+        }
+      }
+
+      function toggleMobileHeroAudio(event) {
+        if (!mobileQuery.matches || !soundToggle) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        var nextAudible =
+          video.dataset.userUnmuted !== "true" ||
+          video.muted ||
+          video.volume === 0;
+
+        setMobileHeroAudio(nextAudible);
+        video.preload = "auto";
+
+        var playPromise;
+        try { playPromise = video.play(); } catch (e) {}
+
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise.then(function () {
+            if (nextAudible) setMobileHeroAudio(true);
+            updateSoundUi();
+          }).catch(function () {
+            setMobileHeroAudio(false);
+            updateSoundUi();
+          });
+        } else {
+          updateSoundUi();
+        }
+      }
+
+      if (soundToggle) {
+        soundToggle.addEventListener("click", toggleMobileHeroAudio);
+        video.addEventListener("volumechange", function () {
+          if (mobileQuery.matches) updateSoundUi();
+        });
+      }
+
       function resetMobileState() {
         phone.style.transform = "";
         phone.style.clipPath = "";
@@ -10770,11 +10821,11 @@
         // Reversible vertical store:
         // compress the whole video vertically instead of translating/cropping it.
         // Scrolling back restores the exact same height.
-        var storeStart = .18;
+        var storeStart = .30;
         var storeProgress = smoothstep(
           clamp((progress - storeStart) / (1 - storeStart), 0, 1)
         );
-        var storeScaleY = 1 - (storeProgress * .82);
+        var storeScaleY = 1 - (storeProgress * .74);
 
         phone.style.setProperty("--hero-mobile-store-scale-y", storeScaleY.toFixed(4));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
@@ -10852,7 +10903,7 @@
         var keepAudio = video.dataset.userUnmuted === "true";
 
         if (mobileQuery.matches) {
-          applyHeroAudioState(keepAudio);
+          setMobileHeroAudio(keepAudio);
         } else {
           // Desktop owns its own sound state. Never force mute here after interaction.
           video.volume = 1;
