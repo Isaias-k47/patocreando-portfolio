@@ -8922,14 +8922,14 @@
     }
 
   
-    /* Mobile hero fullscreen → slide store */
+    /* Mobile hero fullscreen → stored 9:16 slide — no black gap */
     @media (max-width: 639px) {
       .hero-device-wrap.mobile-takeover-enabled {
         position: relative !important;
         width: 100% !important;
         max-width: none !important;
-        height: 150dvh !important;
-        min-height: 150dvh !important;
+        height: 132dvh !important;
+        min-height: 132dvh !important;
         margin: 0 !important;
         overflow: visible !important;
       }
@@ -8946,13 +8946,26 @@
         border: 0 !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        isolation: isolate;
         background:
-          radial-gradient(ellipse 92% 44% at 50% 22%, rgba(243,245,246,.065), transparent 72%),
-          radial-gradient(ellipse 88% 40% at 64% 68%, rgba(207,230,90,.055), transparent 74%),
-          linear-gradient(180deg, #111519 0%, #12171b 54%, #101316 100%) !important;
+          radial-gradient(ellipse 78% 42% at 50% 18%, rgba(207,230,90,.10), transparent 68%),
+          radial-gradient(ellipse 72% 36% at 72% 72%, rgba(243,245,246,.055), transparent 72%),
+          linear-gradient(180deg, #141a1e 0%, #11161a 52%, #0f1316 100%) !important;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage::before,
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+        pointer-events: none !important;
+        z-index: 0 !important;
+        background:
+          linear-gradient(180deg, transparent 0%, transparent 70%, rgba(207,230,90,.018) 100%),
+          repeating-linear-gradient(90deg, transparent 0 72px, rgba(255,255,255,.012) 73px 74px) !important;
+        opacity: .72 !important;
+      }
+
       .hero-device-wrap.mobile-takeover-enabled .hero-device-glow,
       .hero-device-wrap.mobile-takeover-enabled .hero-stage-label,
       .hero-device-wrap.mobile-takeover-enabled .hero-stage-caption {
@@ -8962,24 +8975,31 @@
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
       .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
         position: absolute !important;
-        inset: 0 !important;
-        width: 100vw !important;
-        height: 100dvh !important;
+        left: 50% !important;
+        top: var(--hero-mobile-slide-top, 0px) !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: var(--hero-mobile-slide-width, 100vw) !important;
+        height: var(--hero-mobile-slide-height, 100dvh) !important;
+        max-width: none !important;
         padding: 0 !important;
-        border: 0 !important;
-        border-radius: 0 !important;
         overflow: hidden !important;
         opacity: 1 !important;
-        background: #080a0c !important;
-        box-shadow: none !important;
+        background:
+          radial-gradient(circle at 50% 24%, rgba(207,230,90,.10), transparent 42%),
+          linear-gradient(180deg, #161c20, #0f1316) !important;
+        border: 1px solid rgba(255,255,255,var(--hero-mobile-slide-border, 0)) !important;
+        border-radius: var(--hero-mobile-slide-radius, 0px) !important;
+        box-shadow:
+          0 28px 70px rgba(0,0,0,var(--hero-mobile-slide-shadow, 0)),
+          inset 0 1px 0 rgba(255,255,255,.035) !important;
         clip-path: none !important;
         -webkit-clip-path: none !important;
-        transform:
-          translate3d(0, var(--hero-mobile-slide-y, 0px), 0)
-          scaleY(var(--hero-mobile-slide-scale, 1)) !important;
-        transform-origin: top center !important;
+        transform: translate3d(-50%, 0, 0) !important;
+        transform-origin: center center !important;
         transition: none !important;
-        will-change: transform !important;
+        will-change: width, height, top, border-radius !important;
+        z-index: 2 !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell::after,
@@ -8995,18 +9015,46 @@
         inset: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        border-radius: 0 !important;
+        border-radius: inherit !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen {
         overflow: hidden !important;
-        background: #080a0c !important;
+        background:
+          radial-gradient(circle at 50% 20%, rgba(207,230,90,.14), transparent 38%),
+          linear-gradient(160deg, #1b2226 0%, #11161a 58%, #0e1215 100%) !important;
+      }
+
+      /* Visible fallback until the browser has decoded a real video frame. */
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 1 !important;
+        pointer-events: none !important;
+        opacity: 1 !important;
+        background:
+          radial-gradient(ellipse 70% 34% at 50% 30%, rgba(207,230,90,.18), transparent 72%),
+          linear-gradient(145deg, #1b2226 0%, #12181c 50%, #0d1114 100%) !important;
+        transition: opacity .18s ease !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-video-ready .hero-phone-screen::before {
+        opacity: 0 !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        z-index: 2 !important;
         object-fit: cover !important;
         object-position: center center !important;
         transform: none !important;
+        background: transparent !important;
+        opacity: 0 !important;
+        transition: opacity .18s ease !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-video-ready .hero-video {
+        opacity: 1 !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen > #heroSoundToggle {
@@ -9015,7 +9063,7 @@
         right: max(14px, env(safe-area-inset-right)) !important;
         bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px)) !important;
         display: inline-flex !important;
-        opacity: clamp(.18, calc(1 - var(--hero-mobile-store-progress, 0)), 1) !important;
+        opacity: clamp(.34, calc(1 - var(--hero-mobile-store-progress, 0)), 1) !important;
         visibility: visible !important;
         pointer-events: auto !important;
         transform: none !important;
@@ -9154,7 +9202,7 @@
               </div>
 
               <div class="hero-phone-screen">
-                <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
+                <video autoplay muted loop playsinline webkit-playsinline preload="auto" class="hero-video">
                   <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0b0f7ca6-fe2a-47b8-8752-1449bb482c30.mp4" type="video/mp4" />
                 </video>
 
@@ -10661,63 +10709,6 @@
         videos.forEach(function (video) { observer.observe(video); });
       }
 
-      function applyHeroAudioState(enabled) {
-        video.dataset.userUnmuted = enabled ? "true" : "false";
-        video.volume = enabled ? 1 : 0;
-        video.muted = !enabled;
-        video.defaultMuted = !enabled;
-
-        if (enabled) {
-          video.removeAttribute("muted");
-        } else {
-          video.setAttribute("muted", "");
-        }
-      }
-
-      if (soundToggle && !soundToggle.hasAttribute("data-takeover-audio")) {
-        soundToggle.addEventListener("click", function (event) {
-          if (!mobileQuery.matches) return;
-
-          event.preventDefault();
-          event.stopPropagation();
-
-          var turningOn = video.dataset.userUnmuted !== "true";
-          applyHeroAudioState(turningOn);
-
-          if (turningOn) {
-            video.preload = "auto";
-
-            var promise;
-            try { promise = video.play(); } catch (e) {}
-
-            if (promise && typeof promise.then === "function") {
-              promise.then(function () {
-                if (video.dataset.userUnmuted === "true") {
-                  applyHeroAudioState(true);
-                  updateSoundUi();
-                }
-              }).catch(function () {
-                applyHeroAudioState(false);
-                updateSoundUi();
-              });
-            }
-
-            window.setTimeout(function () {
-              if (video.dataset.userUnmuted === "true") {
-                applyHeroAudioState(true);
-                updateSoundUi();
-              }
-            }, 80);
-          }
-
-          updateSoundUi();
-        });
-
-        video.addEventListener("volumechange", function () {
-          if (mobileQuery.matches) updateSoundUi();
-        });
-      }
-
       window.addEventListener("scroll", schedule, { passive: true });
       window.addEventListener("resize", schedule, { passive: true });
       window.addEventListener("orientationchange", schedule, { passive: true });
@@ -10759,6 +10750,7 @@
       var audioUnlocked = false;
       var userSilenced = false;
       var lastWidth = window.innerWidth;
+      var frameReady = false;
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -10798,7 +10790,7 @@
 
       function setAudio(audible) {
         video.dataset.userUnmuted = audible ? "true" : "false";
-        video.volume = 1;
+        video.volume = audible ? 1 : 0;
         video.muted = !audible;
         video.defaultMuted = !audible;
 
@@ -10811,11 +10803,31 @@
         updateSoundUi();
       }
 
+      function markFrameReady() {
+        if (frameReady) return;
+        frameReady = true;
+        wrap.classList.add("is-video-ready");
+      }
+
       function playVideo() {
         video.preload = "auto";
+        video.setAttribute("autoplay", "");
         var promise;
 
         try { promise = video.play(); } catch (e) {}
+
+        return promise;
+      }
+
+      function ensureMutedPlayback() {
+        if (audioUnlocked && !userSilenced) return playVideo();
+
+        setAudio(false);
+        var promise = playVideo();
+
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(function () {});
+        }
 
         return promise;
       }
@@ -10833,10 +10845,7 @@
           }).catch(function () {
             audioUnlocked = false;
             setAudio(false);
-            var mutedPlay = playVideo();
-            if (mutedPlay && typeof mutedPlay.catch === "function") {
-              mutedPlay.catch(function () {});
-            }
+            ensureMutedPlayback();
           });
         } else {
           audioUnlocked = true;
@@ -10858,6 +10867,7 @@
         if (audible) {
           userSilenced = true;
           setAudio(false);
+          ensureMutedPlayback();
           return;
         }
 
@@ -10868,14 +10878,19 @@
 
       function shouldUnlockFromGesture(event) {
         if (!enabled || userSilenced || audioUnlocked) return false;
-        if (soundToggle && (event.target === soundToggle || soundToggle.contains(event.target))) {
+
+        if (
+          soundToggle &&
+          event &&
+          (event.target === soundToggle || soundToggle.contains(event.target))
+        ) {
           return false;
         }
 
         var rect = wrap.getBoundingClientRect();
         var vh = Math.max(window.innerHeight, 1);
 
-        return rect.top < vh * 1.15 && rect.bottom > 0;
+        return rect.top < vh * 1.10 && rect.bottom > 0;
       }
 
       function handleGesture(event) {
@@ -10885,9 +10900,18 @@
       }
 
       function resetMobileState() {
-        phone.style.removeProperty("--hero-mobile-slide-y");
-        phone.style.removeProperty("--hero-mobile-slide-scale");
-        phone.style.removeProperty("--hero-mobile-store-progress");
+        [
+          "--hero-mobile-slide-width",
+          "--hero-mobile-slide-height",
+          "--hero-mobile-slide-top",
+          "--hero-mobile-slide-radius",
+          "--hero-mobile-slide-border",
+          "--hero-mobile-slide-shadow",
+          "--hero-mobile-store-progress"
+        ].forEach(function (name) {
+          phone.style.removeProperty(name);
+        });
+
         wrap.classList.remove("is-takeover");
         wrap.classList.remove("is-storing");
         wrap.classList.remove("is-revealed");
@@ -10908,26 +10932,52 @@
         if (!enabled) return;
 
         var rect = wrap.getBoundingClientRect();
-        var viewportH = Math.max(stage.getBoundingClientRect().height || window.innerHeight, 1);
+        var stageRect = stage.getBoundingClientRect();
+        var viewportH = Math.max(stageRect.height || window.innerHeight, 1);
+        var viewportW = Math.max(stageRect.width || window.innerWidth, 1);
         var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
         var progress = clamp((-rect.top) / scrollRange, 0, 1);
 
-        var holdEnd = .42;
+        /*
+          Keep fullscreen briefly, then morph into a real 9:16 card.
+          The parent is only 132dvh, so the sticky stage exits almost
+          immediately after the card is stored instead of leaving a dark gap.
+        */
+        var storeStart = .10;
+        var storeEnd = .88;
         var storeProgress = smoothstep(
-          clamp((progress - holdEnd) / (1 - holdEnd), 0, 1)
+          clamp((progress - storeStart) / (storeEnd - storeStart), 0, 1)
         );
 
-        var slideY = -(storeProgress * viewportH * 1.02);
-        var slideScaleY = 1 - (storeProgress * .18);
+        var targetW = Math.min(viewportW * .64, 260);
+        var targetH = targetW * (16 / 9);
+        var maxTargetH = viewportH * .72;
 
-        phone.style.setProperty("--hero-mobile-slide-y", slideY.toFixed(1) + "px");
-        phone.style.setProperty("--hero-mobile-slide-scale", slideScaleY.toFixed(4));
+        if (targetH > maxTargetH) {
+          targetH = maxTargetH;
+          targetW = targetH * (9 / 16);
+        }
+
+        var currentW = viewportW + ((targetW - viewportW) * storeProgress);
+        var currentH = viewportH + ((targetH - viewportH) * storeProgress);
+        var targetTop = clamp(viewportH * .10, 44, 92);
+        var currentTop = targetTop * storeProgress;
+        var radius = 26 * storeProgress;
+        var borderAlpha = .12 * storeProgress;
+        var shadowAlpha = .28 * storeProgress;
+
+        phone.style.setProperty("--hero-mobile-slide-width", currentW.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-slide-height", currentH.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-slide-top", currentTop.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-slide-radius", radius.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-slide-border", borderAlpha.toFixed(3));
+        phone.style.setProperty("--hero-mobile-slide-shadow", shadowAlpha.toFixed(3));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
 
         var inside = rect.top < viewportH && rect.bottom > 0;
-        var takeover = inside && progress >= .02 && storeProgress < .98;
+        var takeover = inside && progress < .995;
 
-        wrap.classList.toggle("is-revealed", progress >= .02);
+        wrap.classList.toggle("is-revealed", progress >= .01);
         wrap.classList.toggle("is-storing", storeProgress > .01);
         wrap.classList.toggle("is-takeover", takeover);
         document.body.classList.toggle("hero-takeover-active", takeover);
@@ -10938,10 +10988,7 @@
           }
 
           if (video.paused) {
-            var p = playVideo();
-            if (p && typeof p.catch === "function") {
-              p.catch(function () {});
-            }
+            ensureMutedPlayback();
           }
         } else if (!video.paused) {
           try { video.pause(); } catch (e) {}
@@ -10951,6 +10998,25 @@
       function schedule() {
         if (!enabled || rafId) return;
         rafId = window.requestAnimationFrame(render);
+      }
+
+      function primeVideo() {
+        video.playsInline = true;
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        video.preload = "auto";
+        video.setAttribute("preload", "auto");
+        video.setAttribute("autoplay", "");
+
+        if (!audioUnlocked || userSilenced) {
+          setAudio(false);
+        }
+
+        if (video.readyState >= 2) {
+          markFrameReady();
+        }
+
+        ensureMutedPlayback();
       }
 
       function refresh() {
@@ -10963,8 +11029,8 @@
         setEnabled(shouldEnable);
 
         if (shouldEnable) {
-          if (!audioUnlocked || userSilenced) setAudio(false);
-          window.setTimeout(render, 40);
+          primeVideo();
+          window.setTimeout(render, 20);
         }
       }
 
@@ -10972,12 +11038,25 @@
         soundToggle.addEventListener("click", toggleAudio);
       }
 
+      video.addEventListener("loadeddata", markFrameReady);
+      video.addEventListener("canplay", markFrameReady);
+      video.addEventListener("playing", function () {
+        markFrameReady();
+        if (mobileQuery.matches) updateSoundUi();
+      });
+
       video.addEventListener("volumechange", function () {
         if (mobileQuery.matches) updateSoundUi();
       });
 
-      document.addEventListener("pointerdown", handleGesture, { passive: true });
-      document.addEventListener("touchstart", handleGesture, { passive: true });
+      video.addEventListener("stalled", function () {
+        wrap.classList.remove("is-video-ready");
+        frameReady = false;
+      });
+
+      ["pointerdown", "touchstart", "click"].forEach(function (eventName) {
+        document.addEventListener(eventName, handleGesture, { passive: true });
+      });
 
       window.addEventListener("scroll", schedule, { passive: true });
 
@@ -10993,15 +11072,23 @@
       }, { passive: true });
 
       window.addEventListener("orientationchange", function () {
-        window.setTimeout(refresh, 180);
+        window.setTimeout(refresh, 160);
       }, { passive: true });
+
+      window.addEventListener("pageshow", function () {
+        if (enabled) {
+          primeVideo();
+          schedule();
+        }
+      });
 
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
           if (!video.paused) {
             try { video.pause(); } catch (e) {}
           }
-        } else {
+        } else if (enabled) {
+          primeVideo();
           schedule();
         }
       });
