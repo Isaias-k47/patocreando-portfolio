@@ -8172,6 +8172,32 @@
       }
     }
 
+  
+    /* Hero sound cleanup — keep only working desktop control */
+    @media (min-width: 640px) {
+      #heroPhone .hero-phone-screen > #heroSoundToggle,
+      #heroPhone .hero-phone-screen > .hero-sound-toggle-mobile,
+      #heroPhone .hero-phone-screen > .video-tap-fallback {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      #heroPhone > #heroSoundToggleDesktop {
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+    }
+
+    @media (max-width: 639px) {
+      #heroPhone > #heroSoundToggleDesktop {
+        display: none !important;
+      }
+    }
+
   </style>
 </head>
 
