@@ -8271,7 +8271,8 @@
                   <span class="hero-sound-label">Escuchar</span>
                 </button>
 
-                <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video" onclick="window.__desktopHeroAudioToggle && window.__desktopHeroAudioToggle(event,this)">
+                <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video"
+                  onclick="event.preventDefault();event.stopPropagation();var v=this.closest('.hero-phone-screen').querySelector('.hero-video');var on=v.dataset.userUnmuted!=='true';v.dataset.userUnmuted=on?'true':'false';v.volume=1;v.muted=!on;v.defaultMuted=!on;if(on){v.removeAttribute('muted');var p=v.play();if(p&&p.catch)p.catch(function(){});this.classList.add('is-audible');this.setAttribute('aria-label','Silenciar video');this.querySelector('.hero-sound-label').textContent='Silenciar';}else{v.setAttribute('muted','');this.classList.remove('is-audible');this.setAttribute('aria-label','Activar audio del video');this.querySelector('.hero-sound-label').textContent='Escuchar';}">
                   <span class="hero-sound-icon" aria-hidden="true">
                     <i data-lucide="volume-2" class="w-4 h-4"></i>
                   </span>
@@ -9988,11 +9989,21 @@
         if (!heroIsVisible || document.hidden) return;
         video.preload = "auto";
 
-        var keepAudio = mobileQuery.matches && video.dataset.userUnmuted === "true";
-        if (keepAudio) {
-          applyHeroAudioState(true);
+        var keepAudio = video.dataset.userUnmuted === "true";
+
+        if (mobileQuery.matches) {
+          applyHeroAudioState(keepAudio);
         } else {
-          applyHeroAudioState(false);
+          // Desktop owns its own sound state. Never force mute here after interaction.
+          video.volume = 1;
+          video.muted = !keepAudio;
+          video.defaultMuted = !keepAudio;
+
+          if (keepAudio) {
+            video.removeAttribute("muted");
+          } else {
+            video.setAttribute("muted", "");
+          }
         }
 
         var playPromise;
@@ -10027,6 +10038,23 @@
         heroIsVisible = true;
         playHeroIfVisible();
       }
+
+      video.addEventListener("volumechange", function () {
+        if (mobileQuery.matches) return;
+
+        var desktopButton = document.getElementById("heroSoundToggleDesktop");
+        if (!desktopButton) return;
+
+        var audible = video.dataset.userUnmuted === "true" && !video.muted && video.volume > 0;
+        var desktopLabel = desktopButton.querySelector(".hero-sound-label");
+
+        desktopButton.classList.toggle("is-audible", audible);
+        desktopButton.setAttribute(
+          "aria-label",
+          audible ? "Silenciar video" : "Activar audio del video"
+        );
+        if (desktopLabel) desktopLabel.textContent = audible ? "Silenciar" : "Escuchar";
+      });
 
       video.addEventListener("pause", function () {
         if (heroIsVisible && !document.hidden) {
@@ -11188,153 +11216,5 @@
       });
     })();
   </script>
-
-  <script>
-    (function desktopHeroAudioController() {
-      "use strict";
-
-      var AUDIO_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/212fa988-0798-4598-a386-18d35c324ab9.mp3";
-      var desktopQuery = window.matchMedia("(min-width: 640px)");
-      var audio = null;
-      var active = false;
-      var syncTimer = null;
-
-      function getVideo() {
-        return document.querySelector("#heroPhone .hero-video");
-      }
-
-      function updateButton(button) {
-        if (!button) return;
-        var label = button.querySelector(".hero-sound-label");
-        if (label) label.textContent = active ? "Silenciar" : "Escuchar";
-        button.classList.toggle("is-audible", active);
-        button.setAttribute(
-          "aria-label",
-          active ? "Silenciar video" : "Activar audio del video"
-        );
-      }
-
-      function ensureAudio() {
-        if (audio) return audio;
-
-        audio = new Audio(AUDIO_URL);
-        audio.preload = "auto";
-        audio.loop = true;
-        audio.volume = 1;
-        audio.muted = false;
-        return audio;
-      }
-
-      function syncToVideo(force) {
-        if (!audio || !active) return;
-        var video = getVideo();
-        if (!video) return;
-
-        var vt = Number(video.currentTime || 0);
-        var at = Number(audio.currentTime || 0);
-
-        if (force || Math.abs(vt - at) > .20) {
-          try { audio.currentTime = vt; } catch (e) {}
-        }
-      }
-
-      function stopSync() {
-        if (syncTimer) {
-          window.clearInterval(syncTimer);
-          syncTimer = null;
-        }
-      }
-
-      function startSync() {
-        stopSync();
-        syncTimer = window.setInterval(function () {
-          if (!active || !desktopQuery.matches) return;
-          syncToVideo(false);
-        }, 500);
-      }
-
-      window.__desktopHeroAudioToggle = function (event, button) {
-        if (!desktopQuery.matches) return;
-
-        if (event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        var video = getVideo();
-        if (!video) return;
-
-        var track = ensureAudio();
-
-        if (active) {
-          active = false;
-          try { track.pause(); } catch (e) {}
-          stopSync();
-          updateButton(button);
-          return;
-        }
-
-        active = true;
-
-        try { track.currentTime = Number(video.currentTime || 0); } catch (e) {}
-        track.volume = 1;
-        track.muted = false;
-
-        // Critical: play() is called synchronously from the desktop click gesture.
-        var promise;
-        try { promise = track.play(); } catch (e) {
-          active = false;
-          updateButton(button);
-          return;
-        }
-
-        updateButton(button);
-        startSync();
-
-        if (promise && typeof promise.catch === "function") {
-          promise.catch(function () {
-            // Fallback to the video's own audio if the standalone track is blocked.
-            try {
-              video.volume = 1;
-              video.muted = false;
-              video.defaultMuted = false;
-              video.removeAttribute("muted");
-              var vp = video.play();
-              if (vp && typeof vp.catch === "function") {
-                vp.catch(function () {});
-              }
-            } catch (e) {}
-
-            active = !video.muted;
-            updateButton(button);
-          });
-        }
-      };
-
-      document.addEventListener("visibilitychange", function () {
-        if (!audio) return;
-
-        if (document.hidden) {
-          try { audio.pause(); } catch (e) {}
-        } else if (active && desktopQuery.matches) {
-          syncToVideo(true);
-          var p;
-          try { p = audio.play(); } catch (e) {}
-          if (p && typeof p.catch === "function") p.catch(function () {});
-        }
-      });
-
-      if (typeof desktopQuery.addEventListener === "function") {
-        desktopQuery.addEventListener("change", function (event) {
-          if (!event.matches && audio) {
-            active = false;
-            try { audio.pause(); } catch (e) {}
-            stopSync();
-          }
-        });
-      }
-    })();
-  </script>
-
 </body>
 </html>
