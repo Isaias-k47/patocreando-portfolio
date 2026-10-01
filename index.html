@@ -8135,6 +8135,32 @@
       }
     }
 
+  
+    /* Desktop hero sound hit-area fix: button lives above the screen layer */
+    @media (min-width: 640px) {
+      #heroPhone {
+        position: relative !important;
+      }
+
+      #heroPhone > #heroSoundToggleDesktop {
+        position: absolute !important;
+        display: inline-flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 50 !important;
+        right: 17px !important;
+        bottom: 17px !important;
+        min-height: 36px !important;
+        padding: 0 10px !important;
+        cursor: pointer !important;
+      }
+
+      #heroPhone > #heroSoundToggleDesktop * {
+        pointer-events: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8270,15 +8296,15 @@
                   </span>
                   <span class="hero-sound-label">Escuchar</span>
                 </button>
-
-                <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video"
-                  onclick="event.preventDefault();event.stopPropagation();var v=this.closest('.hero-phone-screen').querySelector('.hero-video');var on=v.dataset.userUnmuted!=='true';v.dataset.userUnmuted=on?'true':'false';v.volume=1;v.muted=!on;v.defaultMuted=!on;if(on){v.removeAttribute('muted');var p=v.play();if(p&&p.catch)p.catch(function(){});this.classList.add('is-audible');this.setAttribute('aria-label','Silenciar video');this.querySelector('.hero-sound-label').textContent='Silenciar';}else{v.setAttribute('muted','');this.classList.remove('is-audible');this.setAttribute('aria-label','Activar audio del video');this.querySelector('.hero-sound-label').textContent='Escuchar';}">
-                  <span class="hero-sound-icon" aria-hidden="true">
-                    <i data-lucide="volume-2" class="w-4 h-4"></i>
-                  </span>
-                  <span class="hero-sound-label">Escuchar</span>
-                </button>
               </div>
+
+              <button class="hero-sound-toggle hero-sound-toggle-desktop" id="heroSoundToggleDesktop" type="button" aria-label="Activar audio del video"
+                onclick="event.preventDefault();event.stopPropagation();var v=this.closest('#heroPhone').querySelector('.hero-video');var on=v.dataset.userUnmuted!=='true';v.dataset.userUnmuted=on?'true':'false';v.volume=1;v.muted=!on;v.defaultMuted=!on;if(on){v.removeAttribute('muted');var p=v.play();if(p&&p.catch)p.catch(function(){});this.classList.add('is-audible');this.setAttribute('aria-label','Silenciar video');this.querySelector('.hero-sound-label').textContent='Silenciar';}else{v.setAttribute('muted','');this.classList.remove('is-audible');this.setAttribute('aria-label','Activar audio del video');this.querySelector('.hero-sound-label').textContent='Escuchar';}">
+                <span class="hero-sound-icon" aria-hidden="true">
+                  <i data-lucide="volume-2" class="w-4 h-4"></i>
+                </span>
+                <span class="hero-sound-label">Escuchar</span>
+              </button>
             </div>
 
             <div class="hero-stage-caption">
