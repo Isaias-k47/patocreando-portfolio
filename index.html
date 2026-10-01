@@ -8922,53 +8922,111 @@
     }
 
   
-    /* Mobile hero reversible vertical store — stable geometry */
+    /* Mobile hero fullscreen → slide store */
     @media (max-width: 639px) {
       .hero-device-wrap.mobile-takeover-enabled {
-        height: 142dvh !important;
-        min-height: 142dvh !important;
-        margin-bottom: 0 !important;
-        transition: none !important;
-      }
-
-      #bottleneck {
-        margin-top: 0 !important;
+        position: relative !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: 150dvh !important;
+        min-height: 150dvh !important;
+        margin: 0 !important;
+        overflow: visible !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
+        position: sticky !important;
+        top: 0 !important;
+        width: 100vw !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        margin-left: calc(50% - 50vw) !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
         background:
           radial-gradient(ellipse 92% 44% at 50% 22%, rgba(243,245,246,.065), transparent 72%),
           radial-gradient(ellipse 88% 40% at 64% 68%, rgba(207,230,90,.055), transparent 74%),
           linear-gradient(180deg, #111519 0%, #12171b 54%, #101316 100%) !important;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
-      .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
-        transform:
-          translate3d(0,0,0)
-          scaleY(var(--hero-mobile-store-scale-y, 1)) !important;
-        transform-origin: top center !important;
-        transition:
-          inset .22s cubic-bezier(.2,.8,.2,1),
-          border-radius .22s cubic-bezier(.2,.8,.2,1),
-          opacity .18s ease !important;
-        will-change: transform, inset, border-radius, opacity !important;
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage::before,
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-glow,
+      .hero-device-wrap.mobile-takeover-enabled .hero-stage-label,
+      .hero-device-wrap.mobile-takeover-enabled .hero-stage-caption {
+        display: none !important;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-phone-shell {
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell,
+      .hero-device-wrap.mobile-takeover-enabled.is-revealed .hero-phone-shell {
+        position: absolute !important;
         inset: 0 !important;
+        width: 100vw !important;
+        height: 100dvh !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        opacity: 1 !important;
+        background: #080a0c !important;
+        box-shadow: none !important;
+        clip-path: none !important;
+        -webkit-clip-path: none !important;
+        transform:
+          translate3d(0, var(--hero-mobile-slide-y, 0px), 0)
+          scaleY(var(--hero-mobile-slide-scale, 1)) !important;
+        transform-origin: top center !important;
+        transition: none !important;
+        will-change: transform !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell::after,
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-island,
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-buttons,
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-vignette {
+        display: none !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen,
+      .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
         border-radius: 0 !important;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-video,
-      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-phone-screen {
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen {
+        overflow: hidden !important;
+        background: #080a0c !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        object-fit: cover !important;
+        object-position: center center !important;
         transform: none !important;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-sound-toggle {
-        opacity: clamp(.62, calc(1 - var(--hero-mobile-store-progress, 0)), 1) !important;
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen > #heroSoundToggle {
+        position: absolute !important;
+        z-index: 80 !important;
+        right: max(14px, env(safe-area-inset-right)) !important;
+        bottom: max(16px, calc(env(safe-area-inset-bottom) + 10px)) !important;
+        display: inline-flex !important;
+        opacity: clamp(.18, calc(1 - var(--hero-mobile-store-progress, 0)), 1) !important;
+        visibility: visible !important;
         pointer-events: auto !important;
-        transition: opacity .12s linear !important;
+        transform: none !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-storing .hero-phone-screen > #heroSoundToggle {
+        pointer-events: auto !important;
+      }
+
+      #bottleneck {
+        margin-top: 0 !important;
       }
     }
 
@@ -10698,7 +10756,9 @@
       var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
       var rafId = null;
       var enabled = false;
-      var lastInside = false;
+      var audioUnlocked = false;
+      var userSilenced = false;
+      var lastWidth = window.innerWidth;
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -10711,26 +10771,32 @@
 
       function updateSoundUi() {
         if (!soundToggle) return;
-        var muted = video.muted || video.volume === 0;
+
+        var audible =
+          video.dataset.userUnmuted === "true" &&
+          !video.muted &&
+          video.volume > 0;
+
         var label = soundToggle.querySelector(".hero-sound-label");
         var icon = soundToggle.querySelector("[data-lucide]");
 
-        if (label) label.textContent = muted ? "Escuchar" : "Silenciar";
+        if (label) label.textContent = audible ? "Silenciar" : "Escuchar";
+
         soundToggle.setAttribute(
           "aria-label",
-          muted ? "Activar audio del video" : "Silenciar video"
+          audible ? "Silenciar video" : "Activar audio del video"
         );
-        soundToggle.classList.toggle("is-audible", !muted);
+        soundToggle.classList.toggle("is-audible", audible);
 
         if (icon) {
-          icon.setAttribute("data-lucide", muted ? "volume-x" : "volume-2");
+          icon.setAttribute("data-lucide", audible ? "volume-2" : "volume-x");
           if (window.lucide && typeof window.lucide.createIcons === "function") {
             window.lucide.createIcons();
           }
         }
       }
 
-      function setMobileHeroAudio(audible) {
+      function setAudio(audible) {
         video.dataset.userUnmuted = audible ? "true" : "false";
         video.volume = 1;
         video.muted = !audible;
@@ -10741,54 +10807,90 @@
         } else {
           video.setAttribute("muted", "");
         }
+
+        updateSoundUi();
       }
 
-      function toggleMobileHeroAudio(event) {
-        if (!mobileQuery.matches || !soundToggle) return;
+      function playVideo() {
+        video.preload = "auto";
+        var promise;
+
+        try { promise = video.play(); } catch (e) {}
+
+        return promise;
+      }
+
+      function unlockAudioFromGesture() {
+        if (!enabled || userSilenced || audioUnlocked) return;
+
+        setAudio(true);
+        var promise = playVideo();
+
+        if (promise && typeof promise.then === "function") {
+          promise.then(function () {
+            audioUnlocked = true;
+            setAudio(true);
+          }).catch(function () {
+            audioUnlocked = false;
+            setAudio(false);
+            var mutedPlay = playVideo();
+            if (mutedPlay && typeof mutedPlay.catch === "function") {
+              mutedPlay.catch(function () {});
+            }
+          });
+        } else {
+          audioUnlocked = true;
+          setAudio(true);
+        }
+      }
+
+      function toggleAudio(event) {
+        if (!mobileQuery.matches) return;
 
         event.preventDefault();
         event.stopPropagation();
 
-        var nextAudible =
-          video.dataset.userUnmuted !== "true" ||
-          video.muted ||
-          video.volume === 0;
+        var audible =
+          video.dataset.userUnmuted === "true" &&
+          !video.muted &&
+          video.volume > 0;
 
-        setMobileHeroAudio(nextAudible);
-        video.preload = "auto";
+        if (audible) {
+          userSilenced = true;
+          setAudio(false);
+          return;
+        }
 
-        var playPromise;
-        try { playPromise = video.play(); } catch (e) {}
+        userSilenced = false;
+        audioUnlocked = false;
+        unlockAudioFromGesture();
+      }
 
-        if (playPromise && typeof playPromise.then === "function") {
-          playPromise.then(function () {
-            if (nextAudible) setMobileHeroAudio(true);
-            updateSoundUi();
-          }).catch(function () {
-            setMobileHeroAudio(false);
-            updateSoundUi();
-          });
-        } else {
-          updateSoundUi();
+      function shouldUnlockFromGesture(event) {
+        if (!enabled || userSilenced || audioUnlocked) return false;
+        if (soundToggle && (event.target === soundToggle || soundToggle.contains(event.target))) {
+          return false;
+        }
+
+        var rect = wrap.getBoundingClientRect();
+        var vh = Math.max(window.innerHeight, 1);
+
+        return rect.top < vh * 1.15 && rect.bottom > 0;
+      }
+
+      function handleGesture(event) {
+        if (shouldUnlockFromGesture(event)) {
+          unlockAudioFromGesture();
         }
       }
 
-      if (soundToggle) {
-        soundToggle.addEventListener("click", toggleMobileHeroAudio);
-        video.addEventListener("volumechange", function () {
-          if (mobileQuery.matches) updateSoundUi();
-        });
-      }
-
       function resetMobileState() {
-        phone.style.transform = "";
-        phone.style.clipPath = "";
-        phone.style.webkitClipPath = "";
-        phone.style.removeProperty("--hero-mobile-store-y");
-        phone.style.removeProperty("--hero-mobile-store-scale-y");
+        phone.style.removeProperty("--hero-mobile-slide-y");
+        phone.style.removeProperty("--hero-mobile-slide-scale");
         phone.style.removeProperty("--hero-mobile-store-progress");
         wrap.classList.remove("is-takeover");
         wrap.classList.remove("is-storing");
+        wrap.classList.remove("is-revealed");
         document.body.classList.remove("hero-takeover-active");
       }
 
@@ -10798,7 +10900,6 @@
 
         if (!enabled) {
           resetMobileState();
-          wrap.classList.remove("is-revealed");
         }
       }
 
@@ -10807,51 +10908,44 @@
         if (!enabled) return;
 
         var rect = wrap.getBoundingClientRect();
-        var viewportH = Math.max(window.innerHeight, 1);
+        var viewportH = Math.max(stage.getBoundingClientRect().height || window.innerHeight, 1);
         var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
         var progress = clamp((-rect.top) / scrollRange, 0, 1);
 
-        // Compact top-to-bottom reveal:
-        // 0–22%: uncover the video from the top edge.
-        // 22–100%: keep it completely static; the sticky section exits naturally.
-        if (progress >= .02 || rect.top <= viewportH * .82) {
-          wrap.classList.add("is-revealed");
-        }
-
-        // Reversible vertical store:
-        // compress the whole video vertically instead of translating/cropping it.
-        // Scrolling back restores the exact same height.
-        var storeStart = .30;
+        var holdEnd = .42;
         var storeProgress = smoothstep(
-          clamp((progress - storeStart) / (1 - storeStart), 0, 1)
+          clamp((progress - holdEnd) / (1 - holdEnd), 0, 1)
         );
-        var storeScaleY = 1 - (storeProgress * .74);
 
-        phone.style.setProperty("--hero-mobile-store-scale-y", storeScaleY.toFixed(4));
+        var slideY = -(storeProgress * viewportH * 1.02);
+        var slideScaleY = 1 - (storeProgress * .18);
+
+        phone.style.setProperty("--hero-mobile-slide-y", slideY.toFixed(1) + "px");
+        phone.style.setProperty("--hero-mobile-slide-scale", slideScaleY.toFixed(4));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
-        phone.style.clipPath = "none";
-        phone.style.webkitClipPath = "none";
 
         var inside = rect.top < viewportH && rect.bottom > 0;
-        var fullyCovering =
-          inside &&
-          progress >= .16 &&
-          storeProgress < .96;
+        var takeover = inside && progress >= .02 && storeProgress < .98;
 
-        wrap.classList.toggle("is-storing", storeProgress > .015);
-        wrap.classList.toggle("is-takeover", fullyCovering);
-        document.body.classList.toggle("hero-takeover-active", fullyCovering);
+        wrap.classList.toggle("is-revealed", progress >= .02);
+        wrap.classList.toggle("is-storing", storeProgress > .01);
+        wrap.classList.toggle("is-takeover", takeover);
+        document.body.classList.toggle("hero-takeover-active", takeover);
 
-        if (inside && !lastInside) {
-          video.preload = "auto";
-          var playPromise;
-          try { playPromise = video.play(); } catch (e) {}
-          if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(function () {});
+        if (inside) {
+          if (audioUnlocked && !userSilenced) {
+            setAudio(true);
           }
-        }
 
-        lastInside = inside;
+          if (video.paused) {
+            var p = playVideo();
+            if (p && typeof p.catch === "function") {
+              p.catch(function () {});
+            }
+          }
+        } else if (!video.paused) {
+          try { video.pause(); } catch (e) {}
+        }
       }
 
       function schedule() {
@@ -10869,12 +10963,35 @@
         setEnabled(shouldEnable);
 
         if (shouldEnable) {
-          window.setTimeout(render, 60);
+          if (!audioUnlocked || userSilenced) setAudio(false);
+          window.setTimeout(render, 40);
         }
       }
 
+      if (soundToggle) {
+        soundToggle.addEventListener("click", toggleAudio);
+      }
+
+      video.addEventListener("volumechange", function () {
+        if (mobileQuery.matches) updateSoundUi();
+      });
+
+      document.addEventListener("pointerdown", handleGesture, { passive: true });
+      document.addEventListener("touchstart", handleGesture, { passive: true });
+
       window.addEventListener("scroll", schedule, { passive: true });
-      window.addEventListener("resize", schedule, { passive: true });
+
+      window.addEventListener("resize", function () {
+        var nextWidth = window.innerWidth;
+
+        if (Math.abs(nextWidth - lastWidth) > 20) {
+          lastWidth = nextWidth;
+          refresh();
+        } else {
+          schedule();
+        }
+      }, { passive: true });
+
       window.addEventListener("orientationchange", function () {
         window.setTimeout(refresh, 180);
       }, { passive: true });
@@ -10893,102 +11010,6 @@
         mobileQuery.addEventListener("change", refresh);
         reduceMotionQuery.addEventListener("change", refresh);
       }
-
-      var heroIsVisible = false;
-
-      function playHeroIfVisible() {
-        if (!heroIsVisible || document.hidden) return;
-        video.preload = "auto";
-
-        var keepAudio = video.dataset.userUnmuted === "true";
-
-        if (mobileQuery.matches) {
-          setMobileHeroAudio(keepAudio);
-        } else {
-          // Desktop owns its own sound state. Never force mute here after interaction.
-          video.volume = 1;
-          video.muted = !keepAudio;
-          video.defaultMuted = !keepAudio;
-
-          if (keepAudio) {
-            video.removeAttribute("muted");
-          } else {
-            video.setAttribute("muted", "");
-          }
-        }
-
-        var playPromise;
-        try { playPromise = video.play(); } catch (e) {}
-        if (playPromise && typeof playPromise.catch === "function") {
-          playPromise.catch(function () {});
-        }
-      }
-
-      function pauseHeroIfHidden() {
-        if (!heroIsVisible) {
-          if (!video.paused) {
-            try { video.pause(); } catch (e) {}
-          }
-        }
-      }
-
-      if ("IntersectionObserver" in window) {
-        var heroObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            heroIsVisible = entry.isIntersecting && entry.intersectionRatio > .08;
-          });
-
-          if (heroIsVisible) playHeroIfVisible();
-          else pauseHeroIfHidden();
-        }, {
-          threshold: [0, .08, .25, .5, .75, 1]
-        });
-
-        heroObserver.observe(stage);
-      } else {
-        heroIsVisible = true;
-        playHeroIfVisible();
-      }
-
-      video.addEventListener("volumechange", function () {
-        if (mobileQuery.matches) return;
-
-        var desktopButton = document.getElementById("heroSoundToggleDesktop");
-        if (!desktopButton) return;
-
-        var audible = video.dataset.userUnmuted === "true" && !video.muted && video.volume > 0;
-        var desktopLabel = desktopButton.querySelector(".hero-sound-label");
-
-        desktopButton.classList.toggle("is-audible", audible);
-        desktopButton.setAttribute(
-          "aria-label",
-          audible ? "Silenciar video" : "Activar audio del video"
-        );
-        if (desktopLabel) desktopLabel.textContent = audible ? "Silenciar" : "Escuchar";
-      });
-
-      video.addEventListener("pause", function () {
-        if (heroIsVisible && !document.hidden) {
-          window.setTimeout(playHeroIfVisible, 60);
-        }
-      });
-
-      video.addEventListener("ended", function () {
-        if (heroIsVisible && !document.hidden) {
-          try { video.currentTime = 0; } catch (e) {}
-          playHeroIfVisible();
-        }
-      });
-
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) {
-          if (!video.paused) {
-            try { video.pause(); } catch (e) {}
-          }
-        } else {
-          playHeroIfVisible();
-        }
-      });
 
       updateSoundUi();
       refresh();
