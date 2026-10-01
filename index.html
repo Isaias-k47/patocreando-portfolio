@@ -422,6 +422,61 @@
       box-shadow: 0 8px 24px rgba(207,230,90,.10);
     }
 
+    /* Shared AI-avatar marker: hero + UGC media */
+    .ai-avatar-badge {
+      position: absolute;
+      z-index: 12;
+      top: 16px;
+      left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 0 9px;
+      border: 1px solid rgba(207,230,90,.54);
+      border-radius: 999px;
+      background: rgba(12,14,14,.72);
+      color: #E9F6A0;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 8px 24px rgba(0,0,0,.22),
+        0 0 22px rgba(207,230,90,.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size: 8px;
+      font-weight: 750;
+      line-height: 1;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .ai-avatar-badge::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex: 0 0 5px;
+      border-radius: 50%;
+      background: #CFE65A;
+      box-shadow: 0 0 10px rgba(207,230,90,.72);
+    }
+
+    @media (max-width: 639px) {
+      .ai-avatar-badge {
+        top: max(14px, env(safe-area-inset-top));
+        left: max(12px, env(safe-area-inset-left));
+        min-height: 23px;
+        padding-inline: 8px;
+        font-size: 7.5px;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .ai-avatar-badge {
+        top: max(18px, env(safe-area-inset-top));
+        left: max(14px, env(safe-area-inset-left));
+      }
+    }
+
     .title-slide,
     .hero-title-slide {
       clip-path: inset(0 0 0 0);
@@ -9209,6 +9264,7 @@
                 <video autoplay muted loop playsinline webkit-playsinline preload="auto" class="hero-video">
                   <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0b0f7ca6-fe2a-47b8-8752-1449bb482c30.mp4" type="video/mp4" />
                 </video>
+                <span class="ai-avatar-badge" aria-hidden="true">Avatar IA</span>
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
 
@@ -9358,6 +9414,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/ugc-beauty.mp4" type="video/mp4" />
                   </video>
+                  <span class="ai-avatar-badge" aria-hidden="true">Avatar IA</span>
                 </div>
               </div>
             </div>
@@ -9420,6 +9477,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="./assets/videos/hyperreal-portrait.mp4" type="video/mp4" />
                   </video>
+                  <span class="ai-avatar-badge" aria-hidden="true">Avatar IA</span>
                 </div>
               </div>
             </div>
@@ -9451,6 +9509,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata" aria-label="Avatar mostrando un perfume en una pieza UGC creada con IA">
                     <source src="./assets/videos/product-perfume-avatar.mp4" type="video/mp4" />
                   </video>
+                  <span class="ai-avatar-badge" aria-hidden="true">Avatar IA</span>
                 </div>
               </div>
             </div>
