@@ -5574,8 +5574,9 @@
 
     .creative-path {
       position: relative;
-      min-height: 232px;
-      padding: 20px;
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+      padding: 17px 18px;
       overflow: hidden;
       border: 1px solid rgba(255,255,255,.075);
       border-radius: 24px;
@@ -5606,7 +5607,7 @@
 
     .creative-path small {
       display: block;
-      margin-top: 38px;
+      margin-top: 18px;
       color: #CFE65A;
       font-size: 9px;
       font-weight: 700;
@@ -5614,17 +5615,17 @@
     }
 
     .creative-path h3 {
-      margin-top: 8px;
-      font-size: 1.55rem;
+      margin-top: 6px;
+      font-size: 1.35rem;
       letter-spacing: -.035em;
     }
 
     .creative-path p {
-      max-width: 250px;
-      margin-top: 13px;
+      max-width: 245px;
+      margin-top: 9px;
       color: #8F959B;
-      font-size: 12px;
-      line-height: 1.65;
+      font-size: 11px;
+      line-height: 1.5;
     }
 
     .fit-section {
@@ -5773,50 +5774,53 @@
       }
 
       .creative-paths-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        margin-top: 24px;
+        display: flex;
+        gap: 9px;
+        margin-top: 22px;
+        margin-right: calc((100vw - 100%) / -2);
+        padding-right: 18px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none;
+      }
+
+      .creative-paths-grid::-webkit-scrollbar {
+        display: none;
       }
 
       .creative-path {
+        flex: 0 0 min(78vw, 292px);
+        aspect-ratio: 16 / 9;
         min-height: 0;
-        padding: 15px 17px 16px;
+        padding: 14px 16px;
         border-radius: 18px;
         text-align: left;
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-areas:
-          "index label"
-          "title title"
-          "copy copy";
-        column-gap: 14px;
-        row-gap: 6px;
+        display: block;
+        scroll-snap-align: start;
       }
 
       .creative-path-index {
-        grid-area: index;
-        align-self: center;
+        display: inline-flex;
       }
 
       .creative-path small {
-        grid-area: label;
+        display: inline-block;
+        float: right;
         margin-top: 0;
-        justify-self: end;
-        align-self: center;
       }
 
       .creative-path h3 {
-        grid-area: title;
-        margin-top: 2px;
-        font-size: 1.28rem;
+        clear: both;
+        margin-top: 18px;
+        font-size: 1.22rem;
       }
 
       .creative-path p {
-        grid-area: copy;
-        max-width: none;
-        margin: 0;
-        font-size: 11.5px;
-        line-height: 1.55;
+        max-width: 245px;
+        margin: 7px 0 0;
+        font-size: 10.8px;
+        line-height: 1.45;
       }
 
       .fit-grid {
