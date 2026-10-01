@@ -8463,6 +8463,279 @@
       }
     }
 
+  
+    /* Pipeline 08 — neon autoplay system */
+    .funnel-shell-pro {
+      position: relative !important;
+      isolation: isolate;
+      overflow: hidden;
+      padding-top: 58px !important;
+      background:
+        radial-gradient(circle at 18% 36%, rgba(207,230,90,.11), transparent 32%),
+        linear-gradient(180deg, rgba(7,9,11,.74), rgba(7,9,11,.92)) !important;
+    }
+
+    .funnel-ambient-media {
+      position: absolute;
+      inset: -4%;
+      z-index: 0;
+      width: 108%;
+      height: 108%;
+      object-fit: cover;
+      object-position: center;
+      opacity: .14;
+      pointer-events: none;
+      filter: saturate(.55) contrast(1.10) brightness(.52);
+      transform: scale(1.035);
+      transition: opacity .45s ease, transform 5s ease;
+    }
+
+    .funnel-shell-pro.is-auto-running .funnel-ambient-media {
+      opacity: .18;
+      transform: scale(1.075);
+    }
+
+    .funnel-ambient-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(6,8,10,.86) 0%, rgba(6,8,10,.60) 48%, rgba(6,8,10,.82) 100%),
+        radial-gradient(circle at 70% 48%, rgba(207,230,90,.085), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.20));
+    }
+
+    .funnel-statusbar {
+      position: absolute;
+      z-index: 3;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      align-items: center;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .funnel-status-label,
+    .funnel-status-count {
+      color: #8D949D;
+      font-size: 8px;
+      font-weight: 750;
+      line-height: 1;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .funnel-status-count {
+      color: rgba(207,230,90,.78);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .funnel-status-line {
+      position: relative;
+      height: 1px;
+      overflow: hidden;
+      background: rgba(255,255,255,.09);
+    }
+
+    .funnel-status-line > i {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0;
+      background: linear-gradient(90deg, rgba(207,230,90,.48), #CFE65A);
+      box-shadow: 0 0 12px rgba(207,230,90,.38);
+    }
+
+    .funnel-shell-pro.is-auto-running .funnel-status-line > i {
+      animation: funnelAutoProgress 3.4s linear forwards;
+    }
+
+    @keyframes funnelAutoProgress {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .funnel-shell-pro .funnel-stack,
+    .funnel-shell-pro .funnel-detail {
+      position: relative;
+      z-index: 2;
+    }
+
+    .funnel-shell-pro .funnel-step {
+      border-color: rgba(255,255,255,.085);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.052), rgba(255,255,255,.018)),
+        rgba(6,8,10,.34);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .funnel-shell-pro .funnel-step::after {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: #CFE65A;
+      opacity: 0;
+      transform: translateY(-50%) scale(.4);
+      box-shadow:
+        0 0 0 0 rgba(207,230,90,.18),
+        0 0 0 rgba(207,230,90,0);
+      transition: opacity .24s ease, transform .24s ease, box-shadow .24s ease;
+    }
+
+    .funnel-shell-pro .funnel-step.is-active {
+      border-color: rgba(207,230,90,.62) !important;
+      background:
+        linear-gradient(90deg, rgba(207,230,90,.14), rgba(207,230,90,.045) 48%, rgba(255,255,255,.025)),
+        rgba(8,11,9,.68) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.055),
+        0 0 0 1px rgba(207,230,90,.07),
+        0 0 26px rgba(207,230,90,.15),
+        0 12px 28px rgba(0,0,0,.24) !important;
+    }
+
+    .funnel-shell-pro .funnel-step.is-active::after {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      box-shadow:
+        0 0 0 5px rgba(207,230,90,.075),
+        0 0 16px rgba(207,230,90,.62);
+    }
+
+    .funnel-shell-pro .funnel-step.is-active .funnel-step-number {
+      color: #CFE65A;
+      text-shadow: 0 0 14px rgba(207,230,90,.32);
+    }
+
+    .funnel-shell-pro .funnel-step.is-active .funnel-step-title {
+      color: #F8FAF2;
+      text-shadow: 0 0 18px rgba(207,230,90,.12);
+    }
+
+    .funnel-shell-pro .funnel-detail {
+      border-color: rgba(207,230,90,.14);
+      background:
+        radial-gradient(circle at 85% 12%, rgba(207,230,90,.14), transparent 34%),
+        linear-gradient(180deg, rgba(16,20,16,.72), rgba(9,11,10,.66));
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 0 42px rgba(207,230,90,.055),
+        0 20px 48px rgba(0,0,0,.22);
+    }
+
+    .funnel-shell-pro .funnel-detail.is-funnel-animating .funnel-detail-title,
+    .funnel-shell-pro .funnel-detail.is-funnel-animating .funnel-detail-copy,
+    .funnel-shell-pro .funnel-detail.is-funnel-animating .funnel-detail-output {
+      animation: funnelDetailIn .42s var(--ease) both;
+    }
+
+    .funnel-shell-pro .funnel-detail.is-funnel-animating .funnel-detail-copy {
+      animation-delay: .045s;
+    }
+
+    .funnel-shell-pro .funnel-detail.is-funnel-animating .funnel-detail-output {
+      animation-delay: .085s;
+    }
+
+    @keyframes funnelDetailIn {
+      from { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    .funnel-shell-pro .funnel-detail-title {
+      font-size: clamp(1.5rem, 2.4vw, 2.15rem);
+    }
+
+    .funnel-shell-pro .funnel-detail-output strong {
+      text-shadow: 0 0 18px rgba(207,230,90,.16);
+    }
+
+    @media (max-width: 639px) {
+      .funnel-shell-pro {
+        padding: 54px 12px 16px !important;
+        gap: 14px !important;
+      }
+
+      .funnel-ambient-media {
+        opacity: .10;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transform: none;
+      }
+
+      .funnel-shell-pro.is-auto-running .funnel-ambient-media {
+        opacity: .13;
+        transform: none;
+      }
+
+      .funnel-statusbar {
+        top: 15px;
+        left: 14px;
+        right: 14px;
+        gap: 8px;
+      }
+
+      .funnel-status-label {
+        font-size: 7px;
+      }
+
+      .funnel-status-count {
+        font-size: 7.5px;
+      }
+
+      .funnel-shell-pro .funnel-stack {
+        align-items: stretch;
+        gap: 7px;
+      }
+
+      .funnel-shell-pro .funnel-step,
+      .funnel-shell-pro .funnel-step:nth-child(n) {
+        width: 100% !important;
+        min-height: 46px;
+        grid-template-columns: 34px minmax(0,1fr);
+        text-align: left;
+      }
+
+      .funnel-shell-pro .funnel-step.is-active {
+        transform: translateX(3px) !important;
+      }
+
+      .funnel-shell-pro .funnel-detail {
+        min-height: 190px;
+        margin-top: 2px;
+        padding: 18px;
+      }
+
+      .funnel-shell-pro .funnel-detail-title {
+        font-size: 1.75rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .funnel-ambient-media {
+        display: none !important;
+      }
+
+      .funnel-status-line > i,
+      .funnel-detail-title,
+      .funnel-detail-copy,
+      .funnel-detail-output {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -8979,7 +9252,18 @@
                   <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">deploy.pipeline</span>
                 </div>
 
-                <div class="funnel-shell">
+                <div class="funnel-shell funnel-shell-pro" id="pipelineFunnel">
+                  <video class="funnel-ambient-media" muted loop playsinline webkit-playsinline preload="metadata" aria-hidden="true">
+                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/6f49d876-a222-4664-823c-f22b0f5a2203.mp4" type="video/mp4" />
+                  </video>
+                  <div class="funnel-ambient-overlay" aria-hidden="true"></div>
+
+                  <div class="funnel-statusbar" aria-hidden="true">
+                    <span class="funnel-status-label">AUTO PIPELINE</span>
+                    <span class="funnel-status-line"><i id="funnelAutoProgress"></i></span>
+                    <span class="funnel-status-count" id="funnelAutoCount">01 / 06</span>
+                  </div>
+
                   <div class="funnel-stack" role="tablist" aria-label="Etapas del pipeline">
                     <button class="funnel-step is-active" type="button" role="tab" aria-selected="true"
                       data-funnel-step="research"
@@ -11090,15 +11374,46 @@
         });
       }
 
-      // Interactive workflow funnel
+      // Interactive workflow funnel — autoplay + neon state
+      var pipelineFunnel = document.getElementById("pipelineFunnel");
       var funnelSteps = Array.prototype.slice.call(document.querySelectorAll(".funnel-step"));
+      var funnelDetail = document.getElementById("funnelDetail");
       var funnelDetailIndex = document.getElementById("funnelDetailIndex");
       var funnelDetailTitle = document.getElementById("funnelDetailTitle");
       var funnelDetailCopy = document.getElementById("funnelDetailCopy");
       var funnelDetailOutput = document.getElementById("funnelDetailOutput");
+      var funnelAutoCount = document.getElementById("funnelAutoCount");
+      var funnelAutoProgress = document.getElementById("funnelAutoProgress");
+      var funnelAmbient = pipelineFunnel ? pipelineFunnel.querySelector(".funnel-ambient-media") : null;
+      var funnelAutoTimer = null;
+      var funnelResumeTimer = null;
+      var funnelIndex = 0;
+      var funnelVisible = false;
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-      function activateFunnelStep(step) {
+      function restartFunnelProgress() {
+        if (!pipelineFunnel || !funnelAutoProgress) return;
+
+        pipelineFunnel.classList.remove("is-auto-running");
+        void funnelAutoProgress.offsetWidth;
+
+        if (!reduceMotion.matches && funnelVisible) {
+          pipelineFunnel.classList.add("is-auto-running");
+        }
+      }
+
+      function animateFunnelDetail() {
+        if (!funnelDetail || reduceMotion.matches) return;
+        funnelDetail.classList.remove("is-funnel-animating");
+        void funnelDetail.offsetWidth;
+        funnelDetail.classList.add("is-funnel-animating");
+      }
+
+      function activateFunnelStep(step, options) {
         if (!step) return;
+        options = options || {};
+
+        funnelIndex = Math.max(0, funnelSteps.indexOf(step));
 
         funnelSteps.forEach(function (item) {
           var active = item === step;
@@ -11111,19 +11426,116 @@
         if (funnelDetailTitle) funnelDetailTitle.textContent = step.getAttribute("data-title") || "";
         if (funnelDetailCopy) funnelDetailCopy.textContent = step.getAttribute("data-copy") || "";
         if (funnelDetailOutput) funnelDetailOutput.textContent = step.getAttribute("data-output") || "";
+        if (funnelAutoCount) {
+          funnelAutoCount.textContent =
+            String(funnelIndex + 1).padStart(2, "0") + " / " +
+            String(funnelSteps.length).padStart(2, "0");
+        }
+
+        animateFunnelDetail();
+        restartFunnelProgress();
+
+        if (options.scrollIntoView && window.matchMedia("(max-width: 639px)").matches) {
+          try {
+            step.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+          } catch (e) {}
+        }
+      }
+
+      function stopFunnelAuto() {
+        if (funnelAutoTimer) {
+          window.clearTimeout(funnelAutoTimer);
+          funnelAutoTimer = null;
+        }
+        if (pipelineFunnel) pipelineFunnel.classList.remove("is-auto-running");
+      }
+
+      function scheduleFunnelAuto() {
+        stopFunnelAuto();
+        if (!funnelVisible || reduceMotion.matches || !funnelSteps.length || document.hidden) return;
+
+        restartFunnelProgress();
+
+        funnelAutoTimer = window.setTimeout(function () {
+          funnelIndex = (funnelIndex + 1) % funnelSteps.length;
+          activateFunnelStep(funnelSteps[funnelIndex], { scrollIntoView: true });
+          scheduleFunnelAuto();
+        }, 3400);
+      }
+
+      function pauseThenResumeFunnel() {
+        stopFunnelAuto();
+
+        if (funnelResumeTimer) window.clearTimeout(funnelResumeTimer);
+        funnelResumeTimer = window.setTimeout(function () {
+          scheduleFunnelAuto();
+        }, 6200);
       }
 
       funnelSteps.forEach(function (step) {
         step.addEventListener("click", function () {
-          activateFunnelStep(step);
+          activateFunnelStep(step, { scrollIntoView: true });
+          pauseThenResumeFunnel();
         });
 
         if (finePointer) {
           step.addEventListener("mouseenter", function () {
             activateFunnelStep(step);
+            pauseThenResumeFunnel();
           });
         }
       });
+
+      if (pipelineFunnel && "IntersectionObserver" in window) {
+        var funnelObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            funnelVisible = entry.isIntersecting && entry.intersectionRatio > .28;
+
+            if (funnelAmbient) {
+              if (funnelVisible && !document.hidden && !reduceMotion.matches) {
+                var fp;
+                try { fp = funnelAmbient.play(); } catch (e) {}
+                if (fp && typeof fp.catch === "function") fp.catch(function () {});
+              } else {
+                try { funnelAmbient.pause(); } catch (e) {}
+              }
+            }
+
+            if (funnelVisible) scheduleFunnelAuto();
+            else stopFunnelAuto();
+          });
+        }, { threshold: [0, .28, .55] });
+
+        funnelObserver.observe(pipelineFunnel);
+      } else {
+        funnelVisible = true;
+        scheduleFunnelAuto();
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          stopFunnelAuto();
+          if (funnelAmbient) {
+            try { funnelAmbient.pause(); } catch (e) {}
+          }
+        } else if (funnelVisible) {
+          if (funnelAmbient && !reduceMotion.matches) {
+            var fp;
+            try { fp = funnelAmbient.play(); } catch (e) {}
+            if (fp && typeof fp.catch === "function") fp.catch(function () {});
+          }
+          scheduleFunnelAuto();
+        }
+      });
+
+      if (typeof reduceMotion.addEventListener === "function") {
+        reduceMotion.addEventListener("change", function () {
+          if (reduceMotion.matches) stopFunnelAuto();
+          else if (funnelVisible) scheduleFunnelAuto();
+        });
+      }
+
+      if (funnelSteps.length) activateFunnelStep(funnelSteps[0]);
 
       // Contact form -> direct send + mail provider fallback
       var contactForm = document.getElementById("contactForm");
