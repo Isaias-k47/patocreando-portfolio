@@ -5611,7 +5611,7 @@
       .hero-device-wrap.mobile-takeover-enabled {
         width: 100%;
         max-width: none;
-        height: 210svh;
+        height: 155svh;
         margin-inline: auto;
         position: relative;
         overflow: visible;
@@ -5651,10 +5651,12 @@
         border-radius: 0;
         background: #080a0c;
         box-shadow: none !important;
-        transform: translate3d(0,-100svh,0);
+        transform: translate3d(0,0,0);
         transform-origin: center center;
+        clip-path: inset(0 0 100% 0);
+        -webkit-clip-path: inset(0 0 100% 0);
         transition: none !important;
-        will-change: transform;
+        will-change: clip-path;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell::after,
@@ -8401,6 +8403,8 @@
 
       function resetMobileState() {
         phone.style.transform = "";
+        phone.style.clipPath = "";
+        phone.style.webkitClipPath = "";
         wrap.classList.remove("is-takeover");
         document.body.classList.remove("hero-takeover-active");
       }
@@ -8423,26 +8427,19 @@
         var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
         var progress = clamp((-rect.top) / scrollRange, 0, 1);
 
-        // Vertical cover:
-        // 0–30%: enters from the top
-        // 30–72%: remains full screen
-        // 72–100%: exits downward
-        var y;
+        // Compact top-to-bottom reveal:
+        // 0–22%: uncover the video from the top edge.
+        // 22–100%: keep it completely static; the sticky section exits naturally.
+        var reveal = smoothstep(progress / .22);
+        var hiddenBottom = (1 - reveal) * 100;
+        var clip = "inset(0 0 " + hiddenBottom.toFixed(2) + "% 0)";
 
-        if (progress < .30) {
-          var enter = smoothstep(progress / .30);
-          y = -(1 - enter) * 100;
-        } else if (progress <= .72) {
-          y = 0;
-        } else {
-          var exit = smoothstep((progress - .72) / .28);
-          y = exit * 100;
-        }
-
-        phone.style.transform = "translate3d(0," + y.toFixed(3) + "svh,0)";
+        phone.style.transform = "translate3d(0,0,0)";
+        phone.style.clipPath = clip;
+        phone.style.webkitClipPath = clip;
 
         var inside = rect.top < viewportH && rect.bottom > 0;
-        var fullyCovering = inside && progress >= .24 && progress <= .78;
+        var fullyCovering = inside && progress >= .16 && progress <= .995;
 
         wrap.classList.toggle("is-takeover", fullyCovering);
         document.body.classList.toggle("hero-takeover-active", fullyCovering);
