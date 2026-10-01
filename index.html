@@ -7110,7 +7110,7 @@
 
               <div class="hero-phone-screen">
                 <video muted loop playsinline webkit-playsinline preload="metadata" class="hero-video">
-                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/8dddc552-6401-4eb4-a108-42481b0a3cd6.mp4" type="video/mp4" />
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0b0f7ca6-fe2a-47b8-8752-1449bb482c30.mp4" type="video/mp4" />
                 </video>
 
                 <div class="hero-phone-vignette" aria-hidden="true"></div>
@@ -8730,38 +8730,59 @@
         }
       }
 
+      function applyHeroAudioState(enabled) {
+        video.dataset.userUnmuted = enabled ? "true" : "false";
+        video.volume = enabled ? 1 : 0;
+        video.muted = !enabled;
+        video.defaultMuted = !enabled;
+
+        if (enabled) {
+          video.removeAttribute("muted");
+        } else {
+          video.setAttribute("muted", "");
+        }
+      }
+
       if (soundToggle) {
         soundToggle.addEventListener("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
 
-          var turningOn = video.muted || video.volume === 0;
+          var turningOn = video.dataset.userUnmuted !== "true";
+          applyHeroAudioState(turningOn);
 
           if (turningOn) {
-            video.dataset.userUnmuted = "true";
-            video.muted = false;
-            video.defaultMuted = false;
-            video.volume = 1;
-            video.removeAttribute("muted");
+            video.preload = "auto";
 
             var promise;
             try { promise = video.play(); } catch (e) {}
-            if (promise && typeof promise.catch === "function") {
-              promise.catch(function () {
-                video.dataset.userUnmuted = "false";
-                video.muted = true;
-                video.defaultMuted = true;
-                video.setAttribute("muted", "");
+
+            if (promise && typeof promise.then === "function") {
+              promise.then(function () {
+                // Re-assert audio after the gesture-backed play starts.
+                // This avoids desktop browsers restoring the muted autoplay state.
+                if (video.dataset.userUnmuted === "true") {
+                  applyHeroAudioState(true);
+                  updateSoundUi();
+                }
+              }).catch(function () {
+                applyHeroAudioState(false);
                 updateSoundUi();
               });
             }
-          } else {
-            video.dataset.userUnmuted = "false";
-            video.muted = true;
-            video.defaultMuted = true;
-            video.setAttribute("muted", "");
+
+            window.setTimeout(function () {
+              if (video.dataset.userUnmuted === "true") {
+                applyHeroAudioState(true);
+                updateSoundUi();
+              }
+            }, 80);
           }
 
+          updateSoundUi();
+        });
+
+        video.addEventListener("volumechange", function () {
           updateSoundUi();
         });
       }
@@ -8795,10 +8816,9 @@
 
         var keepAudio = video.dataset.userUnmuted === "true";
         if (keepAudio) {
-          video.muted = false;
-          video.defaultMuted = false;
-          video.volume = 1;
-          video.removeAttribute("muted");
+          applyHeroAudioState(true);
+        } else {
+          applyHeroAudioState(false);
         }
 
         var playPromise;
