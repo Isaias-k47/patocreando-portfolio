@@ -8922,13 +8922,19 @@
     }
 
   
-    /* Mobile hero reversible vertical store */
+    /* Mobile hero reversible vertical store — stable geometry */
     @media (max-width: 639px) {
       .hero-device-wrap.mobile-takeover-enabled {
-        height: 145dvh !important;
-        min-height: 145dvh !important;
-        margin-bottom: var(--hero-mobile-collapse-gap, 0px) !important;
+        height: 200dvh !important;
+        min-height: 200dvh !important;
+        margin-bottom: 0 !important;
         transition: none !important;
+      }
+
+      /* Static overlap: avoids changing layout metrics during scroll.
+         82dvh matches the video's 100% → 18% vertical compression. */
+      #bottleneck {
+        margin-top: -82dvh !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
@@ -10730,7 +10736,6 @@
         phone.style.removeProperty("--hero-mobile-store-y");
         phone.style.removeProperty("--hero-mobile-store-scale-y");
         phone.style.removeProperty("--hero-mobile-store-progress");
-        wrap.style.removeProperty("--hero-mobile-collapse-gap");
         wrap.classList.remove("is-takeover");
         wrap.classList.remove("is-storing");
         document.body.classList.remove("hero-takeover-active");
@@ -10765,16 +10770,14 @@
         // Reversible vertical store:
         // compress the whole video vertically instead of translating/cropping it.
         // Scrolling back restores the exact same height.
-        var storeStart = .70;
+        var storeStart = .18;
         var storeProgress = smoothstep(
           clamp((progress - storeStart) / (1 - storeStart), 0, 1)
         );
-        var storeScaleY = 1 - (storeProgress * .90);
-        var collapseGap = -(storeProgress * viewportH * .72);
+        var storeScaleY = 1 - (storeProgress * .82);
 
         phone.style.setProperty("--hero-mobile-store-scale-y", storeScaleY.toFixed(4));
         phone.style.setProperty("--hero-mobile-store-progress", storeProgress.toFixed(4));
-        wrap.style.setProperty("--hero-mobile-collapse-gap", collapseGap.toFixed(1) + "px");
         phone.style.clipPath = "none";
         phone.style.webkitClipPath = "none";
 
@@ -10782,7 +10785,7 @@
         var fullyCovering =
           inside &&
           progress >= .16 &&
-          storeProgress < .88;
+          storeProgress < .96;
 
         wrap.classList.toggle("is-storing", storeProgress > .015);
         wrap.classList.toggle("is-takeover", fullyCovering);
