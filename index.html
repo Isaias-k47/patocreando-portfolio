@@ -5611,7 +5611,7 @@
       .hero-device-wrap.mobile-takeover-enabled {
         width: 100%;
         max-width: none;
-        height: 178svh;
+        height: 210svh;
         margin-inline: auto;
         position: relative;
         overflow: visible;
@@ -5625,8 +5625,6 @@
         min-height: 0;
         margin-left: calc(50% - 50vw);
         padding: 0;
-        display: grid;
-        place-items: center;
         overflow: hidden;
         border: 0;
         border-radius: 0;
@@ -5637,49 +5635,60 @@
 
       .hero-device-wrap.mobile-takeover-enabled .hero-device-stage::before,
       .hero-device-wrap.mobile-takeover-enabled .hero-device-glow,
+      .hero-device-wrap.mobile-takeover-enabled .hero-stage-label,
       .hero-device-wrap.mobile-takeover-enabled .hero-stage-caption {
-        opacity: 0;
-        pointer-events: none;
+        display: none !important;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell {
-        width: 228px;
-        flex: none;
-        transform-origin: center center;
-        transition: none !important;
-        will-change: transform;
-      }
-
-      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen {
+        position: absolute;
+        inset: 0;
+        width: 100vw;
+        height: 100svh;
+        aspect-ratio: auto;
         padding: 0;
         border: 0;
         border-radius: 0;
         background: #080a0c;
         box-shadow: none !important;
+        transform: translate3d(100vw,0,0);
+        transform-origin: center center;
+        transition: none !important;
+        will-change: transform;
       }
 
-      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen::after {
-        opacity: 0;
-      }
-
-      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen .hero-phone-screen {
-        inset: 0;
-        border-radius: 0;
-      }
-
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell::after,
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-island,
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-buttons,
       .hero-device-wrap.mobile-takeover-enabled .hero-phone-vignette {
-        transition: opacity .18s linear;
+        display: none !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen {
+        position: absolute;
+        inset: 0;
+        border-radius: 0;
+        overflow: hidden;
+        background: #080a0c;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-video {
-        transform: scale(1.01) !important;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transform: none !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .video-tap-fallback {
+        z-index: 35;
       }
 
       .hero-device-wrap.mobile-takeover-enabled .hero-sound-toggle {
         position: absolute;
-        z-index: 30;
+        z-index: 40;
         right: max(16px, env(safe-area-inset-right));
         bottom: max(20px, calc(env(safe-area-inset-bottom) + 12px));
         min-height: 42px;
@@ -8375,8 +8384,9 @@
         return Math.min(Math.max(value, min), max);
       }
 
-      function ease(value) {
-        return 1 - Math.pow(1 - value, 3);
+      function smoothstep(value) {
+        value = clamp(value, 0, 1);
+        return value * value * (3 - (2 * value));
       }
 
       function updateSoundUi() {
@@ -8389,20 +8399,18 @@
         );
       }
 
+      function resetMobileState() {
+        phone.style.transform = "";
+        wrap.classList.remove("is-takeover");
+        document.body.classList.remove("hero-takeover-active");
+      }
+
       function setEnabled(next) {
         enabled = next;
-
         wrap.classList.toggle("mobile-takeover-enabled", enabled);
 
         if (!enabled) {
-          wrap.classList.remove("is-takeover");
-          phone.classList.remove("is-mobile-fullscreen");
-          phone.style.transform = "";
-          phone.style.boxShadow = "";
-          phone.querySelectorAll(".hero-phone-island, .hero-phone-buttons, .hero-phone-vignette").forEach(function (el) {
-            el.style.opacity = "";
-          });
-          document.body.classList.remove("hero-takeover-active");
+          resetMobileState();
         }
       }
 
@@ -8412,34 +8420,32 @@
 
         var rect = wrap.getBoundingClientRect();
         var viewportH = Math.max(window.innerHeight, 1);
-        var viewportW = Math.max(window.innerWidth, 1);
         var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
-        var raw = clamp((-rect.top) / scrollRange, 0, 1);
+        var progress = clamp((-rect.top) / scrollRange, 0, 1);
 
-        // Grow quickly, then hold fullscreen while the sticky region remains active.
-        var grow = clamp((raw - .03) / .48, 0, 1);
-        var p = ease(grow);
+        // Horizontal cover:
+        // 0–30%: enters from the right
+        // 30–72%: remains full screen
+        // 72–100%: exits to the left
+        var x;
 
-        var baseW = Math.max(phone.offsetWidth, 1);
-        var baseH = Math.max(phone.offsetHeight, 1);
-        var targetScale = Math.max(viewportW / baseW, viewportH / baseH) * 1.035;
-        var scale = 1 + ((targetScale - 1) * p);
+        if (progress < .30) {
+          var enter = smoothstep(progress / .30);
+          x = (1 - enter) * 100;
+        } else if (progress <= .72) {
+          x = 0;
+        } else {
+          var exit = smoothstep((progress - .72) / .28);
+          x = -exit * 100;
+        }
 
-        phone.style.transform = "scale(" + scale.toFixed(4) + ")";
-
-        var chromeOpacity = String(clamp(1 - (p * 1.55), 0, 1));
-        phone.querySelectorAll(".hero-phone-island, .hero-phone-buttons, .hero-phone-vignette").forEach(function (el) {
-          el.style.opacity = chromeOpacity;
-        });
-
-        var full = p > .88;
-        phone.classList.toggle("is-mobile-fullscreen", full);
+        phone.style.transform = "translate3d(" + x.toFixed(3) + "vw,0,0)";
 
         var inside = rect.top < viewportH && rect.bottom > 0;
-        var takeover = inside && raw > .22 && raw < .985;
+        var fullyCovering = inside && progress >= .24 && progress <= .78;
 
-        wrap.classList.toggle("is-takeover", takeover);
-        document.body.classList.toggle("hero-takeover-active", takeover);
+        wrap.classList.toggle("is-takeover", fullyCovering);
+        document.body.classList.toggle("hero-takeover-active", fullyCovering);
 
         if (inside && !lastInside) {
           video.preload = "auto";
@@ -8450,7 +8456,6 @@
           }
         }
 
-        // Pause as soon as the sticky experience leaves the viewport.
         if (!inside && lastInside && !video.paused) {
           try { video.pause(); } catch (e) {}
         }
@@ -8473,9 +8478,7 @@
         setEnabled(shouldEnable);
 
         if (shouldEnable) {
-          window.setTimeout(function () {
-            render();
-          }, 60);
+          window.setTimeout(render, 60);
         }
       }
 
