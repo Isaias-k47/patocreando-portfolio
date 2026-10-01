@@ -5586,6 +5586,135 @@
     }
 
 
+    /* Mobile hero video takeover */
+    .hero-sound-toggle {
+      display: none;
+    }
+
+    body.hero-takeover-active > header {
+      transform: translateY(-110%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    body > header {
+      transition: transform .28s ease, opacity .24s ease;
+    }
+
+    body.hero-takeover-active .mobile-sample-cta {
+      opacity: 0 !important;
+      transform: translateY(18px) !important;
+      pointer-events: none !important;
+    }
+
+    @media (max-width: 639px) {
+      .hero-device-wrap.mobile-takeover-enabled {
+        width: 100%;
+        max-width: none;
+        height: 178svh;
+        margin-inline: auto;
+        position: relative;
+        overflow: visible;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage {
+        position: sticky;
+        top: 0;
+        width: 100vw;
+        height: 100svh;
+        min-height: 0;
+        margin-left: calc(50% - 50vw);
+        padding: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border: 0;
+        border-radius: 0;
+        background: #080a0c;
+        box-shadow: none;
+        perspective: none;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-stage::before,
+      .hero-device-wrap.mobile-takeover-enabled .hero-device-glow,
+      .hero-device-wrap.mobile-takeover-enabled .hero-stage-caption {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell {
+        width: 228px;
+        flex: none;
+        transform-origin: center center;
+        transition: none !important;
+        will-change: transform;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: #080a0c;
+        box-shadow: none !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen::after {
+        opacity: 0;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-shell.is-mobile-fullscreen .hero-phone-screen {
+        inset: 0;
+        border-radius: 0;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-island,
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-buttons,
+      .hero-device-wrap.mobile-takeover-enabled .hero-phone-vignette {
+        transition: opacity .18s linear;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        transform: scale(1.01) !important;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled .hero-sound-toggle {
+        position: absolute;
+        z-index: 30;
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(20px, calc(env(safe-area-inset-bottom) + 12px));
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 13px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(8,10,12,.60);
+        color: #F3F5F6;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: opacity .2s ease, transform .2s ease, background .2s ease;
+      }
+
+      .hero-device-wrap.mobile-takeover-enabled.is-takeover .hero-sound-toggle {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .hero-sound-toggle:active {
+        transform: scale(.97);
+      }
+    }
+
     /* Mobile video compatibility / low-memory Android */
     .video-tap-fallback {
       position: absolute;
@@ -6714,7 +6843,7 @@
           </div>
         </div>
 
-        <div class="hero-reveal hero-device-wrap">
+        <div class="hero-reveal hero-device-wrap" id="heroDeviceWrap">
           <div id="heroDeviceStage" class="hero-device-stage">
             <div class="hero-device-glow" aria-hidden="true"></div>
 
@@ -6742,6 +6871,13 @@
 
               </div>
             </div>
+
+            <button class="hero-sound-toggle" id="heroSoundToggle" type="button" aria-label="Activar audio del video">
+              <span class="hero-sound-icon" aria-hidden="true">
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+              </span>
+              <span class="hero-sound-label">Activar audio</span>
+            </button>
 
             <div class="hero-stage-caption">
               <span class="hero-stage-caption-line"></span>
@@ -8049,9 +8185,16 @@
       }
 
       function prepare(video) {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.setAttribute("muted", "");
+        var keepAudio = video.dataset.userUnmuted === "true";
+        video.muted = !keepAudio;
+        video.defaultMuted = !keepAudio;
+
+        if (keepAudio) {
+          video.removeAttribute("muted");
+        } else {
+          video.setAttribute("muted", "");
+        }
+
         video.playsInline = true;
         video.setAttribute("playsinline", "");
         video.setAttribute("webkit-playsinline", "");
@@ -8207,6 +8350,187 @@
 
       window.setTimeout(schedule, 80);
       window.setTimeout(schedule, 500);
+    })();
+  </script>
+
+  <script>
+    (function mobileHeroTakeover() {
+      "use strict";
+
+      var wrap = document.getElementById("heroDeviceWrap");
+      var stage = document.getElementById("heroDeviceStage");
+      var phone = document.getElementById("heroPhone");
+      var video = phone ? phone.querySelector(".hero-video") : null;
+      var soundToggle = document.getElementById("heroSoundToggle");
+
+      if (!wrap || !stage || !phone || !video) return;
+
+      var mobileQuery = window.matchMedia("(max-width: 639px)");
+      var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var rafId = null;
+      var enabled = false;
+      var lastInside = false;
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function ease(value) {
+        return 1 - Math.pow(1 - value, 3);
+      }
+
+      function updateSoundUi() {
+        if (!soundToggle) return;
+        var label = soundToggle.querySelector(".hero-sound-label");
+        if (label) label.textContent = video.muted ? "Activar audio" : "Silenciar";
+        soundToggle.setAttribute(
+          "aria-label",
+          video.muted ? "Activar audio del video" : "Silenciar video"
+        );
+      }
+
+      function setEnabled(next) {
+        enabled = next;
+
+        wrap.classList.toggle("mobile-takeover-enabled", enabled);
+
+        if (!enabled) {
+          wrap.classList.remove("is-takeover");
+          phone.classList.remove("is-mobile-fullscreen");
+          phone.style.transform = "";
+          phone.style.boxShadow = "";
+          phone.querySelectorAll(".hero-phone-island, .hero-phone-buttons, .hero-phone-vignette").forEach(function (el) {
+            el.style.opacity = "";
+          });
+          document.body.classList.remove("hero-takeover-active");
+        }
+      }
+
+      function render() {
+        rafId = null;
+        if (!enabled) return;
+
+        var rect = wrap.getBoundingClientRect();
+        var viewportH = Math.max(window.innerHeight, 1);
+        var viewportW = Math.max(window.innerWidth, 1);
+        var scrollRange = Math.max(wrap.offsetHeight - viewportH, 1);
+        var raw = clamp((-rect.top) / scrollRange, 0, 1);
+
+        // Grow quickly, then hold fullscreen while the sticky region remains active.
+        var grow = clamp((raw - .03) / .48, 0, 1);
+        var p = ease(grow);
+
+        var baseW = Math.max(phone.offsetWidth, 1);
+        var baseH = Math.max(phone.offsetHeight, 1);
+        var targetScale = Math.max(viewportW / baseW, viewportH / baseH) * 1.035;
+        var scale = 1 + ((targetScale - 1) * p);
+
+        phone.style.transform = "scale(" + scale.toFixed(4) + ")";
+
+        var chromeOpacity = String(clamp(1 - (p * 1.55), 0, 1));
+        phone.querySelectorAll(".hero-phone-island, .hero-phone-buttons, .hero-phone-vignette").forEach(function (el) {
+          el.style.opacity = chromeOpacity;
+        });
+
+        var full = p > .88;
+        phone.classList.toggle("is-mobile-fullscreen", full);
+
+        var inside = rect.top < viewportH && rect.bottom > 0;
+        var takeover = inside && raw > .22 && raw < .985;
+
+        wrap.classList.toggle("is-takeover", takeover);
+        document.body.classList.toggle("hero-takeover-active", takeover);
+
+        if (inside && !lastInside) {
+          video.preload = "auto";
+          var playPromise;
+          try { playPromise = video.play(); } catch (e) {}
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(function () {});
+          }
+        }
+
+        // Pause as soon as the sticky experience leaves the viewport.
+        if (!inside && lastInside && !video.paused) {
+          try { video.pause(); } catch (e) {}
+        }
+
+        lastInside = inside;
+      }
+
+      function schedule() {
+        if (!enabled || rafId) return;
+        rafId = window.requestAnimationFrame(render);
+      }
+
+      function refresh() {
+        if (rafId) {
+          window.cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+
+        var shouldEnable = mobileQuery.matches && !reduceMotionQuery.matches;
+        setEnabled(shouldEnable);
+
+        if (shouldEnable) {
+          window.setTimeout(function () {
+            render();
+          }, 60);
+        }
+      }
+
+      if (soundToggle) {
+        soundToggle.addEventListener("click", function () {
+          var turningOn = video.muted;
+
+          video.dataset.userUnmuted = turningOn ? "true" : "false";
+          video.muted = !turningOn;
+          video.defaultMuted = !turningOn;
+
+          if (turningOn) {
+            video.removeAttribute("muted");
+            var promise;
+            try { promise = video.play(); } catch (e) {}
+            if (promise && typeof promise.catch === "function") {
+              promise.catch(function () {
+                video.dataset.userUnmuted = "false";
+                video.muted = true;
+                video.defaultMuted = true;
+                video.setAttribute("muted", "");
+                updateSoundUi();
+              });
+            }
+          } else {
+            video.setAttribute("muted", "");
+          }
+
+          updateSoundUi();
+        });
+      }
+
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule, { passive: true });
+      window.addEventListener("orientationchange", function () {
+        window.setTimeout(refresh, 180);
+      }, { passive: true });
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          if (!video.paused) {
+            try { video.pause(); } catch (e) {}
+          }
+        } else {
+          schedule();
+        }
+      });
+
+      if (typeof mobileQuery.addEventListener === "function") {
+        mobileQuery.addEventListener("change", refresh);
+        reduceMotionQuery.addEventListener("change", refresh);
+      }
+
+      updateSoundUi();
+      refresh();
     })();
   </script>
 
