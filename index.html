@@ -8198,6 +8198,206 @@
       }
     }
 
+  
+    /* Hero lockup pro — editorial campaign direction */
+    #top .hero-lockup-pro {
+      position: relative;
+      width: min(100%, 820px);
+      padding: 4px 0 20px;
+    }
+
+    #top .hero-lockup-meta {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      color: #7E858D;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    #top .hero-lockup-meta i {
+      width: 3px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(207,230,90,.78);
+      box-shadow: 0 0 10px rgba(207,230,90,.18);
+    }
+
+    #top .hero-lockup-title {
+      display: block !important;
+      max-width: none !important;
+      margin: 0 !important;
+      overflow: visible !important;
+      text-wrap: initial !important;
+    }
+
+    #top .hero-lockup-main,
+    #top .hero-lockup-product {
+      display: block !important;
+      width: fit-content !important;
+    }
+
+    #top .hero-lockup-main {
+      max-width: 780px;
+      color: #F5F6F7;
+      font-size: clamp(3.55rem, 5.55vw, 5.45rem);
+      font-weight: 610;
+      line-height: .94;
+      letter-spacing: -.062em;
+      -webkit-text-stroke: .45px rgba(255,255,255,.12);
+      paint-order: stroke fill;
+    }
+
+    #top .hero-lockup-product {
+      position: relative;
+      isolation: isolate;
+      margin-top: .08em;
+      color: #F8F9F9;
+      font-size: clamp(5rem, 8vw, 7.7rem);
+      font-weight: 680;
+      line-height: .82;
+      letter-spacing: -.082em;
+      -webkit-text-stroke: .7px rgba(173,181,188,.46);
+      paint-order: stroke fill;
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.04),
+        0 12px 48px rgba(0,0,0,.22);
+    }
+
+    #top .hero-lockup-product::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: -.025em;
+      bottom: .035em;
+      width: 36%;
+      height: .16em;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(207,230,90,.95), rgba(207,230,90,.62));
+      box-shadow: 0 0 28px rgba(207,230,90,.07);
+      transform: rotate(-.8deg);
+      transform-origin: left center;
+    }
+
+    #top .hero-lockup-product::after {
+      content: "";
+      position: absolute;
+      left: calc(36% + .055em);
+      right: 0;
+      bottom: .102em;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,.13), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    #top .hero-lockup-footer {
+      width: fit-content;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,.085);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+        rgba(12,14,16,.38);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 12px 34px rgba(0,0,0,.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    #top .hero-lockup-dot {
+      width: 6px;
+      height: 6px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: #CFE65A;
+      box-shadow: 0 0 0 5px rgba(207,230,90,.055), 0 0 18px rgba(207,230,90,.16);
+    }
+
+    #top .hero-lockup-footer p {
+      margin: 0;
+      color: #B3B8BE;
+      font-size: 11px;
+      font-weight: 570;
+      line-height: 1;
+      letter-spacing: .015em;
+    }
+
+    @media (min-width: 1024px) {
+      #top .hero-lockup-pro {
+        width: min(112%, 860px);
+        margin-right: -12%;
+      }
+    }
+
+    @media (max-width: 639px) {
+      #top .hero-lockup-pro {
+        width: 100%;
+        padding-bottom: 12px;
+        text-align: center;
+      }
+
+      #top .hero-lockup-meta {
+        justify-content: center;
+        margin-bottom: 14px;
+        font-size: 8px;
+        letter-spacing: .145em;
+      }
+
+      #top .hero-lockup-main,
+      #top .hero-lockup-product {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      #top .hero-lockup-main {
+        max-width: 100%;
+        font-size: clamp(2.55rem, 11.4vw, 3.35rem);
+        line-height: .96;
+        letter-spacing: -.055em;
+      }
+
+      #top .hero-lockup-product {
+        margin-top: .13em;
+        font-size: clamp(3.45rem, 15.8vw, 4.75rem);
+        line-height: .86;
+        letter-spacing: -.075em;
+        -webkit-text-stroke-width: .5px;
+      }
+
+      #top .hero-lockup-product::before {
+        left: 8%;
+        width: 32%;
+        height: .14em;
+      }
+
+      #top .hero-lockup-product::after {
+        left: 42%;
+        right: 8%;
+      }
+
+      #top .hero-lockup-footer {
+        margin-top: 20px;
+        margin-inline: auto;
+        min-height: 36px;
+        padding-inline: 13px;
+      }
+
+      #top .hero-lockup-footer p {
+        font-size: 10px;
+      }
+    }
+
   </style>
 </head>
 
@@ -8255,15 +8455,24 @@
             AI Content Creator · UGC + Campañas
           </p>
 
-          <div class="hero-title-clean">
-            <h1 class="hero-title-slide display font-semibold">
-              <span class="hero-clean-intro">Más formas de</span>
-              <span class="hero-clean-main">mostrar tu</span>
-              <span class="hero-clean-product">producto.</span>
+          <div class="hero-lockup-pro">
+            <div class="hero-lockup-meta" aria-hidden="true">
+              <span>AI CONTENT</span>
+              <i></i>
+              <span>UGC</span>
+              <i></i>
+              <span>CAMPAIGN</span>
+            </div>
+
+            <h1 class="hero-lockup-title display">
+              <span class="hero-lockup-main">Más formas de mostrar tu</span>
+              <span class="hero-lockup-product">producto.</span>
             </h1>
 
-            <p class="hero-clean-subline">Sin empezar de cero cada vez.</p>
-            <span class="hero-clean-rule" aria-hidden="true"></span>
+            <div class="hero-lockup-footer">
+              <span class="hero-lockup-dot" aria-hidden="true"></span>
+              <p>Sin empezar de cero cada vez.</p>
+            </div>
           </div>
 
           <div class="hero-reveal hero-summary-card" id="heroSummaryCard">
