@@ -7131,6 +7131,84 @@
       }
     }
 
+  
+    /* Methodology visual refinement — localized atmospheric motion */
+    #method .method-card::before {
+      display: none !important;
+    }
+
+    #method .method-card-media {
+      inset: -8% -4% -8% auto !important;
+      width: 62% !important;
+      height: 116% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      opacity: .10 !important;
+      filter: blur(7px) saturate(.62) contrast(1.04) brightness(.72) !important;
+      transform: scale(1.06) !important;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.28) 22%, #000 62%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.28) 22%, #000 62%);
+    }
+
+    #method .method-card::after {
+      background:
+        linear-gradient(90deg,
+          rgba(10,12,15,.96) 0%,
+          rgba(10,12,15,.93) 44%,
+          rgba(10,12,15,.76) 72%,
+          rgba(10,12,15,.66) 100%) !important;
+    }
+
+    #method .method-slide[aria-label="1 de 5"] .method-card-media,
+    #method .method-slide[aria-label="2 de 5"] .method-card-media,
+    #method .method-slide[aria-label="3 de 5"] .method-card-media,
+    #method .method-slide[aria-label="4 de 5"] .method-card-media,
+    #method .method-slide[aria-label="5 de 5"] .method-card-media {
+      opacity: .10 !important;
+    }
+
+    #method .method-slide:hover .method-card-media {
+      opacity: .13 !important;
+      transform: scale(1.075) !important;
+    }
+
+    #method .method-progress {
+      height: 1px !important;
+      background: rgba(255,255,255,.035) !important;
+    }
+
+    #method .method-progress > span {
+      opacity: .42;
+      background: linear-gradient(90deg, rgba(175,198,63,.7), rgba(207,230,90,.82)) !important;
+    }
+
+    @keyframes methodBgInRefined {
+      0% {
+        opacity: .045;
+        transform: scale(1.09) translateX(8px);
+      }
+      100% {
+        opacity: .10;
+        transform: scale(1.06) translateX(0);
+      }
+    }
+
+    #method .method-slide.is-method-animating .method-card-media {
+      animation: methodBgInRefined .85s cubic-bezier(.22,.8,.26,1) both !important;
+    }
+
+    @media (max-width: 639px) {
+      #method .method-card-media {
+        width: 82% !important;
+        opacity: .07 !important;
+      }
+
+      #method .method-card::after {
+        background:
+          linear-gradient(180deg, rgba(10,12,15,.78), rgba(10,12,15,.92)) !important;
+      }
+    }
+
   </style>
 </head>
 
