@@ -10486,6 +10486,100 @@
       }
     }
 
+  
+    /* Header web-service CTA */
+    .nav-web-cta {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-left: 7px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(207,230,90,.34);
+      background:
+        linear-gradient(180deg, rgba(207,230,90,.075), rgba(207,230,90,.035)),
+        rgba(255,255,255,.018);
+      color: #DCE8A0;
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: -.01em;
+      white-space: nowrap;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 0 24px rgba(207,230,90,.035);
+      transition:
+        color .22s ease,
+        border-color .22s ease,
+        background .22s ease,
+        transform .22s var(--ease);
+    }
+
+    .nav-web-cta:hover {
+      color: #10140A;
+      border-color: rgba(207,230,90,.82);
+      background: linear-gradient(180deg, #E9F6A0, #CFE65A);
+      transform: translateY(-1px);
+    }
+
+    .nav-web-cta-long {
+      display: none;
+    }
+
+    @media (min-width: 1120px) {
+      .nav-web-cta-short {
+        display: none;
+      }
+
+      .nav-web-cta-long {
+        display: inline;
+      }
+    }
+
+    .nav-web-cta-mobile {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(207,230,90,.28);
+      background: rgba(207,230,90,.055);
+      color: #DCE8A0;
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .mobile-menu-web-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--brand-lime);
+      font-weight: 650;
+    }
+
+    html.instagram-inapp .nav-web-cta,
+    html.instagram-inapp .nav-web-cta-mobile {
+      transition: none !important;
+      transform: none !important;
+    }
+
+    @media (max-width: 380px) {
+      .nav-web-cta-mobile span {
+        display: none;
+      }
+
+      .nav-web-cta-mobile {
+        width: 38px;
+        padding: 0;
+      }
+    }
+
   </style>
 </head>
 
@@ -10505,12 +10599,34 @@
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#projects">Proyectos</a>
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#services">Servicios</a>
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#method">Metodología</a>
-        <a class="ml-2 px-4 py-2 rounded-full bg-white text-black font-semibold hover:bg-butter transition" href="#contact">Hablemos</a>
+
+        <a href="https://ig.me/m/patocreando?ref=w60834601"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="nav-web-cta"
+           aria-label="Pedir una landing como esta por Instagram">
+          <span class="nav-web-cta-short">Quiero una web así</span>
+          <span class="nav-web-cta-long">¿Te gustó esta web? Pedime una para vos</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+
+        <a class="ml-1 px-4 py-2 rounded-full bg-white text-black font-semibold hover:bg-butter transition" href="#contact">Hablemos</a>
       </nav>
 
-      <button id="menuToggle" class="md:hidden w-10 h-10 grid place-items-center rounded-full border border-white/10 bg-white/[.03]" aria-label="Abrir menú" aria-expanded="false">
+      <div class="md:hidden flex items-center gap-2">
+        <a href="https://ig.me/m/patocreando?ref=w60834601"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="nav-web-cta-mobile"
+           aria-label="Pedir una landing como esta por Instagram">
+          <span>Web así</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+        </a>
+
+        <button id="menuToggle" class="w-10 h-10 grid place-items-center rounded-full border border-white/10 bg-white/[.03]" aria-label="Abrir menú" aria-expanded="false">
         <i data-lucide="menu" class="w-4 h-4"></i>
-      </button>
+        </button>
+      </div>
     </div>
 
     <div id="mobileMenu" class="menu-panel md:hidden absolute inset-x-0 top-[72px] nav-blur border-t border-white/5">
@@ -10518,6 +10634,13 @@
         <a class="py-4 border-b border-white/5" href="#projects">Proyectos</a>
         <a class="py-4 border-b border-white/5" href="#services">Servicios</a>
         <a class="py-4 border-b border-white/5" href="#method">Metodología</a>
+        <a class="py-4 border-b border-white/5 mobile-menu-web-cta"
+           href="https://ig.me/m/patocreando?ref=w60834601"
+           target="_blank"
+           rel="noopener noreferrer">
+          <span>¿Te gustó esta web? Pedime una para vos</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
         <a class="py-4 font-semibold text-white" href="#contact">Hablemos</a>
       </div>
     </div>
