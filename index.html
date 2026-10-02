@@ -10999,28 +10999,34 @@
     .applied-case {
       position: relative;
       z-index: 1;
+      width: min(100%, 980px);
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(300px,.82fr) minmax(0,1.18fr);
-      gap: 34px;
+      grid-template-columns: minmax(250px,340px) minmax(0,1fr);
+      gap: 28px;
       align-items: stretch;
-      padding: 18px;
+      padding: 16px;
       border: 1px solid rgba(255,255,255,.075);
-      border-radius: 28px;
+      border-radius: 24px;
       background:
         linear-gradient(145deg, rgba(255,255,255,.032), rgba(255,255,255,.008)),
         rgba(10,12,14,.64);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.035),
-        0 28px 78px rgba(0,0,0,.25);
+        0 24px 58px rgba(0,0,0,.22);
     }
 
     .applied-case-media {
       position: relative;
-      min-height: 590px;
+      width: min(100%, 320px);
+      aspect-ratio: 9 / 16;
+      min-height: 0;
       overflow: hidden;
-      border-radius: 20px;
+      border-radius: 18px;
       background: #111417;
       isolation: isolate;
+      align-self: center;
+      justify-self: center;
     }
 
     .applied-case-media::after {
@@ -11034,13 +11040,13 @@
       z-index: 1;
     }
 
-    .applied-case-media img {
+    .applied-case-media img,
+    .applied-case-media video {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center;
       display: block;
-      transform: scale(1.012);
     }
 
     .applied-case-media-label {
@@ -11239,7 +11245,8 @@
       }
 
       .applied-case-media {
-        min-height: 520px;
+        width: min(100%, 300px);
+        min-height: 0;
         border-radius: 16px;
       }
 
@@ -11272,7 +11279,8 @@
       }
 
       .applied-case-media {
-        min-height: 490px;
+        width: min(100%, 280px);
+        min-height: 0;
       }
 
       .applied-case-grid {
@@ -11904,12 +11912,19 @@
 
         <article class="applied-case section-reveal" aria-labelledby="case01Title">
           <div class="applied-case-media">
-            <img
-              src="./assets/cases/myway-shoponlineperfumeria.jpg"
-              alt="Muestra visual aplicada a una fragancia My Way de Giorgio Armani"
-              loading="lazy"
-              decoding="async" />
-            <span class="applied-case-media-label">Muestra autorizada</span>
+            <video
+              class="applied-case-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              webkit-playsinline
+              preload="metadata"
+              poster="./assets/cases/myway-shoponlineperfumeria.jpg"
+              aria-label="Muestra visual aplicada a una fragancia My Way de Giorgio Armani">
+              <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/bf7ede73-a9b0-4f99-a426-6d707b307ac3.mp4" type="video/mp4" />
+            </video>
+            <span class="applied-case-media-label">Digitalized · muestra autorizada</span>
           </div>
 
           <div class="applied-case-content">
