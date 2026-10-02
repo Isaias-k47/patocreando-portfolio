@@ -10436,6 +10436,56 @@
       display: none !important;
     }
 
+  
+    /* Methodology surface continuity — remove hard card cutoff */
+    #method .method-card,
+    #method .method-slide[aria-label="4 de 5"] .method-card {
+      background: transparent !important;
+      overflow: hidden !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    #method .method-card::after,
+    #method .method-slide[aria-label="4 de 5"] .method-card::after {
+      display: none !important;
+      content: none !important;
+    }
+
+    #method .method-slider::before {
+      background:
+        linear-gradient(90deg,
+          rgba(8,10,12,.88) 0%,
+          rgba(8,10,12,.74) 38%,
+          rgba(8,10,12,.48) 72%,
+          rgba(8,10,12,.38) 100%),
+        linear-gradient(180deg,
+          rgba(8,10,12,.16) 0%,
+          rgba(8,10,12,.10) 42%,
+          rgba(8,10,12,.24) 76%,
+          rgba(8,10,12,.42) 100%) !important;
+    }
+
+    /* The old progress bar read as a clipped green line under the card. */
+    #method .method-progress {
+      display: none !important;
+    }
+
+    #method .method-slider::after {
+      box-shadow:
+        inset 18px 0 28px -28px rgba(8,10,12,.72),
+        inset -18px 0 28px -28px rgba(8,10,12,.72),
+        inset 0 16px 24px -26px rgba(8,10,12,.54),
+        inset 0 -16px 24px -26px rgba(8,10,12,.54) !important;
+    }
+
+    @media (max-width: 639px) {
+      #method .method-card,
+      #method .method-slide[aria-label="4 de 5"] .method-card {
+        background: transparent !important;
+      }
+    }
+
   </style>
 </head>
 
