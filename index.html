@@ -10489,17 +10489,17 @@
   
     /* Header web-service CTA */
     .nav-web-cta {
-      min-height: 38px;
+      min-height: 42px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
+      gap: 8px;
       margin-left: 7px;
-      padding: 0 13px;
-      border-radius: 999px;
+      padding: 5px 13px;
+      border-radius: 16px;
       border: 1px solid rgba(207,230,90,.34);
       background:
-        linear-gradient(180deg, rgba(207,230,90,.075), rgba(207,230,90,.035)),
+        linear-gradient(180deg, rgba(207,230,90,.085), rgba(207,230,90,.035)),
         rgba(255,255,255,.018);
       color: #DCE8A0;
       font-size: 11px;
@@ -10507,8 +10507,8 @@
       letter-spacing: -.01em;
       white-space: nowrap;
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.025),
-        0 0 24px rgba(207,230,90,.035);
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 0 26px rgba(207,230,90,.04);
       transition:
         color .22s ease,
         border-color .22s ease,
@@ -10516,11 +10516,33 @@
         transform .22s var(--ease);
     }
 
+    .nav-web-cta-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+      line-height: 1.05;
+    }
+
+    .nav-web-cta-price {
+      color: #F1F7CB;
+      font-size: 9px;
+      font-weight: 750;
+      letter-spacing: .055em;
+      text-transform: uppercase;
+      opacity: .78;
+    }
+
     .nav-web-cta:hover {
       color: #10140A;
       border-color: rgba(207,230,90,.82);
       background: linear-gradient(180deg, #E9F6A0, #CFE65A);
       transform: translateY(-1px);
+    }
+
+    .nav-web-cta:hover .nav-web-cta-price {
+      color: #10140A;
+      opacity: .72;
     }
 
     .nav-web-cta-long {
@@ -10552,6 +10574,30 @@
       font-weight: 700;
       line-height: 1;
       white-space: nowrap;
+    }
+
+    .nav-web-cta-mobile strong {
+      color: #F1F7CB;
+      font-weight: 800;
+    }
+
+    .mobile-menu-web-cta-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .mobile-menu-web-cta-price {
+      width: max-content;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(207,230,90,.10);
+      border: 1px solid rgba(207,230,90,.22);
+      color: #E9F6A0;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .035em;
+      text-transform: uppercase;
     }
 
     .mobile-menu-web-cta {
@@ -10732,8 +10778,11 @@
            rel="noopener noreferrer"
            class="nav-web-cta"
            aria-label="Pedir una landing como esta por Instagram">
-          <span class="nav-web-cta-short">Quiero una web así</span>
-          <span class="nav-web-cta-long">¿Te gustó esta web? Pedime una para vos</span>
+          <span class="nav-web-cta-copy">
+            <span class="nav-web-cta-short">Quiero una web así</span>
+            <span class="nav-web-cta-long">¿Te gustó esta web? Pedime una para vos</span>
+            <span class="nav-web-cta-price">Landing personalizada · USD 20 lanzamiento</span>
+          </span>
           <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
         </a>
 
@@ -10746,7 +10795,7 @@
            rel="noopener noreferrer"
            class="nav-web-cta-mobile"
            aria-label="Pedir una landing como esta por Instagram">
-          <span>Web así</span>
+          <span>Web · <strong>USD 20</strong></span>
           <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
         </a>
 
@@ -10765,7 +10814,10 @@
            href="https://ig.me/m/patocreando?ref=w60905337"
            target="_blank"
            rel="noopener noreferrer">
-          <span>¿Te gustó esta web? Pedime una para vos</span>
+          <span class="mobile-menu-web-cta-copy">
+            <span>¿Te gustó esta web? Pedime una para vos</span>
+            <span class="mobile-menu-web-cta-price">USD 20 · precio lanzamiento</span>
+          </span>
           <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
         </a>
         <a class="py-4 font-semibold text-white" href="#contact">Hablemos</a>
