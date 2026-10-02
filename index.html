@@ -9524,6 +9524,52 @@
       }
     }
 
+  
+    /* Continuous page surface — shared background, section artwork preserved */
+    main {
+      position: relative;
+      background:
+        radial-gradient(ellipse 62% 18% at 82% 8%, rgba(207,230,90,.035), transparent 72%),
+        radial-gradient(ellipse 52% 20% at 14% 56%, rgba(243,245,246,.018), transparent 74%),
+        linear-gradient(180deg, #0e1114 0%, #101316 34%, #101316 72%, #0e1114 100%);
+    }
+
+    #top,
+    #bottleneck,
+    #creativePaths,
+    #projects,
+    #fit,
+    #services,
+    #method,
+    #contact {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .fit-section {
+      border-top: 0 !important;
+    }
+
+    @media (max-width: 639px) {
+      main {
+        background:
+          radial-gradient(ellipse 92% 14% at 78% 7%, rgba(207,230,90,.035), transparent 72%),
+          radial-gradient(ellipse 82% 16% at 18% 60%, rgba(243,245,246,.016), transparent 74%),
+          linear-gradient(180deg, #0e1114 0%, #101316 38%, #101316 74%, #0e1114 100%);
+      }
+
+      #top,
+      #bottleneck,
+      #creativePaths,
+      #projects,
+      #fit,
+      #services,
+      #method,
+      #contact {
+        background: transparent !important;
+      }
+    }
+
   </style>
 </head>
 
