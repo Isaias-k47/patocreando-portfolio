@@ -10254,6 +10254,132 @@
       display: none !important;
     }
 
+  
+    /* Methodology master ambient — single premium background video */
+    #method .method-slider {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.075);
+      background: #0b0e11;
+      box-shadow:
+        0 34px 92px rgba(0,0,0,.30),
+        0 0 90px rgba(207,230,90,.045),
+        inset 0 1px 0 rgba(255,255,255,.035);
+    }
+
+    #method .method-ambient-master {
+      position: absolute;
+      inset: -3%;
+      z-index: 0;
+      width: 106%;
+      height: 106%;
+      object-fit: cover;
+      object-position: 58% center;
+      opacity: .36;
+      pointer-events: none;
+      filter: saturate(.84) contrast(1.05) brightness(.64);
+      transform: scale(1.025);
+    }
+
+    #method .method-slider::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg,
+          rgba(8,10,12,.90) 0%,
+          rgba(8,10,12,.78) 38%,
+          rgba(8,10,12,.52) 72%,
+          rgba(8,10,12,.42) 100%),
+        linear-gradient(180deg,
+          rgba(8,10,12,.18) 0%,
+          rgba(8,10,12,.10) 46%,
+          rgba(8,10,12,.44) 100%);
+    }
+
+    #method .method-track {
+      position: relative;
+      z-index: 2;
+    }
+
+    #method .method-card {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.010)),
+        rgba(9,11,14,.16) !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    #method .method-card::after {
+      background:
+        linear-gradient(90deg,
+          rgba(8,10,12,.56) 0%,
+          rgba(8,10,12,.30) 48%,
+          rgba(8,10,12,.22) 100%) !important;
+    }
+
+    #method .method-side {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.020)),
+        rgba(8,10,12,.62) !important;
+      border-color: rgba(255,255,255,.10) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.035),
+        0 18px 42px rgba(0,0,0,.16) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    #method .method-chip {
+      background: rgba(255,255,255,.045) !important;
+      border-color: rgba(255,255,255,.09) !important;
+    }
+
+    #method .method-result-icon {
+      box-shadow:
+        0 10px 30px rgba(207,230,90,.14),
+        0 0 36px rgba(207,230,90,.08) !important;
+    }
+
+    @media (max-width: 639px) {
+      #method .method-ambient-master {
+        display: none !important;
+      }
+
+      #method .method-slider {
+        background:
+          radial-gradient(circle at 82% 22%, rgba(207,230,90,.10), transparent 32%),
+          linear-gradient(180deg, #101417, #0c0f12) !important;
+      }
+
+      #method .method-slider::before {
+        background: linear-gradient(180deg, rgba(8,10,12,.26), rgba(8,10,12,.60)) !important;
+      }
+
+      #method .method-side {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #method .method-ambient-master {
+        display: none !important;
+      }
+    }
+
+    html.instagram-inapp #method .method-ambient-master {
+      display: none !important;
+    }
+
+    html.instagram-inapp #method .method-side {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
   </style>
 </head>
 
@@ -11194,13 +11320,13 @@
 
         <div class="section-reveal mt-12 md:mt-14">
           <div id="methodSlider" class="method-slider" aria-roledescription="carousel" aria-label="Etapas de metodología">
+            <video class="method-ambient-master" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
+              <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/8ece9361-a363-477c-8a2e-e6d221cdc562.mp4" type="video/mp4" />
+            </video>
             <div id="methodTrack" class="method-track">
 
               <article class="method-slide" aria-label="1 de 5">
                 <div class="method-card glass">
-                  <video class="method-card-media method-card-media-1" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f34bd4e5-60f0-49a3-9d68-0723503c65d8.mp4" type="video/mp4" />
-                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="radar" class="w-5 h-5"></i>
@@ -11245,9 +11371,6 @@
 
               <article class="method-slide" aria-label="2 de 5">
                 <div class="method-card glass">
-                  <video class="method-card-media method-card-media-2" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/48758813-d0c6-4660-b833-ff4a2ce3c098.mp4" type="video/mp4" />
-                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-blue-300">
                       <i data-lucide="scan-line" class="w-5 h-5"></i>
@@ -11292,9 +11415,6 @@
 
               <article class="method-slide" aria-label="3 de 5">
                 <div class="method-card glass">
-                  <video class="method-card-media method-card-media-3" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f34bd4e5-60f0-49a3-9d68-0723503c65d8.mp4" type="video/mp4" />
-                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="pin" class="w-5 h-5"></i>
@@ -11339,9 +11459,6 @@
 
               <article class="method-slide" aria-label="4 de 5">
                 <div class="method-card glass">
-                  <video class="method-card-media method-card-media-4" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/0481a04b-f326-488e-8ef3-8f247439d94e.mp4" type="video/mp4" />
-                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-violet-300">
                       <i data-lucide="sparkles" class="w-5 h-5"></i>
@@ -11386,9 +11503,6 @@
 
               <article class="method-slide" aria-label="5 de 5">
                 <div class="method-card glass">
-                  <video class="method-card-media method-card-media-5" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/48758813-d0c6-4660-b833-ff4a2ce3c098.mp4" type="video/mp4" />
-                  </video>
                   <div class="method-topline flex items-start justify-between gap-5">
                     <div class="flex items-center gap-3 text-butter">
                       <i data-lucide="rocket" class="w-5 h-5"></i>
@@ -14139,6 +14253,75 @@
       });
 
       if (!desktopQuery.matches) stop();
+    })();
+  </script>
+
+
+  <script>
+    (function methodMasterAmbientPlayback() {
+      "use strict";
+
+      var video = document.querySelector("#method .method-ambient-master");
+      if (!video) return;
+
+      var mobile = window.matchMedia("(max-width: 639px)");
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      if (
+        window.__PATO_INAPP_BROWSER__ === true ||
+        mobile.matches ||
+        reduced.matches
+      ) {
+        video.preload = "none";
+        video.setAttribute("preload", "none");
+        return;
+      }
+
+      var loaded = false;
+
+      function play() {
+        if (document.hidden) return;
+
+        if (!loaded) {
+          loaded = true;
+          video.preload = "auto";
+          video.setAttribute("preload", "auto");
+          try { video.load(); } catch (e) {}
+        }
+
+        video.muted = true;
+        var p;
+        try { p = video.play(); } catch (e) {}
+        if (p && typeof p.catch === "function") p.catch(function () {});
+      }
+
+      function pause() {
+        try { video.pause(); } catch (e) {}
+      }
+
+      if ("IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting && entry.intersectionRatio > .08) play();
+            else pause();
+          });
+        }, {
+          rootMargin: "220px 0px 220px 0px",
+          threshold: [0, .08, .25]
+        });
+
+        observer.observe(video);
+      } else {
+        play();
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) pause();
+        else {
+          var rect = video.getBoundingClientRect();
+          if (rect.bottom > -220 && rect.top < window.innerHeight + 220) play();
+        }
+      });
     })();
   </script>
 
