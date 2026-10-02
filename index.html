@@ -9852,6 +9852,83 @@
       }
     }
 
+  
+    /* Matched floating title circles — Hero + Methodology */
+    @keyframes titleCircleFloatHero {
+      0%   { translate: 0 0; scale: 1; }
+      45%  { translate: 14px -10px; scale: 1.018; }
+      100% { translate: 5px 12px; scale: .992; }
+    }
+
+    @keyframes titleCircleFloatMethod {
+      0%   { translate: 0 0; scale: 1; }
+      45%  { translate: -12px 11px; scale: .992; }
+      100% { translate: 10px -9px; scale: 1.018; }
+    }
+
+    #top::after {
+      animation: titleCircleFloatHero 8.8s ease-in-out infinite alternate !important;
+      will-change: translate, scale;
+    }
+
+    #method .method-intro-title {
+      position: relative;
+      isolation: isolate;
+      overflow: visible;
+    }
+
+    #method .method-intro-title::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      width: min(46vw, 520px);
+      height: min(46vw, 520px);
+      left: -6vw;
+      top: 50%;
+      margin-top: min(-23vw, -260px);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 46% 44%,
+          rgba(207,230,90,.105) 0%,
+          rgba(175,198,63,.075) 44%,
+          rgba(117,130,55,.045) 66%,
+          rgba(0,0,0,0) 76%);
+      opacity: 1;
+      animation: titleCircleFloatMethod 9.6s ease-in-out -2.2s infinite alternate;
+      will-change: translate, scale;
+    }
+
+    #method .method-intro-title > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 639px) {
+      #top::after {
+        animation-duration: 8.2s !important;
+      }
+
+      #method .method-intro-title::before {
+        width: 360px;
+        height: 360px;
+        left: -155px;
+        top: 50%;
+        margin-top: -180px;
+        opacity: .68;
+        animation-duration: 9s;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #top::after,
+      #method .method-intro-title::before {
+        animation: none !important;
+        translate: 0 0 !important;
+        scale: 1 !important;
+      }
+    }
+
   </style>
 </head>
 
