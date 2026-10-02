@@ -9576,6 +9576,94 @@
       border-top: 0 !important;
     }
 
+  
+    /* Seamless section transitions — keep ambient artwork, fade its rectangular edges */
+    #top,
+    #bottleneck,
+    #creativePaths,
+    #projects,
+    #fit,
+    #services,
+    #method,
+    #contact {
+      background: transparent !important;
+      background-color: transparent !important;
+      border-top: 0 !important;
+      border-bottom: 0 !important;
+      box-shadow: none !important;
+    }
+
+    #bottleneck::before,
+    #creativePaths::before,
+    #projects::before,
+    #method::before,
+    #contact::before {
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,.72) 12%,
+        #000 24%,
+        #000 76%,
+        rgba(0,0,0,.72) 88%,
+        transparent 100%
+      ) !important;
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,.72) 12%,
+        #000 24%,
+        #000 76%,
+        rgba(0,0,0,.72) 88%,
+        transparent 100%
+      ) !important;
+    }
+
+    /* Keep the decorative circles / glows untouched. */
+    #bottleneck::after,
+    #fit::before,
+    #fit::after,
+    #top::after,
+    #method::after {
+      pointer-events: none;
+    }
+
+    @media (max-width: 639px) {
+      #top,
+      #bottleneck,
+      #creativePaths,
+      #projects,
+      #fit,
+      #services,
+      #method,
+      #contact {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+
+      #bottleneck::before,
+      #creativePaths::before,
+      #projects::before,
+      #method::before,
+      #contact::before {
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 16%,
+          #000 84%,
+          transparent 100%
+        ) !important;
+        mask-image: linear-gradient(
+          to bottom,
+          transparent 0%,
+          #000 16%,
+          #000 84%,
+          transparent 100%
+        ) !important;
+      }
+    }
+
   </style>
 </head>
 
