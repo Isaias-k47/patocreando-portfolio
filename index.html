@@ -10761,6 +10761,21 @@
       transform: translateY(-1px);
     }
 
+    .project-meet-logo {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .project-meet-logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
     @media (max-width: 639px) {
       .project-meet-cta {
         margin-top: 20px;
@@ -11103,7 +11118,15 @@
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Agendar una reunión de 30 minutos en Calendly">
-              <i data-lucide="calendar-days" class="w-4 h-4"></i>
+              <span class="project-meet-logo" aria-hidden="true">
+                <svg viewBox="0 0 87 78" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <path d="M49.6 39 63.8 28.7v20.6L49.6 39Z" fill="#00832D"/>
+                  <path d="M49.6 39v21.3c0 3.7-3 6.7-6.7 6.7H13.7C10 67 7 64 7 60.3V17.7C7 14 10 11 13.7 11h29.2c3.7 0 6.7 3 6.7 6.7V39Z" fill="#34A853"/>
+                  <path d="m49.6 24.6 14.2-10.3v14.4L49.6 39V24.6Z" fill="#FBBC04"/>
+                  <path d="m49.6 53.4 14.2 10.3V49.3L49.6 39v14.4Z" fill="#EA4335"/>
+                  <path d="M63.8 14.3v49.4C71 63.7 80 58.1 80 50.8V27.2c0-7.3-9-12.9-16.2-12.9Z" fill="#4285F4"/>
+                </svg>
+              </span>
               <span>Agendar 30 min</span>
               <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
             </a>
