@@ -9506,6 +9506,24 @@
       }
     }
 
+  
+    /* Mobile horizontal carousels — delayed autoplay loop */
+    @media (max-width: 639px) {
+      .creative-paths-grid,
+      .fit-grid,
+      .pricing-pack-rail {
+        scroll-snap-type: x mandatory !important;
+        scroll-behavior: smooth;
+      }
+
+      .creative-path,
+      .fit-card,
+      .pricing-pack {
+        scroll-snap-align: center !important;
+        scroll-snap-stop: always;
+      }
+    }
+
   </style>
 </head>
 
@@ -11504,147 +11522,167 @@
   </script>
 
   <script>
-    (function () {
+    (function mobileHorizontalCarouselLoops() {
       "use strict";
-
-      var rail = document.querySelector("#creativePaths .creative-paths-grid");
-      if (!rail) return;
 
       var mobileQuery = window.matchMedia("(max-width: 639px)");
       var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      var rafId = null;
-      var resumeTimer = null;
-      var running = false;
-      var lastTime = 0;
-      var halfWidth = 0;
 
-      function removeClones() {
-        rail.querySelectorAll(".is-loop-clone").forEach(function (clone) {
-          clone.remove();
-        });
-        halfWidth = 0;
-      }
+      var configs = [
+        {
+          rail: document.querySelector("#creativePaths .creative-paths-grid"),
+          itemSelector: ".creative-path",
+          delay: 3800
+        },
+        {
+          rail: document.querySelector("#fit .fit-grid"),
+          itemSelector: ".fit-card",
+          delay: 4100
+        }
+      ].filter(function (config) {
+        return !!config.rail;
+      });
 
-      function measureLoop() {
-        var originals = Array.prototype.slice.call(
-          rail.querySelectorAll(".creative-path:not(.is-loop-clone)")
-        );
-        if (!originals.length) return;
+      function setup(config) {
+        var rail = config.rail;
+        var timer = null;
+        var resumeTimer = null;
+        var currentIndex = 0;
 
-        var first = originals[0];
-        var last = originals[originals.length - 1];
-        halfWidth = (last.offsetLeft + last.offsetWidth) - first.offsetLeft;
-      }
+        function items() {
+          return Array.prototype.slice.call(rail.querySelectorAll(config.itemSelector));
+        }
 
-      function buildClones() {
-        removeClones();
+        function targetLeft(item) {
+          return Math.max(0, item.offsetLeft - ((rail.clientWidth - item.offsetWidth) / 2));
+        }
 
-        if (!mobileQuery.matches || reduceMotionQuery.matches) return;
+        function goTo(index, smooth) {
+          var cards = items();
+          if (!cards.length) return;
 
-        var originals = Array.prototype.slice.call(
-          rail.querySelectorAll(".creative-path:not(.is-loop-clone)")
-        );
+          currentIndex = ((index % cards.length) + cards.length) % cards.length;
+          var left = targetLeft(cards[currentIndex]);
 
-        originals.forEach(function (item) {
-          var clone = item.cloneNode(true);
-          clone.classList.add("is-loop-clone");
-          clone.classList.remove("section-reveal");
-          clone.setAttribute("aria-hidden", "true");
-          rail.appendChild(clone);
-        });
-
-        measureLoop();
-      }
-
-      function frame(time) {
-        if (!running) return;
-        if (!lastTime) lastTime = time;
-
-        var delta = Math.min(time - lastTime, 34);
-        lastTime = time;
-
-        if (halfWidth > 0) {
-          rail.scrollLeft += delta * 0.026;
-
-          if (rail.scrollLeft >= halfWidth) {
-            rail.scrollLeft -= halfWidth;
+          if (typeof rail.scrollTo === "function") {
+            rail.scrollTo({
+              left: left,
+              behavior: smooth && !reduceMotionQuery.matches ? "smooth" : "auto"
+            });
+          } else {
+            rail.scrollLeft = left;
           }
         }
 
-        rafId = window.requestAnimationFrame(frame);
-      }
+        function syncIndexFromScroll() {
+          var cards = items();
+          if (!cards.length) return;
 
-      function start() {
-        if (
-          running ||
-          !mobileQuery.matches ||
-          reduceMotionQuery.matches ||
-          document.hidden
-        ) return;
+          var railCenter = rail.scrollLeft + (rail.clientWidth / 2);
+          var nearest = 0;
+          var best = Infinity;
 
-        if (!rail.querySelector(".is-loop-clone")) buildClones();
-        measureLoop();
+          cards.forEach(function (card, index) {
+            var center = card.offsetLeft + (card.offsetWidth / 2);
+            var distance = Math.abs(center - railCenter);
+            if (distance < best) {
+              best = distance;
+              nearest = index;
+            }
+          });
 
-        running = true;
-        lastTime = 0;
-        rafId = window.requestAnimationFrame(frame);
-      }
-
-      function stop() {
-        running = false;
-        lastTime = 0;
-        if (rafId) {
-          window.cancelAnimationFrame(rafId);
-          rafId = null;
+          currentIndex = nearest;
         }
-      }
 
-      function pauseForInteraction() {
-        stop();
-        if (resumeTimer) window.clearTimeout(resumeTimer);
-      }
-
-      function resumeAfterInteraction() {
-        if (resumeTimer) window.clearTimeout(resumeTimer);
-        resumeTimer = window.setTimeout(start, 1100);
-      }
-
-      function refresh() {
-        stop();
-        removeClones();
-
-        if (mobileQuery.matches && !reduceMotionQuery.matches) {
-          buildClones();
-          rail.scrollLeft = 0;
-          window.setTimeout(start, 120);
-        } else {
-          rail.scrollLeft = 0;
+        function stop() {
+          if (timer) {
+            window.clearInterval(timer);
+            timer = null;
+          }
         }
+
+        function start() {
+          stop();
+          if (
+            !mobileQuery.matches ||
+            reduceMotionQuery.matches ||
+            document.hidden ||
+            items().length < 2
+          ) return;
+
+          timer = window.setInterval(function () {
+            syncIndexFromScroll();
+            goTo(currentIndex + 1, true);
+          }, config.delay);
+        }
+
+        function pauseForInteraction() {
+          stop();
+          if (resumeTimer) {
+            window.clearTimeout(resumeTimer);
+            resumeTimer = null;
+          }
+        }
+
+        function resumeAfterInteraction() {
+          syncIndexFromScroll();
+          if (resumeTimer) window.clearTimeout(resumeTimer);
+          resumeTimer = window.setTimeout(start, 1600);
+        }
+
+        function refresh() {
+          stop();
+
+          if (!mobileQuery.matches) {
+            rail.scrollLeft = 0;
+            return;
+          }
+
+          currentIndex = 0;
+          window.setTimeout(function () {
+            goTo(0, false);
+            start();
+          }, 160);
+        }
+
+        rail.addEventListener("touchstart", pauseForInteraction, { passive: true });
+        rail.addEventListener("touchend", resumeAfterInteraction, { passive: true });
+        rail.addEventListener("touchcancel", resumeAfterInteraction, { passive: true });
+
+        rail.addEventListener("pointerdown", function (event) {
+          if (event.pointerType === "touch") return;
+          pauseForInteraction();
+        }, { passive: true });
+
+        rail.addEventListener("pointerup", function (event) {
+          if (event.pointerType === "touch") return;
+          resumeAfterInteraction();
+        }, { passive: true });
+
+        rail.addEventListener("scroll", function () {
+          if (!mobileQuery.matches) return;
+          if (resumeTimer) window.clearTimeout(resumeTimer);
+          resumeTimer = window.setTimeout(syncIndexFromScroll, 140);
+        }, { passive: true });
+
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) stop();
+          else start();
+        });
+
+        window.addEventListener("orientationchange", function () {
+          window.setTimeout(refresh, 220);
+        }, { passive: true });
+
+        if (typeof mobileQuery.addEventListener === "function") {
+          mobileQuery.addEventListener("change", refresh);
+          reduceMotionQuery.addEventListener("change", refresh);
+        }
+
+        refresh();
       }
 
-      rail.addEventListener("touchstart", pauseForInteraction, { passive: true });
-      rail.addEventListener("touchend", resumeAfterInteraction, { passive: true });
-      rail.addEventListener("pointerdown", function (event) {
-        if (event.pointerType === "touch") return;
-        pauseForInteraction();
-      }, { passive: true });
-      rail.addEventListener("pointerup", resumeAfterInteraction, { passive: true });
-
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) stop();
-        else start();
-      });
-
-      window.addEventListener("orientationchange", function () {
-        window.setTimeout(refresh, 180);
-      }, { passive: true });
-
-      if (typeof mobileQuery.addEventListener === "function") {
-        mobileQuery.addEventListener("change", refresh);
-        reduceMotionQuery.addEventListener("change", refresh);
-      }
-
-      refresh();
+      configs.forEach(setup);
     })();
   </script>
 
