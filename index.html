@@ -10075,6 +10075,59 @@
       }
     }
 
+  
+    /* Instagram / Meta in-app browser video compatibility */
+    html.instagram-inapp .hero-video,
+    html.instagram-inapp #projects .project-video {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      background: #0b0e11 !important;
+    }
+
+    html.instagram-inapp .video-tap-fallback {
+      display: inline-flex !important;
+      opacity: 1;
+      pointer-events: auto;
+      min-height: 46px;
+      padding: 0 16px;
+      background: rgba(8,10,12,.88);
+      border-color: rgba(255,255,255,.20);
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      transform: translate(-50%,-50%) scale(1);
+    }
+
+    html.instagram-inapp .video-tap-fallback.is-playing {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    html.instagram-inapp .hero-phone-vignette {
+      display: none !important;
+    }
+
+    html.instagram-inapp #projects .mockup-stage,
+    html.instagram-inapp #projects .phone-shell,
+    html.instagram-inapp #projects .clean-media-frame {
+      filter: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+    }
+
+    @media (max-width: 639px) {
+      html.instagram-inapp .hero-device-wrap.mobile-takeover-enabled .hero-video {
+        opacity: 1 !important;
+      }
+
+      html.instagram-inapp .hero-device-wrap.mobile-takeover-enabled .hero-phone-screen::before {
+        opacity: 0 !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -11480,6 +11533,173 @@
   </div>
 
   <script>
+    (function inAppVideoBootstrap() {
+      "use strict";
+
+      var ua = navigator.userAgent || "";
+      var instagramInApp = /Instagram/i.test(ua);
+      var metaInApp = instagramInApp || /FBAN|FBAV|FB_IAB|FBIOS|Messenger/i.test(ua);
+
+      window.__PATO_INAPP_BROWSER__ = metaInApp;
+      window.__PATO_INSTAGRAM_BROWSER__ = instagramInApp;
+
+      if (!metaInApp) return;
+
+      document.documentElement.classList.add("inapp-browser");
+      if (instagramInApp) document.documentElement.classList.add("instagram-inapp");
+
+      function shellFor(video) {
+        return video.closest(".hero-phone-screen, .phone-screen, .clean-media-frame");
+      }
+
+      function directSource(video) {
+        if (!video.getAttribute("src")) {
+          var source = video.querySelector("source[src]");
+          if (source && source.src) {
+            video.src = source.src;
+          }
+        }
+      }
+
+      function ensurePlayButton(video) {
+        var shell = shellFor(video);
+        if (!shell) return null;
+
+        var button = shell.querySelector(".video-tap-fallback");
+        if (!button) {
+          button = document.createElement("button");
+          button.type = "button";
+          button.className = "video-tap-fallback is-visible";
+          button.setAttribute("aria-label", "Reproducir video");
+          button.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
+            '<path d="M8 5v14l11-7z"></path></svg>' +
+            '<span>Tocar para reproducir</span>';
+          shell.appendChild(button);
+        } else {
+          button.classList.add("is-visible");
+          var label = button.querySelector("span");
+          if (label) label.textContent = "Tocar para reproducir";
+        }
+
+        return button;
+      }
+
+      function prepare(video) {
+        directSource(video);
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        video.playsInline = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        video.setAttribute("preload", "metadata");
+        video.preload = "metadata";
+        video.disablePictureInPicture = true;
+
+        try { video.load(); } catch (e) {}
+      }
+
+      function start(video, button) {
+        prepare(video);
+
+        var promise;
+        try { promise = video.play(); } catch (e) {}
+
+        if (promise && typeof promise.then === "function") {
+          promise.then(function () {
+            if (button) {
+              button.classList.remove("is-visible");
+              button.classList.add("is-playing");
+            }
+          }).catch(function () {
+            if (button) {
+              button.classList.remove("is-playing");
+              button.classList.add("is-visible");
+            }
+          });
+        }
+      }
+
+      var videos = Array.prototype.slice.call(
+        document.querySelectorAll(".hero-video, .project-video")
+      );
+
+      videos.forEach(function (video) {
+        prepare(video);
+        var button = ensurePlayButton(video);
+        var shell = shellFor(video);
+
+        if (button) {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            start(video, button);
+          });
+        }
+
+        if (shell) {
+          shell.addEventListener("pointerup", function (event) {
+            if (
+              event.target.closest(".hero-sound-toggle") ||
+              event.target.closest(".video-tap-fallback")
+            ) return;
+
+            if (video.paused) start(video, button);
+          }, { passive: true });
+        }
+
+        video.addEventListener("playing", function () {
+          if (button) {
+            button.classList.remove("is-visible");
+            button.classList.add("is-playing");
+          }
+        });
+
+        ["pause", "stalled", "error"].forEach(function (eventName) {
+          video.addEventListener(eventName, function () {
+            if (button && video.paused) {
+              button.classList.remove("is-playing");
+              button.classList.add("is-visible");
+            }
+          });
+        });
+      });
+
+      // Instagram's webview can reject autoplay until the first real gesture.
+      // Prime the nearest visible video immediately after that gesture.
+      function playNearestVisible() {
+        var best = null;
+        var bestDistance = Infinity;
+        var center = window.innerHeight / 2;
+
+        videos.forEach(function (video) {
+          var card = video.closest(".project-item");
+          if (card && card.classList.contains("is-hidden")) return;
+
+          var rect = video.getBoundingClientRect();
+          if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
+
+          var distance = Math.abs((rect.top + rect.height / 2) - center);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            best = video;
+          }
+        });
+
+        if (best) {
+          start(best, ensurePlayButton(best));
+        }
+      }
+
+      document.addEventListener("touchend", playNearestVisible, { passive: true, once: true });
+      document.addEventListener("pointerup", playNearestVisible, { passive: true, once: true });
+    })();
+  </script>
+
+  <script>
     (function () {
       "use strict";
 
@@ -11492,6 +11712,7 @@
       var activeVideo = null;
       var rafId = null;
       var mobileQuery = window.matchMedia("(max-width: 639px)");
+      var inAppBrowser = window.__PATO_INAPP_BROWSER__ === true;
 
       function isEligible(video) {
         if (!video || !video.isConnected) return false;
@@ -11551,8 +11772,15 @@
         video.setAttribute("playsinline", "");
         video.setAttribute("webkit-playsinline", "");
         video.disablePictureInPicture = true;
-        video.preload = mobileQuery.matches ? "none" : "metadata";
-        video.setAttribute("preload", mobileQuery.matches ? "none" : "metadata");
+
+        var preloadMode = inAppBrowser ? "metadata" : (mobileQuery.matches ? "none" : "metadata");
+        video.preload = preloadMode;
+        video.setAttribute("preload", preloadMode);
+
+        if (inAppBrowser && !video.getAttribute("src")) {
+          var directSource = video.querySelector("source[src]");
+          if (directSource && directSource.src) video.src = directSource.src;
+        }
       }
 
       function ensureButton(video) {
@@ -11564,7 +11792,7 @@
 
         var button = document.createElement("button");
         button.type = "button";
-        button.className = "video-tap-fallback";
+        button.className = inAppBrowser ? "video-tap-fallback is-visible" : "video-tap-fallback";
         button.setAttribute("aria-label", "Reproducir video");
         button.innerHTML =
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
@@ -11596,7 +11824,7 @@
         video.setAttribute("autoplay", "");
         var button = ensureButton(video);
 
-        if (video.readyState === 0) {
+        if (video.readyState < (inAppBrowser ? 2 : 1)) {
           try { video.load(); } catch (e) {}
         }
 
@@ -11727,6 +11955,7 @@
 
       var mobileQuery = window.matchMedia("(max-width: 639px)");
       var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var inAppBrowser = window.__PATO_INAPP_BROWSER__ === true;
       var rafId = null;
       var enabled = false;
       var audioUnlocked = false;
@@ -11859,6 +12088,7 @@
       }
 
       function shouldUnlockFromGesture(event) {
+        if (inAppBrowser) return false;
         if (!enabled || userSilenced || audioUnlocked) return false;
 
         if (
@@ -11944,9 +12174,20 @@
         video.playsInline = true;
         video.setAttribute("playsinline", "");
         video.setAttribute("webkit-playsinline", "");
-        video.preload = "auto";
-        video.setAttribute("preload", "auto");
+
+        var preloadMode = inAppBrowser ? "metadata" : "auto";
+        video.preload = preloadMode;
+        video.setAttribute("preload", preloadMode);
         video.setAttribute("autoplay", "");
+
+        if (inAppBrowser && !video.getAttribute("src")) {
+          var directSource = video.querySelector("source[src]");
+          if (directSource && directSource.src) video.src = directSource.src;
+        }
+
+        if (inAppBrowser) {
+          try { video.load(); } catch (e) {}
+        }
 
         if (!audioUnlocked || userSilenced) {
           setAudio(false);
