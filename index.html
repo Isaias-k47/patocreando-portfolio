@@ -2040,6 +2040,39 @@
       pointer-events: none;
     }
 
+    .hero-scroll-orb {
+      --hero-orb-scroll-x: 0px;
+      --hero-orb-scroll-y: 0px;
+      --hero-orb-scroll-scale: 1;
+      position: absolute;
+      z-index: 0;
+      width: min(46vw, 560px);
+      aspect-ratio: 1;
+      left: 48%;
+      top: 18%;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: .30;
+      background:
+        radial-gradient(circle at 38% 34%, rgba(235,247,168,.42) 0%, rgba(207,230,90,.20) 34%, rgba(175,198,63,.10) 58%, transparent 76%);
+      filter: blur(54px);
+      transform:
+        translate3d(var(--hero-orb-scroll-x), var(--hero-orb-scroll-y), 0)
+        scale(var(--hero-orb-scroll-scale));
+      will-change: transform, opacity;
+      mix-blend-mode: screen;
+    }
+
+    @media (max-width: 639px) {
+      .hero-scroll-orb {
+        width: 430px;
+        left: 34%;
+        top: 28%;
+        opacity: .22;
+        filter: blur(62px);
+      }
+    }
+
     .hero-orb-a {
       width: 420px;
       height: 420px;
@@ -9144,6 +9177,7 @@
     <section id="top" class="relative min-h-screen flex items-center overflow-hidden">
       <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
       <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
+      <div class="hero-scroll-orb" id="heroScrollOrb" aria-hidden="true"></div>
 
       <div class="site-shell relative z-10 grid lg:grid-cols-[1.05fr_.95fr] items-center gap-12 xl:gap-20">
         <div class="hero-copy">
@@ -12617,6 +12651,59 @@
       });
 
       updateUi("Escuchar");
+    })();
+  </script>
+
+
+  <script>
+    (function heroScrollOrbMotion() {
+      "use strict";
+
+      var hero = document.getElementById("top");
+      var orb = document.getElementById("heroScrollOrb");
+      if (!hero || !orb) return;
+
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var rafId = 0;
+
+      function render() {
+        rafId = 0;
+
+        if (reduceMotion.matches) {
+          orb.style.setProperty("--hero-orb-scroll-x", "0px");
+          orb.style.setProperty("--hero-orb-scroll-y", "0px");
+          orb.style.setProperty("--hero-orb-scroll-scale", "1");
+          orb.style.opacity = "";
+          return;
+        }
+
+        var rect = hero.getBoundingClientRect();
+        var viewport = window.innerHeight || document.documentElement.clientHeight;
+        var total = Math.max(1, rect.height + viewport);
+        var progress = Math.max(0, Math.min(1, (viewport - rect.top) / total));
+
+        var x = -72 + progress * 180;
+        var y = -42 + progress * 220;
+        var scale = 0.92 + progress * 0.22;
+        var opacity = 0.18 + Math.sin(progress * Math.PI) * 0.20;
+
+        orb.style.setProperty("--hero-orb-scroll-x", x.toFixed(1) + "px");
+        orb.style.setProperty("--hero-orb-scroll-y", y.toFixed(1) + "px");
+        orb.style.setProperty("--hero-orb-scroll-scale", scale.toFixed(3));
+        orb.style.opacity = opacity.toFixed(3);
+      }
+
+      function schedule() {
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(render);
+      }
+
+      render();
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule, { passive: true });
+      if (typeof reduceMotion.addEventListener === "function") {
+        reduceMotion.addEventListener("change", schedule);
+      }
     })();
   </script>
 
