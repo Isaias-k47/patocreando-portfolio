@@ -10935,385 +10935,8 @@
     }
 
   
-    /* Applied case studies */
-    .case-studies-section {
-      position: relative;
-      padding: 94px 0 104px;
-      overflow: hidden;
-    }
-
-    .case-studies-section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 14% 28%, rgba(207,230,90,.065), transparent 26%),
-        radial-gradient(circle at 88% 76%, rgba(255,255,255,.028), transparent 24%);
-    }
-
-    .case-studies-head {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 42px;
-      text-align: center;
-    }
-
-    .case-studies-kicker {
-      margin: 0;
-      color: #8E959E;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-    }
-
-    .case-studies-title {
-      max-width: 780px;
-      margin: 0 auto;
-      color: #F2F4F5;
-      text-align: center;
-      font-size: clamp(2.7rem,5.7vw,5.25rem);
-      line-height: .96;
-      letter-spacing: -.055em;
-      font-weight: 620;
-      text-wrap: balance;
-    }
-
-    .case-studies-title span {
-      display: block;
-      color: #70767D;
-    }
-
-    .case-studies-intro {
-      max-width: 670px;
-      margin: 0 auto;
-      color: #9BA1A9;
-      font-size: 14px;
-      line-height: 1.75;
-      text-align: center;
-      text-wrap: balance;
-    }
-
-    .applied-case {
-      position: relative;
-      z-index: 1;
-      width: min(100%, 980px);
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: minmax(250px,340px) minmax(0,1fr);
-      gap: 28px;
-      align-items: stretch;
-      padding: 16px;
-      border: 1px solid rgba(255,255,255,.075);
-      border-radius: 24px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.032), rgba(255,255,255,.008)),
-        rgba(10,12,14,.64);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.035),
-        0 24px 58px rgba(0,0,0,.22);
-    }
-
-    .applied-case-media {
-      position: relative;
-      width: min(100%, 320px);
-      aspect-ratio: 9 / 16;
-      min-height: 0;
-      overflow: hidden;
-      border-radius: 18px;
-      background: #111417;
-      isolation: isolate;
-      align-self: center;
-      justify-self: center;
-    }
-
-    .applied-case-media::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(180deg, rgba(5,7,8,.02), rgba(5,7,8,.02) 58%, rgba(5,7,8,.42)),
-        linear-gradient(90deg, rgba(207,230,90,.05), transparent 30%);
-      z-index: 1;
-    }
-
-    .applied-case-media img,
-    .applied-case-media video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-
-    .applied-case-media-label {
-      position: absolute;
-      left: 50%;
-      bottom: 16px;
-      transform: translateX(-50%);
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(10,12,14,.68);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #D9DEE3;
-      font-size: 9px;
-      font-weight: 750;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .applied-case-media-label::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #CFE65A;
-      box-shadow: 0 0 14px rgba(207,230,90,.45);
-    }
-
-    .applied-case-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 22px 22px;
-      text-align: center;
-    }
-
-    .applied-case-number {
-      margin: 0 0 32px;
-      color: rgba(255,255,255,.22);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-    }
-
-    .applied-case-eyebrow {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .applied-case-tag {
-      display: inline-flex;
-      align-items: center;
-      min-height: 27px;
-      padding: 0 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(207,230,90,.18);
-      background: rgba(207,230,90,.055);
-      color: #DDED87;
-      font-size: 9px;
-      font-weight: 750;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-    }
-
-    .applied-case-tag.is-muted {
-      border-color: rgba(255,255,255,.08);
-      background: rgba(255,255,255,.025);
-      color: #939AA2;
-    }
-
-    .applied-case-title {
-      max-width: 650px;
-      margin: 0 auto;
-      color: #F4F5F6;
-      text-align: center;
-      font-size: clamp(2rem,3.3vw,3.55rem);
-      line-height: 1.01;
-      letter-spacing: -.045em;
-      font-weight: 620;
-      text-wrap: balance;
-    }
-
-    .applied-case-brand {
-      max-width: 560px;
-      margin: 11px auto 0;
-      color: #8D949D;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .applied-case-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px 28px;
-      margin-top: 36px;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      text-align: center;
-    }
-
-    .applied-case-block h4 {
-      margin: 0 0 8px;
-      color: #777E86;
-      font-size: 9px;
-      font-weight: 750;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .applied-case-block p {
-      max-width: 310px;
-      margin: 0 auto;
-      color: #BCC1C7;
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .applied-case-footer {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 18px 24px;
-      margin-top: auto;
-      padding-top: 34px;
-      text-align: center;
-    }
-
-    .applied-case-delivery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 7px;
-    }
-
-    .applied-case-delivery span {
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.026);
-      border: 1px solid rgba(255,255,255,.07);
-      color: #8F969F;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-    }
-
-    .applied-case-source {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: #AAB0B7;
-      font-size: 11px;
-      font-weight: 650;
-      text-decoration: none;
-      transition: color .2s ease, transform .2s ease;
-    }
-
-    .applied-case-source:hover {
-      color: #CFE65A;
-      transform: translateY(-1px);
-    }
-
-    .applied-case-disclaimer {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin: 18px auto 0;
-      color: #666D75;
-      font-size: 10px;
-      line-height: 1.6;
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .case-studies-section {
-        padding: 76px 0 82px;
-      }
-
-      .case-studies-head {
-        gap: 16px;
-        margin-bottom: 30px;
-        text-align: center;
-      }
-
-      .case-studies-intro {
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      .applied-case {
-        grid-template-columns: 1fr;
-        gap: 0;
-        padding: 12px;
-        border-radius: 22px;
-      }
-
-      .applied-case-media {
-        width: min(100%, 300px);
-        min-height: 0;
-        border-radius: 16px;
-      }
-
-      .applied-case-content {
-        padding: 24px 8px 10px;
-      }
-
-      .applied-case-number {
-        margin-bottom: 22px;
-      }
-
-      .applied-case-grid {
-        margin-top: 28px;
-        padding-top: 24px;
-      }
-
-      .applied-case-disclaimer {
-        margin: 14px auto 0;
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .case-studies-section {
-        padding: 64px 0 70px;
-      }
-
-      .case-studies-title {
-        font-size: clamp(2.55rem,14vw,4rem);
-      }
-
-      .applied-case-media {
-        width: min(100%, 280px);
-        min-height: 0;
-      }
-
-      .applied-case-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .applied-case-footer {
-        align-items: center;
-        flex-direction: column;
-      }
-    }
-
-  
     /* Scroll and CTA rhythm */
     #projects,
-    #cases,
     #fit,
     #services,
     #launchOffer,
@@ -11328,7 +10951,6 @@
 
     @media (max-width: 639px) {
       #projects,
-      #cases,
       #fit,
       #services,
       #launchOffer,
@@ -11588,144 +11210,6 @@
     }
 
   
-    /* Applied case + workflow: static visual process, video stays in Projects */
-    #cases .applied-case-workflow {
-      width: min(100%, 1060px);
-      display: block;
-      padding: 18px;
-    }
-
-    #cases .applied-case-workflow .applied-case-content {
-      width: 100%;
-      padding: 20px 18px 18px;
-    }
-
-    #cases .applied-case-workflow .applied-case-number {
-      margin-bottom: 18px;
-    }
-
-    .case-workflow-track {
-      width: 100%;
-      display: grid;
-      grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr);
-      align-items: center;
-      gap: 8px;
-      margin-top: 28px;
-      padding-top: 26px;
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
-
-    .case-workflow-card {
-      min-width: 0;
-      overflow: hidden;
-      border-radius: 17px;
-      border: 1px solid rgba(255,255,255,.075);
-      background: rgba(255,255,255,.018);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
-    }
-
-    .case-workflow-visual {
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: #111416;
-    }
-
-    .case-workflow-visual img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .case-workflow-visual-reference img {
-      object-fit: contain;
-      padding: 9%;
-      background: #f2f2f0;
-    }
-
-    .case-workflow-copy {
-      padding: 12px 10px 13px;
-      text-align: center;
-    }
-
-    .case-workflow-copy > span {
-      display: block;
-      margin-bottom: 4px;
-      color: #626A72;
-      font-size: 8px;
-      font-weight: 750;
-      letter-spacing: .12em;
-    }
-
-    .case-workflow-copy strong {
-      display: block;
-      color: #EEF1F2;
-      font-size: 11px;
-      font-weight: 720;
-      letter-spacing: .02em;
-      text-transform: uppercase;
-    }
-
-    .case-workflow-copy p {
-      margin: 5px 0 0;
-      color: #858C94;
-      font-size: 10px;
-      line-height: 1.4;
-    }
-
-    .case-workflow-arrow {
-      display: grid;
-      place-items: center;
-      color: #CFE65A;
-      font-size: 18px;
-      opacity: .72;
-    }
-
-    @media (max-width: 900px) {
-      #cases .applied-case-workflow {
-        padding: 12px;
-      }
-
-      #cases .applied-case-workflow .applied-case-content {
-        padding: 18px 8px 10px;
-      }
-
-      .case-workflow-track {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: 10px;
-        margin-top: 24px;
-        padding-top: 22px;
-      }
-
-      .case-workflow-arrow {
-        display: none;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .case-workflow-track {
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: 8px;
-      }
-
-      .case-workflow-card {
-        border-radius: 14px;
-      }
-
-      .case-workflow-copy {
-        padding: 10px 8px 11px;
-      }
-
-      .case-workflow-copy strong {
-        font-size: 10px;
-      }
-
-      .case-workflow-copy p {
-        font-size: 9.5px;
-      }
-    }
-
   </style>
 </head>
 
@@ -11743,7 +11227,6 @@
 
       <nav class="hidden md:flex items-center gap-1 text-sm text-zinc-400">
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#projects">Proyectos</a>
-        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#cases">Casos</a>
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#services">Servicios</a>
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#method">Proceso</a>
         <a class="ml-1 px-4 py-2 rounded-full bg-white text-black font-semibold hover:bg-butter transition" href="#contact">Hablemos</a>
@@ -11759,7 +11242,6 @@
     <div id="mobileMenu" class="menu-panel md:hidden absolute inset-x-0 top-[72px] nav-blur border-t border-white/5">
       <div class="site-shell py-4 flex flex-col text-lg">
         <a class="py-4 border-b border-white/5" href="#projects">Proyectos</a>
-        <a class="py-4 border-b border-white/5" href="#cases">Casos</a>
         <a class="py-4 border-b border-white/5" href="#services">Servicios</a>
         <a class="py-4 border-b border-white/5" href="#method">Proceso</a>
         <a class="py-4 font-semibold text-white" href="#contact">Hablemos</a>
@@ -12210,12 +11692,24 @@
                     De una referencia a una pieza final.
                   </h3>
 
-                  <p class="project-note">Referencia real → digitalización → variación → product ad, dentro del mismo sistema visual.</p>
+                  <p class="project-note">Referencia real → digitalización → variación → product ad.</p>
+                  <p class="mt-2 text-[10px] leading-5 text-zinc-500">
+                    Muestra autorizada para Shop Online Perfumería. Proyecto conceptual, no campaña publicada por la marca.
+                  </p>
                 </div>
               </div>
 
-              <div class="mt-5 flex flex-wrap gap-2">
+              <div class="mt-5 flex flex-wrap items-center gap-2">
                 <span class="tool-badge tool-badge-primary">WORKFLOW</span>
+                <a
+                  href="https://www.instagram.com/p/Dd24xgrOr5e/?hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-[10px] font-semibold text-zinc-400 hover:text-butter transition"
+                  aria-label="Ver referencia original de My Way en Instagram">
+                  <span>Ver referencia original</span>
+                  <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                </a>
               </div>
             </div>
           </article>
@@ -12246,137 +11740,6 @@
 
 
 
-
-    <!-- Applied Cases -->
-    <section id="cases" class="case-studies-section" aria-labelledby="casesTitle">
-      <div class="site-shell">
-        <div class="case-studies-head section-reveal">
-          <div>
-            <p class="case-studies-kicker">Casos aplicados</p>
-          </div>
-
-          <h2 id="casesTitle" class="display case-studies-title">
-            El resultado
-            <span>también muestra el proceso.</span>
-          </h2>
-
-          <p class="case-studies-intro">
-            Referencia → digitalización → variación → pieza final.
-          </p>
-        </div>
-
-        <article class="applied-case applied-case-workflow section-reveal" aria-labelledby="case01Title">
-          <div class="applied-case-content">
-            <p class="applied-case-number">Caso aplicado / 01</p>
-
-            <div class="applied-case-eyebrow">
-              <span class="applied-case-tag">My Way</span>
-              <span class="applied-case-tag is-muted">Workflow aplicado</span>
-              <span class="applied-case-tag is-muted">Muestra autorizada</span>
-            </div>
-
-            <h3 id="case01Title" class="display applied-case-title">
-              De referencia a product ad.
-            </h3>
-
-            <p class="applied-case-brand">
-              Muestra desarrollada para Shop Online Perfumería a partir de un producto real de su catálogo.
-            </p>
-
-            <div class="case-workflow-track" aria-label="Workflow visual aplicado a My Way">
-              <article class="case-workflow-card">
-                <div class="case-workflow-visual case-workflow-visual-reference">
-                  <img
-                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/94148a6e-cb66-4cc5-b4a3-ec0a862d948b.png"
-                    alt="Referencia original del perfume My Way con caja y frasco"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
-                <div class="case-workflow-copy">
-                  <span>01</span>
-                  <strong>Referencia</strong>
-                  <p>Producto original.</p>
-                </div>
-              </article>
-
-              <span class="case-workflow-arrow" aria-hidden="true">→</span>
-
-              <article class="case-workflow-card">
-                <div class="case-workflow-visual">
-                  <img
-                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/eb6f44d9-263a-43b8-a1fe-5f638d15efa4.png"
-                    alt="Digitalización visual del perfume My Way en una escena floral"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
-                <div class="case-workflow-copy">
-                  <span>02</span>
-                  <strong>Digitalized</strong>
-                  <p>Producto controlable.</p>
-                </div>
-              </article>
-
-              <span class="case-workflow-arrow" aria-hidden="true">→</span>
-
-              <article class="case-workflow-card">
-                <div class="case-workflow-visual">
-                  <img
-                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/a128944f-93a7-4818-804a-2becff7e5920.png"
-                    alt="Variación visual del perfume My Way"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
-                <div class="case-workflow-copy">
-                  <span>03</span>
-                  <strong>Variación</strong>
-                  <p>Otra puesta visual.</p>
-                </div>
-              </article>
-
-              <span class="case-workflow-arrow" aria-hidden="true">→</span>
-
-              <article class="case-workflow-card">
-                <div class="case-workflow-visual">
-                  <img
-                    src="./assets/cases/myway-shoponlineperfumeria.jpg"
-                    alt="Frame final del product ad de My Way"
-                    loading="lazy"
-                    decoding="async" />
-                </div>
-                <div class="case-workflow-copy">
-                  <span>04</span>
-                  <strong>Final</strong>
-                  <p>Pieza lista para redes.</p>
-                </div>
-              </article>
-            </div>
-
-            <div class="applied-case-footer">
-              <div class="applied-case-delivery" aria-label="Características del caso">
-                <span>Referencia real</span>
-                <span>Digitalización</span>
-                <span>Variación</span>
-                <span>Product ad</span>
-              </div>
-
-              <a
-                class="applied-case-source"
-                href="https://www.instagram.com/p/Dd24xgrOr5e/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Ver la referencia original de producto en Instagram">
-                <span>Ver referencia original</span>
-                <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-              </a>
-            </div>
-          </div>
-        </article>
-
-        <p class="applied-case-disclaimer section-reveal">
-          Muestra conceptual autorizada. No es una campaña comercial publicada por la marca.
-        </p>
-      </div>
-    </section>
 
     <!-- Fit -->
     <section id="fit" class="fit-section relative">
@@ -14394,7 +13757,7 @@
 
       // Mobile sticky project CTA
       var mobileSampleCta = document.getElementById("mobileSampleCta");
-      var casesSection = document.getElementById("cases");
+      var fitSection = document.getElementById("fit");
       var launchOfferSection = document.getElementById("launchOffer");
       var contactSection = document.getElementById("contact");
 
@@ -14410,8 +13773,8 @@
         var isMobile = window.matchMedia("(max-width: 639px)").matches;
         var reachedProof = false;
 
-        if (casesSection) {
-          reachedProof = casesSection.getBoundingClientRect().top < window.innerHeight * .88;
+        if (fitSection) {
+          reachedProof = fitSection.getBoundingClientRect().top < window.innerHeight * .88;
         }
 
         var pricingVisible = sectionIsVisible(launchOfferSection, .92);
