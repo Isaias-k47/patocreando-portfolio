@@ -13107,21 +13107,37 @@
           ease: "power3.out"
         });
 
-        gsap.fromTo(".hero-title-slide",
-          { opacity: 0, x: -36 },
-          { opacity: 1, x: 0, duration: 1.05, delay: .10, ease: "power4.out", clearProps: "transform" }
-        );
+        // One reveal language for every major page title
+        var majorTitles = gsap.utils.toArray([
+          "#top .hero-lockup-title",
+          "#bottleneck .conversion-tension-title",
+          "#creativePaths .creative-paths-title",
+          "#projects h2",
+          "#fit .fit-title",
+          "#services .services-title",
+          "#pricingTitle",
+          "#method .method-intro-title h2",
+          "#contact h2"
+        ].join(","));
 
-        gsap.utils.toArray(".title-slide").forEach(function (title) {
+        majorTitles.forEach(function (title) {
+          var isHeroTitle = title.matches("#top .hero-lockup-title");
+
           gsap.fromTo(title,
-            { opacity: 0, x: -46, clipPath: "inset(0 100% 0 0)" },
+            {
+              opacity: 0,
+              x: -46,
+              clipPath: "inset(0 100% 0 0)"
+            },
             {
               opacity: 1,
               x: 0,
               clipPath: "inset(0 0% 0 0)",
-              duration: .95,
+              duration: .98,
+              delay: isHeroTitle ? .10 : 0,
               ease: "power4.out",
-              scrollTrigger: {
+              clearProps: "transform",
+              scrollTrigger: isHeroTitle ? undefined : {
                 trigger: title,
                 start: "top 84%",
                 once: true
