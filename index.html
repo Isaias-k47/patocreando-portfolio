@@ -10153,6 +10153,73 @@
       display: none !important;
     }
 
+  
+    /* Instagram Lite Mode — static UI, keep video playback and visual identity */
+    html.instagram-inapp {
+      scroll-behavior: auto !important;
+    }
+
+    html.instagram-inapp .grain {
+      display: none !important;
+    }
+
+    html.instagram-inapp #top::after,
+    html.instagram-inapp #method .method-intro-title::before,
+    html.instagram-inapp [data-orb],
+    html.instagram-inapp .gradient-text,
+    html.instagram-inapp .method-progress > span,
+    html.instagram-inapp .method-slide,
+    html.instagram-inapp .method-card-media {
+      animation: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    html.instagram-inapp .hero-reveal,
+    html.instagram-inapp .section-reveal,
+    html.instagram-inapp .project-reveal,
+    html.instagram-inapp .creative-path,
+    html.instagram-inapp .fit-card,
+    html.instagram-inapp .service-card,
+    html.instagram-inapp .pricing-pack,
+    html.instagram-inapp .project-intro-card,
+    html.instagram-inapp .project-info-card,
+    html.instagram-inapp .contact-social-link,
+    html.instagram-inapp .tab-btn,
+    html.instagram-inapp .magnetic {
+      animation: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    html.instagram-inapp .creative-paths-grid,
+    html.instagram-inapp .fit-grid,
+    html.instagram-inapp .pricing-pack-rail {
+      scroll-behavior: auto !important;
+    }
+
+    html.instagram-inapp .method-track {
+      transition: none !important;
+    }
+
+    @media (max-width: 639px) {
+      html.instagram-inapp #top::after,
+      html.instagram-inapp #method .method-intro-title::before {
+        animation: none !important;
+        translate: 0 0 !important;
+        scale: 1 !important;
+      }
+
+      html.instagram-inapp .creative-path,
+      html.instagram-inapp .fit-card,
+      html.instagram-inapp .pricing-pack,
+      html.instagram-inapp .service-card,
+      html.instagram-inapp .contact-social-link,
+      html.instagram-inapp .project-info-card {
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -12359,6 +12426,8 @@
     (function mobileHorizontalCarouselLoops() {
       "use strict";
 
+      if (window.__PATO_INAPP_BROWSER__ === true) return;
+
       var mobileQuery = window.matchMedia("(max-width: 639px)");
       var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -12524,6 +12593,8 @@
     (function pricingPackMobileLoop() {
       "use strict";
 
+      if (window.__PATO_INAPP_BROWSER__ === true) return;
+
       var rail = document.getElementById("pricingPackRail");
       if (!rail) return;
 
@@ -12677,7 +12748,7 @@
 
       if (window.lucide && typeof window.lucide.createIcons === "function") { window.lucide.createIcons(); }
 
-      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.__PATO_INAPP_BROWSER__ === true;
       var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
       // Mobile menu
