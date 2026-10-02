@@ -10691,6 +10691,96 @@
       text-align: center !important;
     }
 
+    .project-meet-cta {
+      width: min(100%, 620px);
+      margin: 24px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(207,230,90,.18);
+      background:
+        linear-gradient(135deg, rgba(207,230,90,.055), rgba(255,255,255,.018)),
+        rgba(255,255,255,.012);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 18px 48px rgba(0,0,0,.16);
+    }
+
+    .project-meet-cta-copy {
+      min-width: 0;
+      text-align: left;
+    }
+
+    .project-meet-cta-kicker {
+      margin: 0 0 4px;
+      color: #A6ACB6;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .project-meet-cta-title {
+      margin: 0;
+      color: #F3F5F6;
+      font-size: 14px;
+      font-weight: 650;
+      line-height: 1.35;
+      letter-spacing: -.015em;
+    }
+
+    .project-meet-cta-button {
+      flex: 0 0 auto;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(207,230,90,.42);
+      background: rgba(207,230,90,.09);
+      color: #E9F6A0;
+      font-size: 11px;
+      font-weight: 750;
+      white-space: nowrap;
+      transition:
+        color .22s ease,
+        background .22s ease,
+        border-color .22s ease,
+        transform .22s var(--ease);
+    }
+
+    .project-meet-cta-button:hover {
+      color: #10140A;
+      background: linear-gradient(180deg, #E9F6A0, #CFE65A);
+      border-color: rgba(207,230,90,.86);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 639px) {
+      .project-meet-cta {
+        margin-top: 20px;
+        padding: 16px;
+        border-radius: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .project-meet-cta-copy {
+        text-align: center;
+      }
+
+      .project-meet-cta-button {
+        width: 100%;
+        min-height: 46px;
+      }
+    }
+
     #projects .project-carousel-controls {
       justify-content: center !important;
       margin-inline: auto !important;
@@ -11001,6 +11091,23 @@
           <p id="categoryDescription" class="max-w-2xl text-sm leading-6 text-zinc-500">
             UGC vertical con avatares, lifestyle y objetos integrados en escena.
           </p>
+
+          <div class="project-meet-cta" aria-label="Agendar una reunión">
+            <div class="project-meet-cta-copy">
+              <p class="project-meet-cta-kicker">Hablemos de tu proyecto</p>
+              <p class="project-meet-cta-title">¿Querés ver qué formato encaja mejor con tu marca?</p>
+            </div>
+            <a
+              class="project-meet-cta-button"
+              href="https://calendly.com/ulisesjgonzalez2045/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Agendar una reunión de 30 minutos en Calendly">
+              <i data-lucide="calendar-days" class="w-4 h-4"></i>
+              <span>Agendar 30 min</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
 
           <div id="projectCarouselControls" class="project-carousel-controls" hidden aria-label="Navegación de proyectos">
             <span id="projectCarouselStatus" class="project-carousel-status" aria-live="polite">1–2 / 3</span>
@@ -14255,6 +14362,7 @@
           "#projects .project-intro-copy",
           "#projects [role='tablist']",
           "#categoryDescription",
+          "#projects .project-meet-cta",
           "#fit .conversion-kicker",
           "#services .services-label",
           "#services .services-copy",
