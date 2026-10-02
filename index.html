@@ -9175,6 +9175,133 @@
       }
     }
 
+  
+    /* Clean campaign media — product/fashion without phone mockup */
+    .project-item.project-clean-media .mockup-stage {
+      min-height: 590px;
+      padding: 24px;
+      border-color: rgba(255,255,255,.055);
+      background:
+        radial-gradient(circle at 50% 44%, rgba(207,230,90,.075), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.022), rgba(255,255,255,.008));
+    }
+
+    .project-item.project-clean-media .mockup-stage::before {
+      width: 54%;
+      opacity: .42;
+      filter: blur(84px);
+      transform: translate(-18%, 24%);
+    }
+
+    .clean-media-frame {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 360px);
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: #0A0C0F;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03),
+        0 28px 80px rgba(0,0,0,.34),
+        0 0 52px rgba(207,230,90,.045);
+      transition:
+        transform .45s var(--ease),
+        border-color .35s ease,
+        box-shadow .35s ease;
+    }
+
+    .clean-media-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.018), transparent 22%, transparent 74%, rgba(0,0,0,.14));
+    }
+
+    .clean-media-frame video,
+    .clean-media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-item.project-clean-media:hover .clean-media-frame {
+      transform: translateY(-4px) scale(1.008);
+      border-color: rgba(255,255,255,.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 34px 92px rgba(0,0,0,.38),
+        0 0 64px rgba(207,230,90,.06);
+    }
+
+    /* Hero: floating phone, no heavy showcase base */
+    #top .hero-device-stage {
+      min-height: 590px;
+      padding: 24px 16px 42px;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    #top .hero-device-stage::before {
+      display: none;
+    }
+
+    #top .hero-device-stage::after {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      width: 250px;
+      height: 34px;
+      left: 50%;
+      bottom: 58px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(0,0,0,.36);
+      filter: blur(17px);
+      opacity: .72;
+      pointer-events: none;
+    }
+
+    #top .hero-device-glow {
+      width: 52%;
+      top: 45%;
+      background: rgba(207,230,90,.11);
+      filter: blur(92px);
+      opacity: .82;
+    }
+
+    @media (max-width: 639px) {
+      .project-item.project-clean-media .mockup-stage {
+        min-height: 430px;
+        padding: 16px 10px;
+      }
+
+      .clean-media-frame {
+        width: min(100%, 255px);
+        border-radius: 22px;
+      }
+
+      #top .hero-device-stage {
+        min-height: 500px;
+        padding: 20px 8px 32px;
+      }
+
+      #top .hero-device-stage::after {
+        width: 190px;
+        height: 28px;
+        bottom: 42px;
+        filter: blur(14px);
+      }
+    }
+
   </style>
 </head>
 
@@ -9475,14 +9602,12 @@
           </article>
 
           <!-- Product 02: fashion avatar -->
-          <article class="project-item project-reveal is-hidden" data-category="product">
+          <article class="project-item project-clean-media project-reveal is-hidden" data-category="product">
             <div class="mockup-stage">
-              <div class="phone-shell">
-                <div class="phone-screen">
-                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f96e1001-0400-4e61-a09b-8dc2b2a0a2cb.mp4" type="video/mp4" />
-                  </video>
-                </div>
+              <div class="clean-media-frame">
+                <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f96e1001-0400-4e61-a09b-8dc2b2a0a2cb.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
 
@@ -9506,14 +9631,12 @@
           </article>
 
           <!-- Product 01 -->
-          <article class="project-item project-reveal" data-category="ugc">
+          <article class="project-item project-clean-media project-reveal" data-category="ugc">
             <div class="mockup-stage">
-              <div class="phone-shell">
-                <div class="phone-screen">
-                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/c278c784-a6dc-4770-9a2c-5af82fc19d44.mp4" type="video/mp4" />
-                  </video>
-                </div>
+              <div class="clean-media-frame">
+                <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/c278c784-a6dc-4770-9a2c-5af82fc19d44.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
 
@@ -9568,14 +9691,12 @@
           </article>
 
           <!-- Product 03: niche perfume sample -->
-          <article class="project-item project-reveal is-hidden" data-category="product">
+          <article class="project-item project-clean-media project-reveal is-hidden" data-category="product">
             <div class="mockup-stage">
-              <div class="phone-shell">
-                <div class="phone-screen">
-                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/87a7abeb-0867-4d76-9ecc-7758bca55206.mp4" type="video/mp4" />
-                  </video>
-                </div>
+              <div class="clean-media-frame">
+                <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/87a7abeb-0867-4d76-9ecc-7758bca55206.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
 
@@ -9600,14 +9721,12 @@
           </article>
 
           <!-- Product 04: niche perfume sample -->
-          <article class="project-item project-reveal is-hidden" data-category="product">
+          <article class="project-item project-clean-media project-reveal is-hidden" data-category="product">
             <div class="mockup-stage">
-              <div class="phone-shell">
-                <div class="phone-screen">
-                  <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
-                    <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/877afd00-4ec0-461d-808b-56fe80729818.mp4" type="video/mp4" />
-                  </video>
-                </div>
+              <div class="clean-media-frame">
+                <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
+                  <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/877afd00-4ec0-461d-808b-56fe80729818.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
 
