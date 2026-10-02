@@ -422,6 +422,54 @@
       box-shadow: 0 8px 24px rgba(207,230,90,.10);
     }
 
+    /* Media origin marker */
+    .media-origin-badge {
+      position: absolute;
+      z-index: 24;
+      left: 14px;
+      bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      min-height: 31px;
+      padding: 0 12px;
+      border: 1px solid rgba(207,230,90,.72);
+      border-radius: 4px;
+      background: rgba(8,10,11,.88);
+      color: #F5F7EA;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 24px rgba(0,0,0,.30), 0 0 18px rgba(207,230,90,.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font: 800 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-shadow: 0 1px 3px rgba(0,0,0,.75);
+      pointer-events: none;
+    }
+
+    .media-origin-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      flex: 0 0 6px;
+      margin-right: 8px;
+      border-radius: 1px;
+      background: #CFE65A;
+      box-shadow: 0 0 10px rgba(207,230,90,.66);
+    }
+
+    @media (max-width: 639px) {
+      .media-origin-badge {
+        left: max(12px, env(safe-area-inset-left));
+        bottom: max(12px, env(safe-area-inset-bottom));
+        min-height: 32px;
+        padding: 0 12px;
+        font-size: 10px;
+        letter-spacing: .105em;
+        background: rgba(8,10,11,.92);
+      }
+    }
+
     .title-slide,
     .hero-title-slide {
       clip-path: inset(0 0 0 0);
@@ -9451,6 +9499,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata" aria-label="Avatar mostrando un perfume en una pieza UGC creada con IA">
                     <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/f3ed6c19-a51a-47d8-a414-be4cf1bbf3de.mp4" type="video/mp4" />
                   </video>
+                  <span class="media-origin-badge" aria-hidden="true">DIGITALIZED</span>
                 </div>
               </div>
             </div>
@@ -9482,6 +9531,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/738efec6-0539-47d5-bb5c-93e0ab3a1004.mp4" type="video/mp4" />
                   </video>
+                  <span class="media-origin-badge" aria-hidden="true">DIGITALIZED</span>
                 </div>
               </div>
             </div>
@@ -9514,6 +9564,7 @@
                   <video class="project-video" muted loop playsinline webkit-playsinline preload="metadata">
                     <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/32fe04f5-5efe-4b82-b17f-1b54ba562a02.mp4" type="video/mp4" />
                   </video>
+                  <span class="media-origin-badge" aria-hidden="true">DIGITALIZED</span>
                 </div>
               </div>
             </div>
