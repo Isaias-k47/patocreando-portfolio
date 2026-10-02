@@ -10220,6 +10220,40 @@
       }
     }
 
+  
+    /* Instagram hero audio — explicit user-gesture unlock */
+    html.instagram-inapp #heroSoundToggle {
+      display: inline-flex !important;
+      position: absolute !important;
+      z-index: 60 !important;
+      right: 12px !important;
+      bottom: 12px !important;
+      min-height: 44px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      padding: 0 14px !important;
+      border-radius: 999px !important;
+      border: 1px solid rgba(255,255,255,.18) !important;
+      background: rgba(8,10,12,.88) !important;
+      color: #F3F5F6 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transform: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      touch-action: manipulation !important;
+    }
+
+    html.instagram-inapp #heroSoundToggle:active {
+      transform: scale(.97) !important;
+    }
+
+    html.instagram-inapp #heroSoundToggleDesktop {
+      display: none !important;
+    }
+
   </style>
 </head>
 
@@ -11724,8 +11758,14 @@
         video.setAttribute("preload", "metadata");
         video.preload = "metadata";
         video.disablePictureInPicture = true;
-        video.controls = true;
-        video.setAttribute("controls", "");
+
+        if (video.classList.contains("hero-video")) {
+          video.controls = false;
+          video.removeAttribute("controls");
+        } else {
+          video.controls = true;
+          video.setAttribute("controls", "");
+        }
 
         if (src) {
           video.src = src;
@@ -11764,6 +11804,77 @@
       var videos = Array.prototype.slice.call(
         document.querySelectorAll(".hero-video, .project-video")
       );
+
+      var heroVideo = document.querySelector(".hero-video");
+      var heroSoundToggle = document.getElementById("heroSoundToggle");
+
+      function updateHeroSoundUi(audible) {
+        if (!heroSoundToggle) return;
+
+        var label = heroSoundToggle.querySelector(".hero-sound-label");
+        var icon = heroSoundToggle.querySelector("[data-lucide]");
+
+        heroSoundToggle.classList.toggle("is-audible", audible);
+        heroSoundToggle.setAttribute(
+          "aria-label",
+          audible ? "Silenciar video" : "Activar audio del video"
+        );
+
+        if (label) label.textContent = audible ? "Silenciar" : "Escuchar";
+
+        if (icon) {
+          icon.setAttribute("data-lucide", audible ? "volume-2" : "volume-x");
+          if (window.lucide && typeof window.lucide.createIcons === "function") {
+            window.lucide.createIcons();
+          }
+        }
+      }
+
+      function setHeroAudio(audible) {
+        if (!heroVideo) return;
+
+        prepare(heroVideo);
+
+        heroVideo.muted = !audible;
+        heroVideo.defaultMuted = !audible;
+        heroVideo.volume = audible ? 1 : 0;
+
+        if (audible) {
+          heroVideo.removeAttribute("muted");
+        } else {
+          heroVideo.setAttribute("muted", "");
+        }
+
+        var promise;
+        try { promise = heroVideo.play(); } catch (e) {}
+
+        if (promise && typeof promise.catch === "function") {
+          promise.catch(function () {
+            heroVideo.muted = true;
+            heroVideo.defaultMuted = true;
+            heroVideo.volume = 0;
+            heroVideo.setAttribute("muted", "");
+            updateHeroSoundUi(false);
+          });
+        }
+
+        updateHeroSoundUi(audible);
+      }
+
+      if (heroSoundToggle && heroVideo) {
+        updateHeroSoundUi(false);
+
+        heroSoundToggle.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          var audible =
+            !heroVideo.muted &&
+            heroVideo.volume > 0;
+
+          setHeroAudio(!audible);
+        });
+      }
 
       videos.forEach(function (video) {
         prepare(video);
