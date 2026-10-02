@@ -11587,6 +11587,145 @@
       text-align: center;
     }
 
+  
+    /* Applied case + workflow: static visual process, video stays in Projects */
+    #cases .applied-case-workflow {
+      width: min(100%, 1060px);
+      display: block;
+      padding: 18px;
+    }
+
+    #cases .applied-case-workflow .applied-case-content {
+      width: 100%;
+      padding: 20px 18px 18px;
+    }
+
+    #cases .applied-case-workflow .applied-case-number {
+      margin-bottom: 18px;
+    }
+
+    .case-workflow-track {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr);
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+
+    .case-workflow-card {
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 17px;
+      border: 1px solid rgba(255,255,255,.075);
+      background: rgba(255,255,255,.018);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+    }
+
+    .case-workflow-visual {
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: #111416;
+    }
+
+    .case-workflow-visual img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .case-workflow-visual-reference img {
+      object-fit: contain;
+      padding: 9%;
+      background: #f2f2f0;
+    }
+
+    .case-workflow-copy {
+      padding: 12px 10px 13px;
+      text-align: center;
+    }
+
+    .case-workflow-copy > span {
+      display: block;
+      margin-bottom: 4px;
+      color: #626A72;
+      font-size: 8px;
+      font-weight: 750;
+      letter-spacing: .12em;
+    }
+
+    .case-workflow-copy strong {
+      display: block;
+      color: #EEF1F2;
+      font-size: 11px;
+      font-weight: 720;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+    }
+
+    .case-workflow-copy p {
+      margin: 5px 0 0;
+      color: #858C94;
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .case-workflow-arrow {
+      display: grid;
+      place-items: center;
+      color: #CFE65A;
+      font-size: 18px;
+      opacity: .72;
+    }
+
+    @media (max-width: 900px) {
+      #cases .applied-case-workflow {
+        padding: 12px;
+      }
+
+      #cases .applied-case-workflow .applied-case-content {
+        padding: 18px 8px 10px;
+      }
+
+      .case-workflow-track {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 10px;
+        margin-top: 24px;
+        padding-top: 22px;
+      }
+
+      .case-workflow-arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .case-workflow-track {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 8px;
+      }
+
+      .case-workflow-card {
+        border-radius: 14px;
+      }
+
+      .case-workflow-copy {
+        padding: 10px 8px 11px;
+      }
+
+      .case-workflow-copy strong {
+        font-size: 10px;
+      }
+
+      .case-workflow-copy p {
+        font-size: 9.5px;
+      }
+    }
+
   </style>
 </head>
 
@@ -11997,6 +12136,62 @@
             </div>
           </article>
 
+          <!-- Workflow 01: tools typewriter -->
+          <article class="project-item project-reveal is-hidden" data-category="workflow">
+            <div class="mockup-stage">
+              <div class="desktop-frame">
+                <div class="desktop-top">
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="desktop-dot"></span>
+                  <span class="ml-auto text-[9px] tracking-[.12em] uppercase text-zinc-600">workflow.md</span>
+                </div>
+
+                <div class="code-canvas workflow-code-canvas" id="workflowCodeCanvas">
+                  <div class="code-line"><span class="code-n">1</span><span><span class="code-k">#</span> Production_System.md</span></div>
+                  <div class="code-line"><span class="code-n">2</span><span class="code-c">// brief → producto → anclas → movimiento</span></div>
+                  <div class="code-line"><span class="code-n">3</span><span><span class="code-v">objetivo</span>: define(marca, audiencia, hook)</span></div>
+                  <div class="code-line"><span class="code-n">4</span><span><span class="code-v">producto</span>: digitalize(real_reference)</span></div>
+                  <div class="code-line"><span class="code-n">5</span><span><span class="code-v">personaje</span>: identity_lock()</span></div>
+                  <div class="code-line"><span class="code-n">6</span><span><span class="code-v">escena</span>: build_anchor()</span></div>
+                  <div class="code-line"><span class="code-n">7</span><span><span class="code-v">imagen</span>: <span class="code-s">"Nano Banana Pro / GPT Image / Higgsfield Soul"</span></span></div>
+                  <div class="code-line"><span class="code-n">8</span><span><span class="code-v">video</span>: <span class="code-s">"Omni 1.1 Flash / Seedance 2.5 / Minimax / Kling"</span></span></div>
+                  <div class="code-line"><span class="code-n">9</span><span><span class="code-v">labs</span>: <span class="code-s">"Google Labs / Higgsfield"</span></span></div>
+                  <div class="code-line"><span class="code-n">10</span><span><span class="code-v">ideación</span>: <span class="code-s">"ChatGPT / Claude"</span></span></div>
+                  <div class="code-line"><span class="code-n">11</span><span><span class="code-v">diseño</span>: <span class="code-s">"Canva"</span></span></div>
+                  <div class="code-line"><span class="code-n">12</span><span><span class="code-v">automatización</span>: <span class="code-s">"Python"</span></span></div>
+                  <div class="code-line"><span class="code-n">13</span><span><span class="code-v">dirección</span>: load(<span class="code-s">"camera-physics-performance.md"</span>)</span></div>
+                  <div class="code-line"><span class="code-n">14</span><span><span class="code-v">formato</span>: <span class="code-s">"9:16 / short-form"</span></span></div>
+                  <div class="code-line"><span class="code-n">15</span><span></span></div>
+                  <div class="code-line"><span class="code-n">16</span><span><span class="code-k">for</span> clip in sequence:</span></div>
+                  <div class="code-line"><span class="code-n">17</span><span>&nbsp;&nbsp;reuse_last_frame()</span></div>
+                  <div class="code-line"><span class="code-n">18</span><span>&nbsp;&nbsp;generate_variants(2..4)</span></div>
+                  <div class="code-line"><span class="code-n">19</span><span>&nbsp;&nbsp;validate_product()</span></div>
+                  <div class="code-line"><span class="code-n">20</span><span>&nbsp;&nbsp;validate_physics()</span></div>
+                  <div class="code-line"><span class="code-n">21</span><span>&nbsp;&nbsp;validate_identity()</span></div>
+                  <div class="code-line"><span class="code-n">22</span><span>&nbsp;&nbsp;select_best_take()</span></div>
+                  <div class="code-line"><span class="code-n">23</span><span class="code-c">// edición → QA → CapCut → export → deploy</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-info-card glass">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-[9px] tracking-[.16em] uppercase text-zinc-500">Sistema · Herramientas</p>
+                  <h3 class="display mt-2 text-[1.45rem] leading-tight tracking-[-.035em] font-semibold">
+                    Herramientas dentro de un sistema.
+                  </h3>
+                  <p class="project-note">Imagen, video, dirección y edición conectados por reglas reutilizables.</p>
+                </div>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <span class="tool-badge tool-badge-primary">WORKFLOW</span>
+              </div>
+            </div>
+          </article>
+
           <!-- Workflow 02: My Way applied workflow -->
           <article class="project-item project-clean-media project-reveal is-hidden" data-category="workflow">
             <div class="mockup-stage">
@@ -12061,83 +12256,106 @@
           </div>
 
           <h2 id="casesTitle" class="display case-studies-title">
-            Una pieza no empieza
-            <span>en la generación.</span>
+            El resultado
+            <span>también muestra el proceso.</span>
           </h2>
 
           <p class="case-studies-intro">
-            Producto real, objetivo claro y decisiones visuales antes de generar.
+            Referencia → digitalización → variación → pieza final.
           </p>
         </div>
 
-        <article class="applied-case section-reveal" aria-labelledby="case01Title">
-          <div class="applied-case-media">
-            <video
-              class="applied-case-video"
-              autoplay
-              muted
-              loop
-              playsinline
-              webkit-playsinline
-              preload="metadata"
-              poster="./assets/cases/myway-shoponlineperfumeria.jpg"
-              aria-label="Muestra visual aplicada a una fragancia My Way de Giorgio Armani">
-              <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/bf7ede73-a9b0-4f99-a426-6d707b307ac3.mp4" type="video/mp4" />
-            </video>
-            <span class="applied-case-media-label">Muestra autorizada</span>
-          </div>
-
+        <article class="applied-case applied-case-workflow section-reveal" aria-labelledby="case01Title">
           <div class="applied-case-content">
             <p class="applied-case-number">Caso aplicado / 01</p>
 
             <div class="applied-case-eyebrow">
-              <span class="applied-case-tag">Perfumería</span>
-              <span class="applied-case-tag is-muted">Product visual</span>
+              <span class="applied-case-tag">My Way</span>
+              <span class="applied-case-tag is-muted">Workflow aplicado</span>
+              <span class="applied-case-tag is-muted">Muestra autorizada</span>
             </div>
 
             <h3 id="case01Title" class="display applied-case-title">
-              De una referencia de producto a una pieza de campaña.
+              De referencia a product ad.
             </h3>
 
             <p class="applied-case-brand">
-              Muestra conceptual desarrollada para Shop Online Perfumería.
+              Muestra desarrollada para Shop Online Perfumería a partir de un producto real de su catálogo.
             </p>
 
-            <div class="applied-case-grid">
-              <div class="applied-case-block">
-                <h4>Punto de partida</h4>
-                <p>
-                  Referencia del catálogo de la tienda, con autorización para crear la muestra.
-                </p>
-              </div>
+            <div class="case-workflow-track" aria-label="Workflow visual aplicado a My Way">
+              <article class="case-workflow-card">
+                <div class="case-workflow-visual case-workflow-visual-reference">
+                  <img
+                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/94148a6e-cb66-4cc5-b4a3-ec0a862d948b.png"
+                    alt="Referencia original del perfume My Way con caja y frasco"
+                    loading="lazy"
+                    decoding="async" />
+                </div>
+                <div class="case-workflow-copy">
+                  <span>01</span>
+                  <strong>Referencia</strong>
+                  <p>Producto original.</p>
+                </div>
+              </article>
 
-              <div class="applied-case-block">
-                <h4>Objetivo</h4>
-                <p>
-                  Convertir una imagen estática en una pieza vertical de campaña.
-                </p>
-              </div>
+              <span class="case-workflow-arrow" aria-hidden="true">→</span>
 
-              <div class="applied-case-block">
-                <h4>Dirección</h4>
-                <p>
-                  Macro en tapa, recorrido del frasco y reveal final, cuidando materiales y marca.
-                </p>
-              </div>
+              <article class="case-workflow-card">
+                <div class="case-workflow-visual">
+                  <img
+                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/eb6f44d9-263a-43b8-a1fe-5f638d15efa4.png"
+                    alt="Digitalización visual del perfume My Way en una escena floral"
+                    loading="lazy"
+                    decoding="async" />
+                </div>
+                <div class="case-workflow-copy">
+                  <span>02</span>
+                  <strong>Digitalized</strong>
+                  <p>Producto controlable.</p>
+                </div>
+              </article>
 
-              <div class="applied-case-block">
-                <h4>Resultado</h4>
-                <p>
-                  Product ad breve para redes, con cámara dirigida y acabado publicitario.
-                </p>
-              </div>
+              <span class="case-workflow-arrow" aria-hidden="true">→</span>
+
+              <article class="case-workflow-card">
+                <div class="case-workflow-visual">
+                  <img
+                    src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/a128944f-93a7-4818-804a-2becff7e5920.png"
+                    alt="Variación visual del perfume My Way"
+                    loading="lazy"
+                    decoding="async" />
+                </div>
+                <div class="case-workflow-copy">
+                  <span>03</span>
+                  <strong>Variación</strong>
+                  <p>Otra puesta visual.</p>
+                </div>
+              </article>
+
+              <span class="case-workflow-arrow" aria-hidden="true">→</span>
+
+              <article class="case-workflow-card">
+                <div class="case-workflow-visual">
+                  <img
+                    src="./assets/cases/myway-shoponlineperfumeria.jpg"
+                    alt="Frame final del product ad de My Way"
+                    loading="lazy"
+                    decoding="async" />
+                </div>
+                <div class="case-workflow-copy">
+                  <span>04</span>
+                  <strong>Final</strong>
+                  <p>Pieza lista para redes.</p>
+                </div>
+              </article>
             </div>
 
             <div class="applied-case-footer">
-              <div class="applied-case-delivery" aria-label="Características de la entrega">
-                <span>9:16</span>
-                <span>9,5 s</span>
-                <span>IA + edición</span>
+              <div class="applied-case-delivery" aria-label="Características del caso">
+                <span>Referencia real</span>
+                <span>Digitalización</span>
+                <span>Variación</span>
                 <span>Product ad</span>
               </div>
 
