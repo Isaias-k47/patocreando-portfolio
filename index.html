@@ -11310,6 +11310,43 @@
       }
     }
 
+  
+    /* Scroll and CTA rhythm */
+    #projects,
+    #cases,
+    #fit,
+    #services,
+    #launchOffer,
+    #method,
+    #contact {
+      scroll-margin-top: 86px;
+    }
+
+    #projects > .site-shell > .project-meet-cta {
+      margin-top: 38px;
+    }
+
+    @media (max-width: 639px) {
+      #projects,
+      #cases,
+      #fit,
+      #services,
+      #launchOffer,
+      #method,
+      #contact {
+        scroll-margin-top: 78px;
+      }
+
+      #projects > .site-shell > .project-meet-cta {
+        margin-top: 28px;
+      }
+
+      .project-meet-cta-title {
+        max-width: 290px;
+        margin-inline: auto;
+      }
+    }
+
   </style>
 </head>
 
@@ -11327,9 +11364,9 @@
 
       <nav class="hidden md:flex items-center gap-1 text-sm text-zinc-400">
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#projects">Proyectos</a>
+        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#cases">Casos</a>
         <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#services">Servicios</a>
-        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#method">Metodología</a>
-
+        <a class="px-3 py-2 rounded-full hover:text-white hover:bg-white/5 transition" href="#method">Proceso</a>
         <a class="ml-1 px-4 py-2 rounded-full bg-white text-black font-semibold hover:bg-butter transition" href="#contact">Hablemos</a>
       </nav>
 
@@ -11343,8 +11380,9 @@
     <div id="mobileMenu" class="menu-panel md:hidden absolute inset-x-0 top-[72px] nav-blur border-t border-white/5">
       <div class="site-shell py-4 flex flex-col text-lg">
         <a class="py-4 border-b border-white/5" href="#projects">Proyectos</a>
+        <a class="py-4 border-b border-white/5" href="#cases">Casos</a>
         <a class="py-4 border-b border-white/5" href="#services">Servicios</a>
-        <a class="py-4 border-b border-white/5" href="#method">Metodología</a>
+        <a class="py-4 border-b border-white/5" href="#method">Proceso</a>
         <a class="py-4 font-semibold text-white" href="#contact">Hablemos</a>
       </div>
     </div>
@@ -11381,7 +11419,7 @@
           <div class="hero-reveal hero-summary-minimal">
             <span class="hero-summary-minimal-kicker">AI-native creative</span>
             <p class="hero-summary-minimal-copy">
-              Desarrollo <strong>UGC, ads y visuales con IA</strong> a partir de material real, con criterio de marca y piezas listas para publicar.
+              <strong>UGC, ads y visuales con IA</strong> desde material real, listos para publicar.
             </p>
           </div>
 
@@ -11459,7 +11497,7 @@
             <strong>Lo difícil es llevarlas a pantalla.</strong>
           </h2>
           <p class="conversion-tension-copy">
-            Cada nueva escena, hook o formato suma coordinación, tiempo y recursos. Cuando una variante exige otro rodaje, el margen para explorar se achica.
+            Cada variante suma tiempo y recursos. Si exige otro rodaje, probar ideas se vuelve más lento.
           </p>
         </div>
       </div>
@@ -11474,7 +11512,7 @@
             <span>Cambiar el contexto.</span>
           </h2>
           <p>
-            La misma base puede pasar de una puesta cercana a una campaña o a una variante de test sin reconstruir todo desde el inicio.
+            Una misma base puede convertirse en UGC, campaña o testing sin reconstruir todo.
           </p>
         </div>
 
@@ -11482,25 +11520,25 @@
           <article class="creative-path section-reveal">
             <small>BASE</small>
             <h3 class="display">Ancla</h3>
-            <p>Rasgos, forma, etiqueta y señales visuales que deben permanecer.</p>
+            <p>Rasgos, forma y etiqueta que deben mantenerse.</p>
           </article>
 
           <article class="creative-path section-reveal">
             <small>USO</small>
             <h3 class="display">UGC</h3>
-            <p>Una puesta vertical y cercana, pensada para integrarse al feed.</p>
+            <p>Vertical, cercana y nativa de feed.</p>
           </article>
 
           <article class="creative-path section-reveal">
             <small>DESEO</small>
             <h3 class="display">Campaña</h3>
-            <p>Más presencia, composición y clima para construir una imagen aspiracional.</p>
+            <p>Más composición, clima y presencia.</p>
           </article>
 
           <article class="creative-path section-reveal">
             <small>PRUEBA</small>
             <h3 class="display">Variantes</h3>
-            <p>Cambios de encuadre, relato o apertura para recorrer otros ángulos.</p>
+            <p>Nuevos hooks, encuadres y relatos.</p>
           </article>
         </div>
       </div>
@@ -11527,27 +11565,8 @@
         </div>
         <div class="project-category-row section-reveal">
           <p id="categoryDescription" class="max-w-2xl text-sm leading-6 text-zinc-500">
-            UGC vertical con avatares, lifestyle y objetos integrados en escena.
+            Avatares y producto en verticales con estética nativa.
           </p>
-
-          <div class="project-meet-cta" aria-label="Agendar una reunión">
-            <div class="project-meet-cta-copy">
-              <p class="project-meet-cta-kicker">Hablemos de tu proyecto</p>
-              <p class="project-meet-cta-title">¿Querés ver qué formato encaja mejor con tu marca?</p>
-            </div>
-            <a
-              class="project-meet-cta-button"
-              href="https://calendly.com/ulisesjgonzalez2045/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Agendar una reunión de 30 minutos en Calendly">
-              <span class="project-meet-logo" aria-hidden="true">
-                <img src="./assets/google-meet-logo.png" alt="" />
-              </span>
-              <span>Agendar 30 min</span>
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-            </a>
-          </div>
 
           <div id="projectCarouselControls" class="project-carousel-controls" hidden aria-label="Navegación de proyectos">
             <span id="projectCarouselStatus" class="project-carousel-status" aria-live="polite">1–2 / 3</span>
@@ -11902,6 +11921,25 @@
 
           </div>
         </div>
+
+        <div class="project-meet-cta section-reveal" aria-label="Pedir una llamada">
+          <div class="project-meet-cta-copy">
+            <p class="project-meet-cta-kicker">¿Querés hablarlo?</p>
+            <p class="project-meet-cta-title">Pedime una llamada y vemos tu idea.</p>
+          </div>
+          <a
+            class="project-meet-cta-button"
+            href="https://ig.me/m/patocreando"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Pedir una llamada por mensaje directo de Instagram">
+            <span class="project-meet-logo" aria-hidden="true">
+              <img src="./assets/google-meet-logo.png" alt="" />
+            </span>
+            <span>Pedir una llamada</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -11922,7 +11960,7 @@
           </h2>
 
           <p class="case-studies-intro">
-            Parte de un objetivo, una referencia y una decisión visual. Estos casos muestran cómo llevo un producto real desde el punto de partida hasta una pieza lista para comunicar.
+            Producto real, objetivo claro y decisiones visuales antes de generar.
           </p>
         </div>
 
@@ -11963,28 +12001,28 @@
               <div class="applied-case-block">
                 <h4>Punto de partida</h4>
                 <p>
-                  Producto seleccionado desde el catálogo de la tienda, con autorización para desarrollar una muestra visual aplicada.
+                  Referencia del catálogo de la tienda, con autorización para crear la muestra.
                 </p>
               </div>
 
               <div class="applied-case-block">
                 <h4>Objetivo</h4>
                 <p>
-                  Llevar una referencia estática a una pieza vertical con lenguaje publicitario y mayor presencia de producto.
+                  Convertir una imagen estática en una pieza vertical de campaña.
                 </p>
               </div>
 
               <div class="applied-case-block">
                 <h4>Dirección</h4>
                 <p>
-                  Macro inicial, recorrido progresivo sobre el frasco y reveal final, cuidando materiales, lectura de marca y continuidad.
+                  Macro en tapa, recorrido del frasco y reveal final, cuidando materiales y marca.
                 </p>
               </div>
 
               <div class="applied-case-block">
                 <h4>Resultado</h4>
                 <p>
-                  Una muestra breve pensada para redes, con puesta de producto, cámara dirigida y acabado de campaña.
+                  Product ad breve para redes, con cámara dirigida y acabado publicitario.
                 </p>
               </div>
             </div>
@@ -12011,7 +12049,7 @@
         </article>
 
         <p class="applied-case-disclaimer section-reveal">
-          Muestra conceptual desarrollada con autorización para presentar el producto. No corresponde a una campaña comercial publicada por la marca.
+          Muestra conceptual autorizada. No es una campaña comercial publicada por la marca.
         </p>
       </div>
     </section>
@@ -12030,17 +12068,17 @@
         <div class="fit-grid">
           <article class="fit-card section-reveal">
             <h3 class="display">Marcas de producto</h3>
-            <p>Catálogos que necesitan alimentar redes, lanzamientos o paid social con mayor frecuencia.</p>
+            <p>Catálogos que necesitan más piezas para redes y lanzamientos.</p>
           </article>
 
           <article class="fit-card section-reveal">
             <h3 class="display">Ecommerce</h3>
-            <p>Equipos que quieren darle más recorrido visual a lo que ya tienen disponible.</p>
+            <p>Más recorrido visual para productos ya publicados.</p>
           </article>
 
           <article class="fit-card section-reveal">
             <h3 class="display">Agencias</h3>
-            <p>Capacidad creativa adicional para pitches, campañas o entregas sin ampliar estructura.</p>
+            <p>Capacidad extra para pitches y campañas.</p>
           </article>
         </div>
       </div>
@@ -12055,11 +12093,11 @@
         <div class="section-reveal services-intro">
           <p class="services-label">Capacidades</p>
           <h2 class="display services-title">
-            Tres formas de llevar
-            <span>una idea a pantalla.</span>
+            Cercanía. Deseo.
+            <span>Variación.</span>
           </h2>
           <p class="services-copy">
-            Cada una responde a una intención distinta: cercanía, deseo o exploración creativa.
+            UGC, campaña y testing según el objetivo de la pieza.
           </p>
         </div>
 
@@ -12080,7 +12118,7 @@
               <p class="service-kicker">UGC</p>
               <h3 class="display">Hacerla sentir cercana.</h3>
               <p>
-                Avatares y escenas breves con códigos de feed, gestualidad creíble y ritmo corto.
+                Avatares y escenas breves con lenguaje nativo de feed.
               </p>
             </div>
 
@@ -12108,7 +12146,7 @@
               <p class="service-kicker">Campaña</p>
               <h3 class="display">Hacerla sentir deseable.</h3>
               <p>
-                Piezas con una puesta más aspiracional, cuidando escala, materiales y presencia visual.
+                Puesta aspiracional con control de escala, materiales y presencia.
               </p>
             </div>
 
@@ -12136,7 +12174,7 @@
               <p class="service-kicker">Creative Testing</p>
               <h3 class="display">Encontrar otra manera de contarla.</h3>
               <p>
-                Rutas alternativas de apertura, encuadre o relato para comparar enfoques sobre una misma base.
+                Hooks, encuadres y relatos alternativos para comparar enfoques.
               </p>
             </div>
 
@@ -12159,7 +12197,7 @@
             </h3>
           </div>
           <p>
-            El valor no está en generar por generar, sino en decidir qué debe permanecer, qué puede cambiar y cuándo una toma está lista.
+            La dirección define qué permanece, qué cambia y cuándo una toma está lista.
           </p>
         </article>
 
@@ -12175,13 +12213,13 @@
               </div>
 
               <h3 class="display" id="pricingTitle">
-                Una base.
-                <span>Distintos niveles de producción.</span>
+                Elegí
+                <span>cuánto producir.</span>
               </h3>
             </div>
 
             <p>
-              Elegí según cuánto material necesite tu marca. Cada opción combina formatos pensados para convivir en redes, lanzamientos y campañas.
+              Tres packs según volumen y formatos.
             </p>
           </div>
 
@@ -12201,7 +12239,7 @@
                 <span><i data-lucide="check"></i>1 copy + CTA</span>
               </div>
 
-              <p class="pricing-pack-note">Una primera salida para llevar tu producto a video y feed.</p>
+              <p class="pricing-pack-note">Una primera salida para video y feed.</p>
 
               <a href="https://ig.me/m/patocreando?ref=w60952078"
                  target="_blank"
@@ -12235,7 +12273,7 @@
                 <span><i data-lucide="check"></i>Variantes de copy + CTA</span>
               </div>
 
-              <p class="pricing-pack-note">Reels, feed y una pieza con lenguaje de campaña dentro del mismo universo visual.</p>
+              <p class="pricing-pack-note">Reels, feed y product ad en un mismo sistema visual.</p>
 
               <a href="https://ig.me/m/patocreando?ref=w60952216"
                  target="_blank"
@@ -12264,7 +12302,7 @@
                 <span><i data-lucide="check"></i>Variantes de copy + CTA</span>
               </div>
 
-              <p class="pricing-pack-note">Pensado para lanzamientos o marcas que necesitan varias salidas coordinadas.</p>
+              <p class="pricing-pack-note">Para lanzamientos y varias salidas coordinadas.</p>
 
               <a href="https://ig.me/m/patocreando?ref=w60952262"
                  target="_blank"
@@ -12348,8 +12386,8 @@
 
             <div class="method-intro-meta">
               <p class="method-intro-copy text-zinc-400 leading-7">
-                Trabajo con <strong class="text-white font-medium">guías, anclas y reglas de escena</strong>
-                para sostener personajes, objetos y lenguaje visual entre tomas. El objetivo es repetir calidad, no depender de una generación afortunada.
+                <strong class="text-white font-medium">Guías, anclas y reglas de escena</strong>
+                sostienen personajes, objetos y continuidad entre tomas.
               </p>
 
               <div class="method-intro-tools flex flex-wrap gap-2">
@@ -12384,7 +12422,7 @@
                         Definir el objetivo antes de generar.
                       </h3>
                       <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                        Objetivo, audiencia, hook, insumos y tono visual quedan definidos al inicio, junto con los elementos que no pueden cambiar.
+                        Defino objetivo, audiencia, hook y límites visuales.
                       </p>
                     </div>
 
@@ -12428,7 +12466,7 @@
                         Fijar el objeto antes de animarlo.
                       </h3>
                       <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                        Forma, etiqueta, proporciones y materiales se convierten en un asset estable antes de entrar en escena.
+                        Fijo forma, etiqueta, proporciones y materiales en un asset estable.
                       </p>
                     </div>
 
@@ -12472,7 +12510,7 @@
                         Sostener coherencia entre tomas.
                       </h3>
                       <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                        Uso anclas de personaje, objeto y entorno, junto con reglas de cámara y física, para que el cambio de plano no rompa la escena.
+                        Anclas de personaje, objeto y entorno sostienen la continuidad entre planos.
                       </p>
                     </div>
 
@@ -12516,7 +12554,7 @@
                         Construir cada clip con intención.
                       </h3>
                       <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                        Cada toma define cámara, actuación y física. Cuando conviene, el último frame pasa a ser el ancla del siguiente plano.
+                        Cada toma define cámara, actuación y física; el último frame puede enlazar la siguiente.
                       </p>
                     </div>
 
@@ -12560,7 +12598,7 @@
                         Cerrar con control técnico.
                       </h3>
                       <p class="mt-4 max-w-2xl text-zinc-400 leading-7">
-                        Compruebo rostro, manos, física, lipsync, ritmo y formato; después cierro edición, audio, export y entrega.
+                        Reviso identidad, manos, física, lipsync, ritmo y formato antes de exportar.
                       </p>
                     </div>
 
@@ -12635,7 +12673,7 @@
               </h2>
 
               <p class="mt-7 max-w-md text-zinc-400 leading-7">
-                Mandame una foto, un link o simplemente la idea. Te digo qué enfoque probaría primero y cómo lo llevaría a una pieza concreta.
+                Mandame un link, una foto o la idea. Te digo por dónde empezaría.
               </p>
 
               <div class="contact-socials mt-8" aria-label="Redes profesionales">
@@ -12762,7 +12800,7 @@
               </div>
 
               <p class="text-[11px] text-zinc-600">
-                Enviá la consulta directamente desde la web. Si preferís, también podés abrirla en tu correo.
+                Enviá la consulta desde la web o abrila en tu correo.
               </p>
             </form>
           </div>
@@ -12778,12 +12816,12 @@
 
 
   <div class="mobile-sample-cta" id="mobileSampleCta" aria-hidden="true">
-    <a href="https://ig.me/m/patocreando?ref=w60834601"
+    <a href="https://ig.me/m/patocreando"
        target="_blank"
        rel="noopener noreferrer"
-       aria-label="Pedir una muestra por Instagram">
+       aria-label="Consultar un proyecto por Instagram">
       <span class="mobile-sample-pulse" aria-hidden="true"></span>
-      <span>Pedir una muestra</span>
+      <span>Consultar proyecto</span>
       <i data-lucide="message-circle" class="w-4 h-4"></i>
     </a>
   </div>
@@ -14030,23 +14068,32 @@
       window.addEventListener("scroll", updateScrollProgress, { passive: true });
 
 
-      // Mobile sticky sample CTA
+      // Mobile sticky project CTA
       var mobileSampleCta = document.getElementById("mobileSampleCta");
+      var casesSection = document.getElementById("cases");
+      var launchOfferSection = document.getElementById("launchOffer");
       var contactSection = document.getElementById("contact");
+
+      function sectionIsVisible(section, topRatio) {
+        if (!section) return false;
+        var rect = section.getBoundingClientRect();
+        return rect.top < window.innerHeight * (topRatio || .86) && rect.bottom > window.innerHeight * .08;
+      }
 
       function updateMobileSampleCta() {
         if (!mobileSampleCta) return;
 
         var isMobile = window.matchMedia("(max-width: 639px)").matches;
-        var passedHero = window.scrollY > Math.max(420, window.innerHeight * .55);
-        var contactVisible = false;
+        var reachedProof = false;
 
-        if (contactSection) {
-          var contactRect = contactSection.getBoundingClientRect();
-          contactVisible = contactRect.top < window.innerHeight * .82 && contactRect.bottom > 0;
+        if (casesSection) {
+          reachedProof = casesSection.getBoundingClientRect().top < window.innerHeight * .88;
         }
 
-        var visible = isMobile && passedHero && !contactVisible;
+        var pricingVisible = sectionIsVisible(launchOfferSection, .92);
+        var contactVisible = sectionIsVisible(contactSection, .86);
+
+        var visible = isMobile && reachedProof && !pricingVisible && !contactVisible;
         mobileSampleCta.classList.toggle("is-visible", visible);
         mobileSampleCta.setAttribute("aria-hidden", String(!visible));
       }
@@ -14069,9 +14116,9 @@
       var projectCarouselIndex = 0;
       var activeProjectCategory = "ugc";
       var categoryCopy = {
-        ugc: "Avatares y objetos integrados en verticales con estética nativa.",
-        product: "Campañas aplicadas a fashion, perfumería y joyería con control de forma, escala y materiales.",
-        workflow: "Sistemas reutilizables para producir, revisar y entregar con mayor consistencia."
+        ugc: "Avatares y producto en verticales con estética nativa.",
+        product: "Campañas de producto con control de forma, escala y materiales.",
+        workflow: "Sistemas para producir y revisar con consistencia."
       };
 
       function getVisibleProjectItems() {
