@@ -10955,11 +10955,12 @@
     .case-studies-head {
       position: relative;
       z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0,.72fr) minmax(320px,1.28fr);
-      gap: 28px 56px;
-      align-items: end;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
       margin-bottom: 42px;
+      text-align: center;
     }
 
     .case-studies-kicker {
@@ -10973,8 +10974,9 @@
 
     .case-studies-title {
       max-width: 780px;
-      margin: 0;
+      margin: 0 auto;
       color: #F2F4F5;
+      text-align: center;
       font-size: clamp(2.7rem,5.7vw,5.25rem);
       line-height: .96;
       letter-spacing: -.055em;
@@ -10988,12 +10990,13 @@
     }
 
     .case-studies-intro {
-      grid-column: 2;
       max-width: 670px;
-      margin: -5px 0 0;
+      margin: 0 auto;
       color: #9BA1A9;
       font-size: 14px;
       line-height: 1.75;
+      text-align: center;
+      text-wrap: balance;
     }
 
     .applied-case {
@@ -11051,8 +11054,9 @@
 
     .applied-case-media-label {
       position: absolute;
-      left: 16px;
+      left: 50%;
       bottom: 16px;
+      transform: translateX(-50%);
       z-index: 2;
       display: inline-flex;
       align-items: center;
@@ -11082,7 +11086,9 @@
     .applied-case-content {
       display: flex;
       flex-direction: column;
-      padding: 28px 24px 22px 12px;
+      align-items: center;
+      padding: 28px 22px 22px;
+      text-align: center;
     }
 
     .applied-case-number {
@@ -11098,6 +11104,7 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       margin-bottom: 14px;
     }
@@ -11125,8 +11132,9 @@
 
     .applied-case-title {
       max-width: 650px;
-      margin: 0;
+      margin: 0 auto;
       color: #F4F5F6;
+      text-align: center;
       font-size: clamp(2rem,3.3vw,3.55rem);
       line-height: 1.01;
       letter-spacing: -.045em;
@@ -11135,19 +11143,23 @@
     }
 
     .applied-case-brand {
-      margin: 11px 0 0;
+      max-width: 560px;
+      margin: 11px auto 0;
       color: #8D949D;
+      text-align: center;
       font-size: 12px;
       line-height: 1.5;
     }
 
     .applied-case-grid {
+      width: 100%;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px 28px;
       margin-top: 36px;
       padding-top: 30px;
       border-top: 1px solid rgba(255,255,255,.07);
+      text-align: center;
     }
 
     .applied-case-block h4 {
@@ -11160,25 +11172,29 @@
     }
 
     .applied-case-block p {
-      margin: 0;
+      max-width: 310px;
+      margin: 0 auto;
       color: #BCC1C7;
       font-size: 13px;
       line-height: 1.65;
     }
 
     .applied-case-footer {
+      width: 100%;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      justify-content: center;
+      gap: 18px 24px;
       margin-top: auto;
       padding-top: 34px;
+      text-align: center;
     }
 
     .applied-case-delivery {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 7px;
     }
 
@@ -11214,11 +11230,11 @@
       position: relative;
       z-index: 1;
       max-width: 760px;
-      margin: 18px 0 0 auto;
+      margin: 18px auto 0;
       color: #666D75;
       font-size: 10px;
       line-height: 1.6;
-      text-align: right;
+      text-align: center;
     }
 
     @media (max-width: 900px) {
@@ -11227,14 +11243,14 @@
       }
 
       .case-studies-head {
-        grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 16px;
         margin-bottom: 30px;
+        text-align: center;
       }
 
       .case-studies-intro {
-        grid-column: 1;
-        margin-top: 0;
+        margin: 0 auto;
+        text-align: center;
       }
 
       .applied-case {
@@ -11264,8 +11280,8 @@
       }
 
       .applied-case-disclaimer {
-        margin-top: 14px;
-        text-align: left;
+        margin: 14px auto 0;
+        text-align: center;
       }
     }
 
@@ -11289,7 +11305,7 @@
       }
 
       .applied-case-footer {
-        align-items: flex-start;
+        align-items: center;
         flex-direction: column;
       }
     }
@@ -11924,7 +11940,7 @@
               aria-label="Muestra visual aplicada a una fragancia My Way de Giorgio Armani">
               <source src="https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/bf7ede73-a9b0-4f99-a426-6d707b307ac3.mp4" type="video/mp4" />
             </video>
-            <span class="applied-case-media-label">Digitalized · muestra autorizada</span>
+            <span class="applied-case-media-label">Muestra autorizada</span>
           </div>
 
           <div class="applied-case-content">
