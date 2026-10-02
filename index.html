@@ -10380,6 +10380,62 @@
       -webkit-backdrop-filter: none !important;
     }
 
+  
+    /* Methodology ambient edge fix — avoid clipped glow on Production slide */
+    #method .method-ambient-master {
+      inset: -11% !important;
+      width: 122% !important;
+      height: 122% !important;
+      object-position: 56% center !important;
+      transform: scale(1.055) !important;
+      filter:
+        blur(2px)
+        saturate(.82)
+        contrast(1.04)
+        brightness(.64) !important;
+    }
+
+    #method .method-slider::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow:
+        inset 26px 0 34px -28px rgba(8,10,12,.88),
+        inset -26px 0 34px -28px rgba(8,10,12,.88),
+        inset 0 22px 30px -28px rgba(8,10,12,.72),
+        inset 0 -22px 30px -28px rgba(8,10,12,.72);
+    }
+
+    #method .method-slide[aria-label="4 de 5"] .method-card {
+      overflow: visible !important;
+    }
+
+    #method .method-slide[aria-label="4 de 5"] .method-card::after {
+      border-radius: 29px;
+      background:
+        linear-gradient(90deg,
+          rgba(8,10,12,.58) 0%,
+          rgba(8,10,12,.31) 48%,
+          rgba(8,10,12,.24) 100%) !important;
+    }
+
+    @media (max-width: 639px) {
+      #method .method-slide[aria-label="4 de 5"] .method-card {
+        overflow: hidden !important;
+      }
+
+      #method .method-slider::after {
+        display: none !important;
+      }
+    }
+
+    html.instagram-inapp #method .method-slider::after {
+      display: none !important;
+    }
+
   </style>
 </head>
 
