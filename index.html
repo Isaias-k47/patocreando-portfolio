@@ -9664,6 +9664,99 @@
       }
     }
 
+  
+    /* Final seamless surface — no section clipping, no visible vertical fade */
+    html,
+    body {
+      background: #101316 !important;
+    }
+
+    body,
+    main {
+      overflow-x: clip;
+    }
+
+    main {
+      background: #101316 !important;
+    }
+
+    #top,
+    #bottleneck,
+    #creativePaths,
+    #projects,
+    #fit,
+    #services,
+    #method,
+    #contact {
+      overflow: visible !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      border-top: 0 !important;
+      border-bottom: 0 !important;
+      box-shadow: none !important;
+    }
+
+    #bottleneck::before,
+    #creativePaths::before,
+    #projects::before,
+    #method::before,
+    #contact::before {
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+    }
+
+    #bottleneck::before,
+    #creativePaths::before,
+    #projects::before,
+    #contact::before {
+      inset: -12% 0 !important;
+    }
+
+    #method::before {
+      inset: -8% 0 !important;
+      opacity: .42 !important;
+    }
+
+    /* Let decorative circles / halos bridge into the neighboring section. */
+    #top::after,
+    #bottleneck::after,
+    #fit::before,
+    #fit::after,
+    #method::after,
+    .services-orb {
+      overflow: visible !important;
+    }
+
+    @media (max-width: 639px) {
+      main {
+        background: #101316 !important;
+      }
+
+      #top,
+      #bottleneck,
+      #creativePaths,
+      #projects,
+      #fit,
+      #services,
+      #method,
+      #contact {
+        overflow: visible !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border: 0 !important;
+        box-shadow: none !important;
+      }
+
+      #bottleneck::before,
+      #creativePaths::before,
+      #projects::before,
+      #method::before,
+      #contact::before {
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -9703,7 +9796,7 @@
 
   <main>
     <!-- Hero -->
-    <section id="top" class="relative min-h-screen flex items-center overflow-hidden">
+    <section id="top" class="relative min-h-screen flex items-center">
       <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
       <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
 
@@ -9802,7 +9895,7 @@
 
 
     <!-- Conversion narrative -->
-    <section id="bottleneck" class="conversion-tension relative overflow-hidden">
+    <section id="bottleneck" class="conversion-tension relative">
       <div class="site-shell">
         <div class="conversion-tension-inner section-reveal">
           <p class="conversion-kicker">El cuello de botella</p>
@@ -9817,7 +9910,7 @@
       </div>
     </section>
 
-    <section id="creativePaths" class="creative-paths relative overflow-hidden">
+    <section id="creativePaths" class="creative-paths relative">
       <div class="site-shell">
         <div class="creative-paths-head section-reveal">
           <p class="conversion-kicker">Una base · distintos lenguajes</p>
@@ -9859,7 +9952,7 @@
     </section>
 
     <!-- Core project selector -->
-    <section id="projects" class="relative py-28 md:py-36 overflow-hidden">
+    <section id="projects" class="relative py-28 md:py-36">
 
       <div class="site-shell relative z-10">
         <div class="grid lg:grid-cols-[1fr_.62fr] gap-8 items-end">
@@ -10273,7 +10366,7 @@
 
 
     <!-- Fit -->
-    <section id="fit" class="fit-section relative overflow-hidden">
+    <section id="fit" class="fit-section relative">
       <div class="site-shell">
         <div class="fit-head section-reveal">
           <p class="conversion-kicker">Encaje</p>
@@ -10303,7 +10396,7 @@
     </section>
 
     <!-- Services -->
-    <section id="services" class="services-section relative py-20 md:py-24 overflow-hidden">
+    <section id="services" class="services-section relative py-20 md:py-24">
       <div class="services-orb services-orb-a" aria-hidden="true"></div>
       <div class="services-orb services-orb-b" aria-hidden="true"></div>
 
@@ -10596,7 +10689,7 @@
     </section>
 
     <!-- Methodology -->
-    <section id="method" class="relative py-24 md:py-28 border-y border-white/[.06] overflow-hidden">
+    <section id="method" class="relative py-24 md:py-28 border-y border-white/[.06]">
       <div class="site-shell">
         <div class="section-reveal method-intro">
           <p class="method-intro-label text-[11px] font-semibold tracking-[.20em] text-zinc-500 uppercase">Metodología</p>
@@ -10897,7 +10990,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="relative py-28 md:py-36 overflow-hidden">
+    <section id="contact" class="relative py-28 md:py-36">
 
       <div class="site-shell relative z-10">
         <div class="glass rounded-[34px] p-6 md:p-10 lg:p-14 overflow-hidden relative contact-proposal-card">
