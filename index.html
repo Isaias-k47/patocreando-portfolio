@@ -6271,12 +6271,27 @@
       z-index: 1;
     }
 
-    /* HERO — broad editorial light, focused around the device */
+    /* HERO — same technical surface language used in Methodology */
     #top {
       background:
-        radial-gradient(ellipse 54% 44% at 78% 43%, rgba(207,230,90,.095), transparent 68%),
-        radial-gradient(ellipse 42% 34% at 18% 36%, rgba(243,245,246,.045), transparent 72%),
-        linear-gradient(180deg, #0d1013 0%, #0f1215 76%, #101316 100%);
+        radial-gradient(ellipse 42% 42% at 82% 18%, rgba(207,230,90,.06), transparent 72%),
+        linear-gradient(180deg, #0e1114 0%, #101317 100%);
+    }
+
+    #top::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 52px 52px;
+      background-position: center top;
+      opacity: .7;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.45) 68%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), rgba(0,0,0,.45) 68%, transparent 100%);
     }
 
     #top::after {
@@ -6509,8 +6524,13 @@
     @media (max-width: 639px) {
       #top {
         background:
-          radial-gradient(ellipse 82% 34% at 50% 68%, rgba(207,230,90,.065), transparent 72%),
-          linear-gradient(180deg, #0d1013 0%, #0f1215 100%);
+          radial-gradient(ellipse 78% 38% at 76% 18%, rgba(207,230,90,.055), transparent 72%),
+          linear-gradient(180deg, #0e1114 0%, #101317 100%);
+      }
+
+      #top::before {
+        background-size: 42px 42px;
+        opacity: .42;
       }
 
       #bottleneck {
