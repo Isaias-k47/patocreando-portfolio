@@ -10128,6 +10128,31 @@
       }
     }
 
+  
+    /* Instagram WebView — native controls + low-decode mobile assets */
+    html.instagram-inapp .hero-video,
+    html.instagram-inapp #projects .project-video {
+      pointer-events: auto !important;
+      -webkit-transform: translateZ(0) !important;
+      transform: translateZ(0) !important;
+    }
+
+    html.instagram-inapp video::-webkit-media-controls {
+      display: flex !important;
+    }
+
+    html.instagram-inapp .hero-sound-toggle {
+      display: none !important;
+    }
+
+    html.instagram-inapp .video-tap-fallback {
+      z-index: 30 !important;
+    }
+
+    html.instagram-inapp .video-tap-fallback.is-playing {
+      display: none !important;
+    }
+
   </style>
 </head>
 
@@ -11537,8 +11562,15 @@
       "use strict";
 
       var ua = navigator.userAgent || "";
-      var instagramInApp = /Instagram/i.test(ua);
-      var metaInApp = instagramInApp || /FBAN|FBAV|FB_IAB|FBIOS|Messenger/i.test(ua);
+      var referrer = document.referrer || "";
+      var instagramInApp =
+        /Instagram/i.test(ua) ||
+        /(^|\.)instagram\.com/i.test(referrer) ||
+        /l\.instagram\.com/i.test(referrer);
+
+      var metaInApp =
+        instagramInApp ||
+        /FBAN|FBAV|FB_IAB|FBIOS|Messenger/i.test(ua);
 
       window.__PATO_INAPP_BROWSER__ = metaInApp;
       window.__PATO_INSTAGRAM_BROWSER__ = instagramInApp;
@@ -11548,17 +11580,41 @@
       document.documentElement.classList.add("inapp-browser");
       if (instagramInApp) document.documentElement.classList.add("instagram-inapp");
 
+      var optimizedSources = {
+        "c9cd5049-a4d1-47c4-b8c8-b6ccdf4b1d75.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/b3575f54-5147-4252-86d3-0e6ea83014b7.mp4",
+        "706208ee-4969-48d1-b61b-0e2cafa95f14.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/5df51310-572d-445b-a6c6-d801b1a89012.mp4",
+        "f96e1001-0400-4e61-a09b-8dc2b2a0a2cb.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/23b5775c-e736-4e56-a4c0-f38f4b177b12.mp4",
+        "9c4f840c-a00d-47cc-87ec-bf82c4003c86.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/1cf1332f-8bb4-44a0-8d3d-4966f9624cb5.mp4",
+        "d5ea268d-4d9f-4c93-9139-439d4b8ace03.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/bd77a436-b7b8-4d3d-a77d-7cc38272365e.mp4",
+        "6e08dc87-2a5b-4932-8430-ef21aee2402c.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/26bd951c-c4d1-4178-961e-3743565f593d.mp4",
+        "877afd00-4ec0-461d-808b-56fe80729818.mp4":
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3GsQoyBuAJ7X4awqyulGWND0DzD/153a7b6e-8e35-4afc-a90a-992710e472a1.mp4"
+      };
+
       function shellFor(video) {
         return video.closest(".hero-phone-screen, .phone-screen, .clean-media-frame");
       }
 
-      function directSource(video) {
-        if (!video.getAttribute("src")) {
-          var source = video.querySelector("source[src]");
-          if (source && source.src) {
-            video.src = source.src;
-          }
+      function originalSource(video) {
+        var source = video.querySelector("source[src]");
+        if (source && source.getAttribute("src")) return source.getAttribute("src");
+        return video.getAttribute("src") || "";
+      }
+
+      function optimizedSourceFor(video) {
+        var original = originalSource(video);
+
+        for (var key in optimizedSources) {
+          if (original.indexOf(key) !== -1) return optimizedSources[key];
         }
+
+        return original;
       }
 
       function ensurePlayButton(video) {
@@ -11586,8 +11642,11 @@
       }
 
       function prepare(video) {
-        directSource(video);
+        if (video.dataset.inappPrepared === "true") return;
 
+        var src = optimizedSourceFor(video);
+
+        video.dataset.inappPrepared = "true";
         video.muted = true;
         video.defaultMuted = true;
         video.volume = 0;
@@ -11598,6 +11657,16 @@
         video.setAttribute("preload", "metadata");
         video.preload = "metadata";
         video.disablePictureInPicture = true;
+        video.controls = true;
+        video.setAttribute("controls", "");
+
+        if (src) {
+          video.src = src;
+        }
+
+        Array.prototype.slice.call(video.querySelectorAll("source")).forEach(function (source) {
+          source.remove();
+        });
 
         try { video.load(); } catch (e) {}
       }
@@ -11618,6 +11687,8 @@
             if (button) {
               button.classList.remove("is-playing");
               button.classList.add("is-visible");
+              var label = button.querySelector("span");
+              if (label) label.textContent = "Tocar de nuevo";
             }
           });
         }
@@ -11629,6 +11700,7 @@
 
       videos.forEach(function (video) {
         prepare(video);
+
         var button = ensurePlayButton(video);
         var shell = shellFor(video);
 
@@ -11641,14 +11713,14 @@
         }
 
         if (shell) {
-          shell.addEventListener("pointerup", function (event) {
+          shell.addEventListener("click", function (event) {
             if (
               event.target.closest(".hero-sound-toggle") ||
               event.target.closest(".video-tap-fallback")
             ) return;
 
             if (video.paused) start(video, button);
-          }, { passive: true });
+          });
         }
 
         video.addEventListener("playing", function () {
@@ -11658,7 +11730,7 @@
           }
         });
 
-        ["pause", "stalled", "error"].forEach(function (eventName) {
+        ["pause", "stalled", "error", "abort"].forEach(function (eventName) {
           video.addEventListener(eventName, function () {
             if (button && video.paused) {
               button.classList.remove("is-playing");
@@ -11668,8 +11740,6 @@
         });
       });
 
-      // Instagram's webview can reject autoplay until the first real gesture.
-      // Prime the nearest visible video immediately after that gesture.
       function playNearestVisible() {
         var best = null;
         var bestDistance = Infinity;
@@ -11689,9 +11759,7 @@
           }
         });
 
-        if (best) {
-          start(best, ensurePlayButton(best));
-        }
+        if (best) start(best, ensurePlayButton(best));
       }
 
       document.addEventListener("touchend", playNearestVisible, { passive: true, once: true });
@@ -11713,6 +11781,8 @@
       var rafId = null;
       var mobileQuery = window.matchMedia("(max-width: 639px)");
       var inAppBrowser = window.__PATO_INAPP_BROWSER__ === true;
+
+      if (inAppBrowser) return;
 
       function isEligible(video) {
         if (!video || !video.isConnected) return false;
@@ -11956,6 +12026,7 @@
       var mobileQuery = window.matchMedia("(max-width: 639px)");
       var reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
       var inAppBrowser = window.__PATO_INAPP_BROWSER__ === true;
+      if (inAppBrowser) return;
       var rafId = null;
       var enabled = false;
       var audioUnlocked = false;
