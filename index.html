@@ -9929,6 +9929,35 @@
       }
     }
 
+  
+    /* Mobile fast mode — prioritize rendering speed over decorative motion */
+    @media (max-width: 639px) {
+      .service-card-media,
+      .method-card-media,
+      .contact-proposal-media,
+      .pricing-pack-media {
+        display: none !important;
+      }
+
+      .service-card,
+      .project-intro-card,
+      .contact-social-link,
+      .pricing-pack,
+      .fit-card,
+      .creative-path {
+        transition-duration: .16s !important;
+      }
+
+      .service-card:hover,
+      .project-intro-card:hover,
+      .contact-social-link:hover,
+      .pricing-pack:hover,
+      .fit-card:hover,
+      .creative-path:hover {
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -13107,7 +13136,9 @@
           ease: "power3.out"
         });
 
-        // One reveal language for every major page title
+        // Coordinated reveal system: title + supporting copy + cards
+        var fastMobile = window.matchMedia("(max-width: 639px)").matches;
+
         var majorTitles = gsap.utils.toArray([
           "#top .hero-lockup-title",
           "#bottleneck .conversion-tension-title",
@@ -13124,55 +13155,106 @@
           var isHeroTitle = title.matches("#top .hero-lockup-title");
 
           gsap.fromTo(title,
-            {
-              opacity: 0,
-              x: -46,
-              clipPath: "inset(0 100% 0 0)"
-            },
-            {
-              opacity: 1,
-              x: 0,
-              clipPath: "inset(0 0% 0 0)",
-              duration: .98,
-              delay: isHeroTitle ? .10 : 0,
-              ease: "power4.out",
-              clearProps: "transform",
-              scrollTrigger: isHeroTitle ? undefined : {
-                trigger: title,
-                start: "top 84%",
-                once: true
-              }
-            }
+            fastMobile
+              ? { opacity: 0, y: 12 }
+              : { opacity: 0, x: -46, clipPath: "inset(0 100% 0 0)" },
+            fastMobile
+              ? {
+                  opacity: 1,
+                  y: 0,
+                  duration: .34,
+                  delay: isHeroTitle ? .05 : 0,
+                  ease: "power2.out",
+                  clearProps: "transform",
+                  scrollTrigger: isHeroTitle ? undefined : {
+                    trigger: title,
+                    start: "top 92%",
+                    once: true
+                  }
+                }
+              : {
+                  opacity: 1,
+                  x: 0,
+                  clipPath: "inset(0 0% 0 0)",
+                  duration: .98,
+                  delay: isHeroTitle ? .10 : 0,
+                  ease: "power4.out",
+                  clearProps: "transform",
+                  scrollTrigger: isHeroTitle ? undefined : {
+                    trigger: title,
+                    start: "top 84%",
+                    once: true
+                  }
+                }
           );
         });
 
-        gsap.utils.toArray(".section-reveal").forEach(function (element) {
+        var supportingCopy = gsap.utils.toArray([
+          "#top .hero-summary-minimal",
+          "#top .hero-desktop-link",
+          "#top .hero-mobile-cta",
+          "#bottleneck .conversion-kicker",
+          "#bottleneck .conversion-tension-copy",
+          "#creativePaths .conversion-kicker",
+          "#creativePaths .creative-paths-head > p:last-child",
+          "#projects .project-intro-copy",
+          "#projects [role='tablist']",
+          "#categoryDescription",
+          "#fit .conversion-kicker",
+          "#services .services-label",
+          "#services .services-copy",
+          ".pricing-packs-meta",
+          ".pricing-packs-head > p",
+          "#method .method-intro-label",
+          "#method .method-intro-copy",
+          "#method .method-intro-tools",
+          "#contact .section-reveal > p:first-child",
+          "#contact .section-reveal > p.mt-7"
+        ].join(","));
+
+        supportingCopy.forEach(function (element) {
           gsap.from(element, {
             scrollTrigger: {
               trigger: element,
-              start: "top 86%",
+              start: fastMobile ? "top 94%" : "top 88%",
               once: true
             },
             opacity: 0,
-            y: 28,
-            duration: .8,
-            ease: "power3.out"
+            y: fastMobile ? 7 : 16,
+            duration: fastMobile ? .26 : .68,
+            ease: fastMobile ? "power1.out" : "power3.out",
+            clearProps: "transform"
           });
         });
 
-        gsap.utils.toArray(".project-reveal").forEach(function (element, index) {
+        var revealCards = gsap.utils.toArray([
+          "#creativePaths .creative-path",
+          "#projects .project-intro-card",
+          "#projectGrid .project-item:not(.is-hidden)",
+          "#fit .fit-card",
+          "#services .service-card",
+          ".pricing-pack",
+          ".deliverables-card",
+          ".direction-principle",
+          "#methodSlider",
+          "#contact .contact-social-link",
+          "#contact form"
+        ].join(","));
+
+        revealCards.forEach(function (element, index) {
           gsap.from(element, {
             scrollTrigger: {
               trigger: element,
-              start: "top 88%",
+              start: fastMobile ? "top 95%" : "top 90%",
               once: true
             },
             opacity: 0,
-            y: 30,
-            scale: .985,
-            duration: .75,
-            delay: (index % 3) * .06,
-            ease: "power3.out"
+            y: fastMobile ? 9 : 24,
+            scale: fastMobile ? 1 : .988,
+            duration: fastMobile ? .30 : .72,
+            delay: fastMobile ? 0 : (index % 3) * .045,
+            ease: fastMobile ? "power1.out" : "power3.out",
+            clearProps: "transform"
           });
         });
 
